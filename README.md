@@ -17,6 +17,10 @@ $ npm start
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
 
+## Node JS and Heroku - MongoDB
+
+[MongoDb to Heroku](https://devcenter.heroku.com/articles/nodejs-mongoose)
+
 ## Documentation
 
 For more information about using Node.js on Heroku, see these Dev Center articles:
