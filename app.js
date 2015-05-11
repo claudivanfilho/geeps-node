@@ -75,20 +75,7 @@ var uristring = 'mongodb://claudivan:geeps10@ds037407.mongolab.com:37407/heroku_
 var opts = {
   server: { socketOptions: { keepAlive: 1 } }
 };
-try {
-  switch(app.get('env')){
-    case 'development':
-      mongoose.connect('mongodb://localhost/geeps', opts);
-      break;
-    case 'production':
       mongoose.connect(uristring, opts);
-      break;
-    default:
-      throw new Error('Unknown execution environment: ' + app.get('env'));
-  }
-} catch (err) {
-  console.log(err.message);
-}
 var emp1 = new Empresa({
     nome: 'Bar do Alemão',
     img_path: 'hood-river-day-trip',
