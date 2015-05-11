@@ -70,7 +70,10 @@ app.use(function(err, req, res, next) {
 //================================database=======
 var Empresa = require('./models/empresa');
 var mongoose = require('mongoose');
-//var credentials = require('./credentials');
+var uristring =
+process.env.MONGOLAB_URI ||
+process.env.MONGOHQ_URL ||
+'mongodb://localhost/HelloMongoose';
 
 var opts = {
   server: { socketOptions: { keepAlive: 1 } }
@@ -81,7 +84,7 @@ switch(app.get('env')){
     mongoose.connect('mongodb://localhost/geeps', opts);
     break;
   case 'production':
-    mongoose.connect('mongodb://localhost/geeps', opts);
+    mongoose.connect(uristring, opts);
     break;
   default:
     throw new Error('Unknown execution environment: ' + app.get('env'));
