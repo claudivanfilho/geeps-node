@@ -70,12 +70,20 @@ app.use(function(err, req, res, next) {
 //================================database=======
 var Empresa = require('./models/empresa');
 var mongoose = require('mongoose');
-var uristring = 'mongodb://claudivan:geeps10@ds037407.mongolab.com:37407/heroku_app36700295';
 
 var opts = {
   server: { socketOptions: { keepAlive: 1 } }
 };
-      mongoose.connect(uristring, opts);
+switch(app.get('env')){
+  case 'development':
+    mongoose.connect('mongodb://localhost/geeps', opts);
+    break;
+  case 'production':
+    mongoose.connect('mongodb://claudivan:geeps10@ds037407.mongolab.com:37407/heroku_app36700295', opts);
+    break;
+  default:
+    throw new Error('Unknown execution environment: ' + app.get('env'));
+}
 var emp1 = new Empresa({
     nome: 'Bar do Alemão',
     img_path: 'hood-river-day-trip',
