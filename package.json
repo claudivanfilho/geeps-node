@@ -12,8 +12,10 @@
     "debug": "~2.1.1",
     "express": "~4.9.x",
     "jade": "~1.9.2",
+    "mongoose": "^4.0.2",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": "0.12.2"
@@ -27,5 +29,8 @@
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.2.4"
+  }
 }
