@@ -70,10 +70,7 @@ app.use(function(err, req, res, next) {
 //================================database=======
 var Empresa = require('./models/empresa');
 var mongoose = require('mongoose');
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost/HelloMongoose';
+var uristring = 'mongodb://claudivan:geeps10@ds037407.mongolab.com:37407/heroku_app36700295';
 
 var opts = {
   server: { socketOptions: { keepAlive: 1 } }
