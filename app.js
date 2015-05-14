@@ -1,28 +1,17 @@
 var express = require('express');
-
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
-// seta a porta com base no ambiente.
-app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
-
-// start server and print the port
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
-//=========================================================================
-
 // view engine setup
-app.set('views', path.join(__dirname, 'public/views'));
-app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -32,11 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// definição das rotes
 app.use('/', routes);
-app.use('/users', users);
-
-// error handlers
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,6 +30,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+// error handlers
 
 // development error handler
 // will print stacktrace
@@ -67,31 +53,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-//================================database=======
-var Empresa = require('./models/empresa');
-var mongoose = require('mongoose');
 
-var opts = {
-  server: { socketOptions: { keepAlive: 1 } }
-};
-switch(app.get('env')){
-  case 'development':
-    mongoose.connect('mongodb://localhost/geeps', opts);
-    break;
-  case 'production':
-    mongoose.connect('mongodb://claudivan:geeps10@ds037407.mongolab.com:37407/heroku_app36700295', opts);
-    break;
-  default:
-    throw new Error('Unknown execution environment: ' + app.get('env'));
-}
-var emp1 = new Empresa({
-    nome: 'Bar do Alemão',
-    img_path: 'hood-river-day-trip',
-    email: 'Day Trip',
-    senha: 'asdasdok'
-});
-emp1.save(function (err) {
-  if (err) {
-    console.log(err);  
-  }
-});
+
+module.exports = app;

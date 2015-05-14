@@ -9,7 +9,7 @@ var rest = require('connect-rest');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname+'/../public/views/index.html'));
+  res.sendFile(path.join(__dirname+'/../views/index.html'));
 });
 
 router.get('/empresas', function(req, res, next) {
