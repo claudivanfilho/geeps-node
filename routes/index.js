@@ -57,9 +57,9 @@ router.post('/verifica_user', function(req, res){
         phone: telefone
     },function(err, usuarios){
         if (usuarios.length == 0) {
-            res.json({'erro' : 'usuario inexistente'});
+            res.json({'error' : 'usuario inexistente'});
         } else {
-            res.json({'erro' : 'usuario cadastrado'});
+            res.json({'success' : 'usuario cadastrado'});
         }
     });
 });
