@@ -24,20 +24,6 @@ router.get('/usuarios', function(req, res, next) {
     })
 });
 
-router.get('/usuario', function(req, res){
-    Usuario.find(function(err, usuarios){
-        if(err) return res.send(500, 'Error occurred: database error.');
-        res.json(usuarios.map(function(a){
-            return {
-                name: a.name,
-                phone: a.phone,
-                countryCode: a.countryCode,
-                regId: a.regId
-            }
-        }));
-    });
-});
-
 router.post('/usuario/cadastro', function(req, res){
     var a = new Usuario({
         name: req.body.name,
@@ -51,7 +37,20 @@ router.post('/usuario/cadastro', function(req, res){
     });
 });
 
-router.post('/verifica_user', function(req, res){
+router.post('/check_user', function(req, res){
+    var telefone = req.body.phone;
+    Usuario.find({
+        phone: telefone
+    },function(err, usuarios){
+        if (usuarios.length == 0) {
+            res.json({'answer': 'false'});
+        } else {
+            res.json({'answer': 'true'});
+        }
+    });
+});
+
+router.post('/get_user', function(req, res){
     var telefone = req.body.phone;
     Usuario.find({
         phone: telefone
@@ -59,7 +58,13 @@ router.post('/verifica_user', function(req, res){
         if (usuarios.length == 0) {
             res.json({'error' : 'usuario inexistente'});
         } else {
-            res.json({'success' : 'usuario cadastrado'});
+            res.json({
+              '_id': usuarios[0]._id,
+              'name': usuarios[0].name,
+              'phone': usuarios[0].phone,
+              'countryCode': usuarios[0].countryCode,
+              'regId': usuarios[0].regId,
+            });
         }
     });
 });
