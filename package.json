@@ -15,7 +15,15 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
     "mongoose": "^4.0.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "bcryptjs": "^0.7.12",
+    "method-override": "^2.2.0",
+    "express-session": "^1.8.2",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
+    "express-handlebars": "^1.1.0",
+    "connect-flash": "^0.1.1"
+
   },
   "devDependencies": {
     "mocha": "^2.2.4"

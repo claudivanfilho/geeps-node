@@ -7,6 +7,9 @@ var Usuario = require('../models/usuario');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    if (req.user) {
+        return res.redirect('/empresa/dashboard');
+    }
     res.sendFile(path.join(__dirname+'/../views/index.html'));
 });
 
