@@ -5,38 +5,9 @@ var mongoose = require('mongoose');
 var Empresa = require('../models/empresa');
 var Usuario = require('../models/usuario');
 
-var rest = require('connect-rest');
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname+'/../views/index.html'));
-});
-
-router.get('/auth/login', function(req, res, next) {
-    res.sendFile(path.join(__dirname+'/../views/auth/login.html'));
-});
-
-router.post('/auth/login', function(req, res, next) {
-    mongoose.model('Empresa').findOne({email:req.body.email}, function(err,empresa){
-        if(!err){
-            if(empresa != null){
-                if(empresa.senha == req.body.password){
-                    console.log("Ok.");
-                }else {
-                    console.log("Senha incorreta.");
-                }
-            }else{
-                console.log("Usuario não existe.");
-            }
-            
-        }else{
-            console.log("Erro no banco de dados.");
-        }
-    });
-});
-
-router.get('/auth/register', function(req, res, next) {
-    res.sendFile(path.join(__dirname+'/../views/auth/register.html'));
 });
 
 router.get('/empresas', function(req, res, next) {
@@ -61,20 +32,6 @@ router.post('/usuario/cadastro', function(req, res){
     a.save(function(err, a){
         if(err) return res.send(500, 'Error occurred: database error.');
         res.json({'message' : 'usuario cadastrado com sucesso'});
-    });
-});
-
-router.post('/empresa/cadastro', function(req, res){
-    console.log(req.body.name);
-    var a = new Empresa({
-        nome: req.body.name,
-        img_path: req.body.image,
-        email: req.body.email,
-        senha: req.body.password
-    });
-    a.save(function(err, a){
-        if(err) return res.send(500, 'Error occurred: database error.');
-        res.json({'message' : 'Empresa cadastrada com sucesso'});
     });
 });
 
@@ -104,7 +61,7 @@ router.post('/get_user', function(req, res){
               'name': usuarios[0].name,
               'phone': usuarios[0].phone,
               'countryCode': usuarios[0].countryCode,
-              'regId': usuarios[0].regId,
+              'regId': usuarios[0].regId
             });
         }
     });

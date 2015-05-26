@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/start.js"
+    "start": "nodemon ./bin/start.js"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
