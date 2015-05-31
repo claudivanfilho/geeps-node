@@ -1,12 +1,6 @@
 var app = require('../app');
 var debug = require('debug')('GeepsNode:server');
 var http = require('http');
-var db = require('../database');
-
-/**
- * conectando ao db local ou remoto
- */
-db.connect();
 
 /**
  * Get port from environment and store in Express.
