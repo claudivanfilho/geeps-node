@@ -1,6 +1,6 @@
 var assert = require("assert");
-var Empresa = require("../models/empresa");
-var Endereco = require("../models/endereco");
+var Empresa = require("../../models/empresa");
+var Endereco = require("../../models/endereco");
 var mongoose = require("mongoose");
 
 /**

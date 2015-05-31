@@ -22,11 +22,10 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "express-handlebars": "^1.1.0",
-    "connect-flash": "^0.1.1",
-    "express-messages": "*"
-
+    "connect-flash": "^0.1.1"
   },
   "devDependencies": {
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "supertest": "^1.0.1"
   }
 }

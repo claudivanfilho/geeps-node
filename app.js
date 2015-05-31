@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 //var favicon = require('serve-favicon');
 
-
 // EXPRESS CONFIGS
 require('./config/express')(app);
 // CONFIGS DO PASSPORT
@@ -10,7 +9,9 @@ require('./config/passport')(app);
 // ROTAS
 require('./config/define-routes')(app);
 // BD CONNECT
-(require('./config/database')(app)).connect()
+if (process.env.NODE_ENV != "TESTING") {
+    (require('./config/database')(app)).connect()
+}
 // ERROR HANDLERS
 require('./config/error-handlers')(app);
 

@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
+
     if (req.body.password != req.body.password_confirmation) {
         return res.render('auth/register', {message: "Senha não confere!"});
     } else if (req.body.email.trim() == "") {

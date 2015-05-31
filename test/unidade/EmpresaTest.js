@@ -1,7 +1,7 @@
 var assert = require("assert");
-var Empresa = require("../models/empresa");
-var Endereco = require("../models/endereco");
+var Empresa = require("../../models/empresa");
 var mongoose = require("mongoose");
+db = mongoose.connect('mongodb://localhost/geeps_test');
 
 /**
  * OBSERVAÇÃo: como o node trabalha de forma assynchrona, então é necessária a chamada dessa
@@ -10,16 +10,15 @@ var mongoose = require("mongoose");
  * para rodar os test basta ir na prompt e digitar ->  $> mocha
  */
 
-describe('Endereco TEST', function(){
+describe('Empresa TEST', function(){
 
     beforeEach(function(done){
         // cria uma empresa
-        Endereco.create({
-            rua : "Rua Joao Lira",
-            bairro : "Bela Vista",
-            numero : "448",
-            cidade : "Campina Grande",
-            estado : "Paraiba",
+        Empresa.create({
+            nome: 'bar teste',
+            img_path: 'hood-river-day-trip',
+            email: 'Day Trip',
+            senha: 'asdasdok'
         }, function(){
             done();
         });
@@ -27,15 +26,15 @@ describe('Endereco TEST', function(){
 
     afterEach(function(done){
         // remove todos os registros do bd
-        Endereco.remove({}, function(){
+        Empresa.remove({}, function(){
             done();
         });
     })
 
-    describe('TESTA CRIACAO DE UM ENDERECO' , function(){
-        it('Precisa existir um endereco  no BD', function(done){
-            Endereco.find(function(err, enderecos){
-                assert.equal(1, enderecos.length);
+    describe('TESTA CRIACAO DA EMPRESA' , function(){
+        it('Precisa existir uma empresa no BD', function(done){
+            Empresa.find(function(err, empresas){
+                assert.equal(1, empresas.length);
                 done();
             });
         })

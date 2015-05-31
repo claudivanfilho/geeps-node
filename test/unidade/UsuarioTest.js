@@ -1,5 +1,5 @@
 var assert = require("assert");
-var Usuario = require("../models/usuario");
+var Usuario = require("../../models/usuario");
 var mongoose = require("mongoose");
 //db = mongoose.connect('mongodb://localhost/geeps_test');
 
