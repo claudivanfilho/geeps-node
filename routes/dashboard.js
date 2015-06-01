@@ -14,4 +14,11 @@ router.get('/logout', function(req, res){
     req.session.notice = "You have successfully been logged out !";
 });
 
+router.post('/pedido', function(req, res){
+    var rua = req.body.rua;
+    //,,,
+});
+
+
+
 module.exports = router;

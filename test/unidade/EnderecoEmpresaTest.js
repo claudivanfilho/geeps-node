@@ -25,11 +25,13 @@ describe('Endereco com Empresa TEST', function(){
                 bairro : "Bela Vista",
                 numero : "448",
                 cidade : "Campina Grande",
-                estado : "Paraiba",
-                empresa : empresa._id
+                estado : "Paraiba"
             });
             endereco.save(function(err) {
-                done();
+                empresa.endereco = endereco._id;
+                empresa.save(function(){
+                    done();
+                });
             });
         });
     })
@@ -44,17 +46,11 @@ describe('Endereco com Empresa TEST', function(){
     })
 
     describe('ENDERECO COM EMPRESA' , function(){
-        it('Precisa existir um endereco relacionado a uma empresa', function(done){
-            Endereco.find({}).populate('empresa').exec(function(err, enderecos){
-                assert.equal(1, enderecos.length);
-                assert.equal("bar teste", enderecos[0].empresa.nome);
-                done();
-            });
-        })
+
         it('Precisa existir o inverso', function(done){
             Empresa.find({}).populate('endereco').exec(function(err, empresas){
                 assert.equal(1, empresas.length);
-                assert.equal("Bela Vista", empresas[0].endereco[0].bairro);
+                assert.equal("Bela Vista", empresas[0].endereco.bairro);
                 done();
             });
         })

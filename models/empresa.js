@@ -7,7 +7,8 @@ var empresaSchema = new Schema({
  img_path: String,
  email: String,
  senha: String,
- endereco:[{ type:Schema.ObjectId, ref:"Endereco"}]
+ endereco:{type:Schema.ObjectId, ref:"Endereco"},
+ pedidos:[{type:Schema.ObjectId, ref:"Pedido"}]
 });
 
 var Empresa = mongoose.model('Empresa', empresaSchema);
