@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Empresa = require('../models/empresa');
+var Endereco = require('../models/endereco');
 
 router.get('/', function(req, res, next) {
     if (req.user) {
@@ -28,15 +29,37 @@ router.post('/', function(req, res){
         if (empresas.length > 0) {
             return res.render('auth/register', {message: "Email Já Cadastrado"});
         } else {
-            var a = new Empresa({
+
+            var empresa = new Empresa({
                 nome: req.body.name,
                 img_path: req.body.image,
                 email: req.body.email,
                 senha: req.body.password
             });
-            a.save(function(err, a){
-                if(err) return res.send(500, 'Error occurred: database error.');
-                res.redirect("/auth/login");
+
+            empresa.save(function(err) {
+                if(err) {
+                    return res.send(500, 'Error occurred: database error.');
+                }
+
+                var endereco = new Endereco({
+                    rua: req.body.street,
+                    bairro: req.body.neighborhood,
+                    numero: req.body.num,
+                    cidade: req.body.city,
+                    estado: req.body.state
+                });
+
+                endereco.save(function(err) {
+                    if(err) {
+                        return res.send(500, 'Error occurred: database error.');
+                    }
+                    empresa.endereco = endereco._id;
+                    empresa.save(function(){
+                        //done();
+                        res.redirect("/auth/login");
+                    });
+                });
             });
         }
     });
