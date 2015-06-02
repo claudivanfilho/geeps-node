@@ -9,45 +9,109 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Geeps - Registrar Pedido</title>
+    <title>Geeps</title>
 
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/sb-admin.css" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
 
 <body>
 
+<div id="wrapper">
 
+    <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-<!--
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
--->
-            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="index.html">Geeps</a>
         </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/auth/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Início</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Pedidos
+                            <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/empresa/pedido">Registrar Pedido</a>
+                            </li>
+                            <li>
+                                <a href="/pedidos">Pedidos Em Andamento</a>
+                            </li>
+                            <li>
+                                <a href="/pedidos/fechados">Pedidos Encerrados</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
     </nav>
 
-
-
-    <div class="col-lg-6 col-lg-offset-3">
-
-        <h2 class="page-header">Registrar Pedido</h2>
-
-        <div class="panel panel-green">
-
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Registrar Pedido</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
             <form role="form" method="POST" action="/empresa/pedido">
 
-                <div class="panel-heading">
-                    <h3 class="panel-title">Novo Pedido</h3>
-                </div>
-
-                <div class="panel-body">
+                <div class="form-group col-sm-8">
 
                     <div class="col-lg-12 form-group">
                         <label>Endere&ccedil;o</label>
@@ -78,9 +142,6 @@
                         <input class="form-control" name="entregador" placeholder="Número de cadastro Geeps do seu entregador">
                     </div>
 
-                </div>
-
-                <div class="panel-footer">
                     <center>
                         <button type="submit" class="btn btn-success">Registrar Pedido</button>
                         <button type="reset" class="btn btn-default">Limpar</button>
@@ -89,16 +150,23 @@
 
             </form>
         </div>
-
     </div>
+    <!-- /#page-wrapper -->
 
+</div>
+<!-- /#wrapper -->
 
+<!-- jQuery -->
+<script src="/js/jquery-1.11.1.min.js"></script>
 
-    <div class="col-lg-12" style="margin-top: 24px">
-        <center>
-            <h5 class="page-footer">Geeps © All Rights Reserved</h5>
-        </center>
-    </div>
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/sb-admin-2.js"></script>
 
 </body>
 
