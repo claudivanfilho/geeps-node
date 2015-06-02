@@ -50,7 +50,7 @@ router.post('/pedido', function(req, res){
             return res.render('empresa/pedido', {message: "Cliente não cadastrado"});
         } else {
             Entregador.find({
-                usuario.phone: req.body.entregador
+                usuario: req.body.entregador
             },function(err, entregadores){
                 if (entregadores.length == 0) {
                     return res.render('empresa/pedido', {message: "Entregador não cadastrado"});
