@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Geeps - Registrar Pedido</title>
+
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+<!--
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+-->
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+    </nav>
+
+
+
+    <div class="col-lg-6 col-lg-offset-3">
+
+        <h2 class="page-header">Registrar Pedido</h2>
+
+        <div class="panel panel-green">
+
+            <form role="form" method="POST" action="/empresa/pedido">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Novo Pedido</h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="col-lg-12 form-group">
+                        <label>Endere&ccedil;o</label>
+                        <input class="form-control" name="endereco" placeholder="Nome da Rua e Número da casa">
+                    </div>
+
+                    <div class="col-lg-8 form-group">
+                        <label>Cidade</label>
+                        <input class="form-control" name="cidade" placeholder="Nome da cidade">
+                    </div>
+
+                    <div class="col-lg-4 form-group">
+                        <label>Estado</label>
+                        <input class="form-control" name="estado" placeholder="Nome ou UF">
+                    </div>
+
+                    <hr style="width:100%; height:1px; background: #fff" />
+
+                    <div class="col-lg-12 form-group">
+                        <label>Geeps do Cliente</label>
+                        <input class="form-control" name="cliente" placeholder="Número de cadastro Geeps do cliente">
+                    </div>
+
+                    <hr style="width:100%; height:1px; background: #fff" />
+
+                    <div class="col-lg-12 form-group">
+                        <label>Geeps do Entregador</label>
+                        <input class="form-control" name="entregador" placeholder="Número de cadastro Geeps do seu entregador">
+                    </div>
+
+                </div>
+
+                <div class="panel-footer">
+                    <center>
+                        <button type="submit" class="btn btn-success">Registrar Pedido</button>
+                        <button type="reset" class="btn btn-default">Limpar</button>
+                    </center>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-lg-12" style="margin-top: 24px">
+        <center>
+            <h5 class="page-footer">Geeps © All Rights Reserved</h5>
+        </center>
+    </div>
+
+</body>
+
+</html>
