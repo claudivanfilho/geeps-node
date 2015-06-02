@@ -1,21 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var Empresa = require('../models/empresa');
+var Usuario = require("../models/usuario");
+var Entregador = require("../models/entregador");
+var Endereco = require("../models/endereco");
+var Pedido = require("../models/pedido");
+
+router.get('/pedidos', function(req, res, next) {
+    Pedido.find({empresa: req.user._id}).populate('endereco_entrega').exec(function(err, pedidos){
+        return res.render('pedidos', {'pedidos' : pedidos});
+    });
+});
 
 router.get('/pedido', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
     res.sendFile(path.join(__dirname+'/../views/pedido.html'));
-    //return res.render('dashboard', {'email' : req.user.email});
 });
 
 router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    //res.sendFile(path.join(__dirname+'/../views/dashboard.html'));
-    return res.render('dashboard', {'email' : req.user.email});
+    Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
+        return res.render('dashboard', {'empresa' : empresas[0]});
+    });
 });
 
 router.get('/logout', function(req, res){
@@ -28,49 +39,53 @@ router.post('/pedido', function(req, res){
     var endereco = req.body.endereco;
     var cidade = req.body.cidade;
     var estado = req.body.estado;
-    var cliente = req.body.cliente;
-    var entregador = req.body.entregador;
-    //,,,
-    return;
+    var num_cliente = req.body.cliente;
+    var num_entregador = req.body.entregador;
 
-
-
-    if (req.body.endereco.trim() == "") {
-        return res.render('empresa/pedido', {message: "EndereÃ§o Requerido"});
-    } else if (req.body.cliente.trim() == "") {
-        return res.render('empresa/pedido', {message: "Geeps do Cliente Requerido"});
-    } else if (req.body.entregador.trim() == "") {
-        return res.render('empresa/pedido', {message: "Geeps do Entregador Requerido"});
+    if (endereco.trim() == "") {
+        return res.render('empresa/pedido', {message: "Endereço Requerido"});
+    } else if (num_cliente.trim() == "") {
+        return res.render('empresa/pedido', {message: "Número do Cliente Requerido"});
+    } else if (num_entregador.trim() == "") {
+        return res.render('empresa/pedido', {message: "Número do Entregador Requerido"});
     }
-
     Usuario.find({
         phone: req.body.cliente
     },function(err, usuarios){
+        var cliente;
         if (usuarios.length == 0) {
-            return res.render('empresa/pedido', {message: "Cliente nÃ£o cadastrado"});
+            // cria um novo cliente
+            cliente = new Usuario({phone : num_cliente});
+            cliente.save();
         } else {
-            Entregador.find({
-                usuario: req.body.entregador
-            },function(err, entregadores){
-                if (entregadores.length == 0) {
-                    return res.render('empresa/pedido', {message: "Entregador nÃ£o cadastrado"});
-                } else {
-                    var p = new Pedido({
-                    empresa: null, //TODO FIXME 
-                    endereco_entrega: req.body.endereco + ", " + req.body.cidade + ", " + req.body.estado,
-                    usuario: usuarios.get(0),
-                    entregador: entregadores.get(0)
-                    });
-                    p.save(function(err, p){
-                        if(err) return res.send(500, 'Error occurred: database error.');
-                        res.redirect("/");
-                    });
-                }
-            });
+            cliente = usuarios[0];
         }
+        var usuario = new Usuario({
+            phone : num_entregador
+        });
+        usuario.save(function(){
+            var entregador = new Entregador({
+                usuario : usuario._id
+            })
+            entregador.save(function(){
+                var endereco_entrega = new Endereco({
+                    rua : endereco
+                })
+                endereco_entrega.save(function(){
+                    var pedido = new Pedido({
+                        status: "EM ANDAMENTO",
+                        empresa: req.user._id,
+                        endereco_entrega: endereco_entrega._id,
+                        usuario: cliente._id,
+                        entregador: entregador._id
+                    });
+                    pedido.save(function(){
+                        return res.redirect('/empresa/dashboard');
+                    });
+                });
+            });
+        })
     });
 });
-
-
 
 module.exports = router;
