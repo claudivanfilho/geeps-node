@@ -32,6 +32,43 @@ router.post('/pedido', function(req, res){
     var entregador = req.body.entregador;
     //,,,
     return;
+
+
+
+    if (req.body.endereco.trim() == "") {
+        return res.render('empresa/pedido', {message: "Endereço Requerido"});
+    } else if (req.body.cliente.trim() == "") {
+        return res.render('empresa/pedido', {message: "Geeps do Cliente Requerido"});
+    } else if (req.body.entregador.trim() == "") {
+        return res.render('empresa/pedido', {message: "Geeps do Entregador Requerido"});
+    }
+
+    Usuario.find({
+        phone: req.body.cliente
+    },function(err, usuarios){
+        if (usuarios.length == 0) {
+            return res.render('empresa/pedido', {message: "Cliente não cadastrado"});
+        } else {
+            Entregador.find({
+                usuario.phone: req.body.entregador
+            },function(err, entregadores){
+                if (entregadores.length == 0) {
+                    return res.render('empresa/pedido', {message: "Entregador não cadastrado"});
+                } else {
+                    var p = new Pedido({
+                    empresa: null, //TODO FIXME 
+                    endereco_entrega: req.body.endereco + ", " + req.body.cidade + ", " + req.body.estado,
+                    usuario: usuarios.get(0),
+                    entregador: entregadores.get(0)
+                    });
+                    p.save(function(err, p){
+                        if(err) return res.send(500, 'Error occurred: database error.');
+                        res.redirect("/");
+                    });
+                }
+            });
+        }
+    });
 });
 
 
