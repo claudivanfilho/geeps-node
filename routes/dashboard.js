@@ -74,7 +74,8 @@ router.post('/pedido', function(req, res){
                 endereco_entrega.save(function(){
                     var pedido = new Pedido({
                         status: "EM ANDAMENTO",
-                        empresa: req.user._id,
+                        //empresa: req.user._id,
+                        empresa: req._id,
                         endereco_entrega: endereco_entrega._id,
                         usuario: cliente._id,
                         entregador: entregador._id
