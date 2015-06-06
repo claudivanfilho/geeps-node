@@ -8,6 +8,9 @@ var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
 
 router.get('/pedidos', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
     Pedido.find({empresa: req.user._id}).populate('endereco_entrega').exec(function(err, pedidos){
         return res.render('pedidos', {'pedidos' : pedidos});
     });
@@ -24,8 +27,14 @@ router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
+    //Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
+    //    return res.render('dashboard', {'empresa' : empresas[0]});
+    //});
+
     Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
-        return res.render('dashboard', {'empresa' : empresas[0]});
+        Entregador.find({empresa: empresas[0]._id}, function(err, entregadores){
+            return res.render('dashboard', {'empresa' : empresas[0], 'entregadores': entregadores});
+        });
     });
 });
 
@@ -74,8 +83,7 @@ router.post('/pedido', function(req, res){
                 endereco_entrega.save(function(){
                     var pedido = new Pedido({
                         status: "EM ANDAMENTO",
-                        //empresa: req.user._id,
-                        empresa: req._id,
+                        empresa: req.user._id,
                         endereco_entrega: endereco_entrega._id,
                         usuario: cliente._id,
                         entregador: entregador._id
@@ -86,6 +94,60 @@ router.post('/pedido', function(req, res){
                 });
             });
         })
+    });
+});
+
+router.get('/entregadores', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
+        Entregador.find({empresa: empresas[0]._id}, function(err, entregadores){
+            return res.render('entregadores', {'empresa' : empresas[0], 'entregadores': entregadores});
+        });
+    });
+});
+
+router.get('/entregador', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    res.sendFile(path.join(__dirname+'/../views/entregador.html'));
+});
+
+router.post('/entregador', function(req, res){
+    var num_entregador = req.body.entregador;
+
+    if (num_entregador.trim() == "") {
+        res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
+        //return res.render('empresa/entregador', {message: "Número do Entregador Requerido"});
+    }
+    Usuario.find({
+        phone: req.body.entregador
+    },function(err, usuarios){
+        var usuario;
+        if (usuarios.length == 0) {
+            // cria um novo Usuario do sistema (Entregador também é usuário)
+            usuario = new Usuario({phone : num_entregador});
+            usuario.save(function(){
+                var entregador = new Entregador({
+                    usuario : usuario._id,
+                    empresa: req.user._id
+                })
+                entregador.save(function(){
+                    return res.redirect('/empresa/dashboard');
+                });
+            });
+        } else {
+            usuario = usuarios[0];
+            var entregador = new Entregador({
+                usuario : usuario._id,
+                empresa: req.user._id
+            })
+            entregador.save(function(){
+                return res.redirect('/empresa/dashboard');
+            });
+        }
     });
 });
 
