@@ -125,19 +125,19 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>
-                            Empresa
-                        </th>
+                        <!--<th>-->
+                            <!--Empresa-->
+                        <!--</th>-->
                         <th>
                             Usuarios
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each entregadores}}
+                    {{#each usuariosX}}
                         <tr>
-                            <td class="text-muted">{{empresa}}</td>
-                            <td>{{usuario}}</td>
+                            <!--<td class="text-muted">{{empresa}}</td>-->
+                            <td>{{this.usuariosX.name}}</td>
                         </tr>
                     {{/each}}
 

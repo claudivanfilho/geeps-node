@@ -101,9 +101,21 @@ router.get('/entregadores', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
+    //Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
+    //    Entregador.find({empresa: empresas[0]._id}, function(err, entregadores){
+    //        return res.render('entregadores', {'empresa' : empresas[0], 'entregadores': entregadores});
+    //    });
+    //});
+    Empresa.find({email: req.user.email}).populate('usuariosX').exec(function(err, empresas){
         Entregador.find({empresa: empresas[0]._id}, function(err, entregadores){
-            return res.render('entregadores', {'empresa' : empresas[0], 'entregadores': entregadores});
+            var usuariosTeste = [];
+            for (i = 0; i < entregadores.length; i++) {
+                Usuario.find({_id: entregadores[i].usuario}, function(err, usuariosTest){
+                    usuariosTeste.push(usuariosTest);
+                });
+            }
+            console.log(usuariosTeste);
+            return res.render('entregadores', {'empresa' : empresas[0], 'entregadores': entregadores, 'usuarios': usuariosTeste});
         });
     });
 });
@@ -126,6 +138,7 @@ router.post('/entregador', function(req, res){
         phone: req.body.entregador
     },function(err, usuarios){
         var usuario;
+        //console.log(usuarios);
         if (usuarios.length == 0) {
             // cria um novo Usuario do sistema (Entregador também é usuário)
             usuario = new Usuario({phone : num_entregador});
@@ -140,12 +153,20 @@ router.post('/entregador', function(req, res){
             });
         } else {
             usuario = usuarios[0];
-            var entregador = new Entregador({
-                usuario : usuario._id,
-                empresa: req.user._id
-            })
-            entregador.save(function(){
-                return res.redirect('/empresa/dashboard');
+            
+            Entregador.find({empresa: req.user._id}, {phone: num_entregador}, function (err, entregadores) {
+                console.log(entregadores);
+                if(entregadores.length == 0){
+                    var entregador = new Entregador({
+                        usuario : usuario._id,
+                        empresa: req.user._id
+                    })
+                    entregador.save(function(){
+                        return res.redirect('/empresa/dashboard');
+                    });
+                } else {
+                    return res.redirect('/empresa/dashboard');
+                }
             });
         }
     });
