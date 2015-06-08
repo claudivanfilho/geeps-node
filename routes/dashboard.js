@@ -11,7 +11,7 @@ router.get('/pedidos', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Pedido.find({empresa: req.user._id}).populate('endereco_entrega').exec(function(err, pedidos){
+    Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function(err, pedidos){
         return res.render('pedidos', {'pedidos' : pedidos});
     });
 });

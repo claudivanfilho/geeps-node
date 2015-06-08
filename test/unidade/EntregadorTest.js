@@ -84,8 +84,8 @@ describe('Entregador TEST', function(){
                     Entregador.find(function (err, entregadores) {
                         assert.equal(1, entregadores.length);
                         assert.equal(usuarios[1].name, "Entregador");
-                        assert.equal(empresas[0]._id, entregadores[0].empresa);
-                        assert.equal(usuarios[1]._id, entregadores[0].usuario);
+                        assert.equal(empresas[0]._id.toString(), entregadores[0].empresa.toString());
+                        assert.equal(usuarios[1]._id.toString(), entregadores[0].usuario.toString());
                         done();
                     });
                 });
