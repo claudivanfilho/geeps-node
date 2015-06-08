@@ -4,6 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Empresa = require('../models/empresa');
 var Usuario = require('../models/usuario');
+var Entregador = require('../models/entregador');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,6 +23,12 @@ router.get('/empresas', function(req, res, next) {
 router.get('/usuarios', function(req, res, next) {
     mongoose.model('Usuario').find(function(err, usuarios) {
         res.send(usuarios);
+    })
+});
+
+router.get('/entregadores', function(req, res, next) {
+    mongoose.model('Entregador').find(function(err, entregadores) {
+        res.send(entregadores);
     })
 });
 

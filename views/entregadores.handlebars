@@ -116,28 +116,28 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Entregadores </h1>
+                <h1 class="page-header">Olá {{empresa.nome}}</h1>
             </div>
 
-            Quantidade: {{entregadores.length}}
+            Quantidade de entregadores: {{entregadores.length}}
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <!--<th>-->
-                            <!--Empresa-->
-                        <!--</th>-->
                         <th>
-                            Usuarios
+                            Nome
+                        </th>
+                        <th>
+                            Telefone
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each usuariosX}}
+                    {{#each entregadores}}
                         <tr>
-                            <!--<td class="text-muted">{{empresa}}</td>-->
-                            <td>{{this.usuariosX.name}}</td>
+                            <td>{{this.usuario.name}}</td>
+                            <td> {{this.usuario.phone}}</td>
                         </tr>
                     {{/each}}
 
