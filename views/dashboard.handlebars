@@ -136,6 +136,8 @@
                                 <div class="col-xs-4 text-right">
                                     {{#if pedidos}}
                                         <div class="huge">{{pedidos.length}}</div>
+                                    {{else}}
+                                        <div class="huge">0</div>
                                     {{/if}}
                                     Pedido(s)
                                 </div>
@@ -154,34 +156,30 @@
                     </div>
 
                     {{#if pedidos}}
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            Cliente
-                                        </th>
-                                        <th>
-                                            Entregador
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {{#each pedidos}}
-                                        <tr>
-                                            <td class="text-muted">{{this.usuario.name}}</td>
-                                            <td>{{this.entregador.usuario.name}}</td>
-                                        </tr>
-                                    {{/each}}
-                                    </tbody>
-                                    <tfoot>
+                    <div class="panel-body" style="padding:0px;">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Cliente
+                                </th>
+                                <th>
+                                    Entregador
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each pedidos}}
+                                <tr>
+                                    <td class="text-muted">{{this.usuario.name}}</td>
+                                    <td>{{this.entregador.usuario.name}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                            <tfoot>
 
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
+                            </tfoot>
+                        </table>
                     </div>
                     {{/if}}
 
@@ -212,6 +210,31 @@
                                 <div>Entregador(es)</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="panel-body" style="padding:0px;">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Entregador
+                                </th>
+                                <th>
+                                    Nº Telefone
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each entregadores}}
+                                <tr>
+                                    <td class="text-muted">{{this.usuario.name}}</td>
+                                    <td>{{this.usuario.phone}}</td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
                     </div>
                     <a href="/empresa/entregadores">
                         <div class="panel-footer">

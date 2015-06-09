@@ -17,7 +17,7 @@ router.get('/dashboard', function(req, res, next) {
         Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador'])
             .exec(function(err, pedidos){
                 Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
-                    Entregador.find({empresa: empresa._id}, function(err, entregadores){
+                    Entregador.find({empresa: empresa._id}).populate('usuario').exec(function(err, entregadores){
                         return res.render('dashboard', {
                             'empresa' : empresa,
                             'entregadores': entregadores,
