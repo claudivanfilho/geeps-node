@@ -31,9 +31,7 @@ router.post('/entregador', function(req, res){
         res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
         //return res.render('empresa/entregador', {message: "Número do Entregador Requerido"});
     }
-    Usuario.find({
-        phone: num_entregador
-    },function(err, usuarios){
+    Usuario.find({phone: num_entregador},function(err, usuarios){
         var user;
         if (usuarios.length == 0) {
             // cria um novo Usuario do sistema (Entregador também é usuário)
@@ -53,7 +51,7 @@ router.post('/entregador', function(req, res){
         } else {
             user = usuarios[0];
 
-            Entregador.find(({empresa: req.user._id}, {usuario: user._id}), function (err, entregadores) {
+            Entregador.find({empresa: req.user._id, usuario: user._id}, function (err, entregadores) {
                 // Verifica se o telefone passado já consta no banco de entregadores para determinada empresa
                 if(entregadores.length == 0){
                     var entregador = new Entregador({
