@@ -72,10 +72,10 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="/"><i class="fa fa-dashboard fa-fw"></i> Início</a>
+                        <a href="/"><i class="fa fa-home fa-fw"></i> Início</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Pedidos
+                        <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Pedidos
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -94,7 +94,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Entregadores
+                        <a href="#"><i class="fa fa-truck fa-fw"></i> Entregadores
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -115,50 +115,50 @@
 
     <div id="page-wrapper">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <h1 class="page-header">Registrar Pedido</h1>
             </div>
-            <!-- /.col-lg-12 -->
+            <!-- /.col-md-12 -->
         </div>
         <!-- /.row -->
         <div class="row">
             <form role="form" method="POST" action="/empresa/pedido">
 
-                <div class="form-group col-sm-8">
+                <div class="form-group col-lg-6 col-md-8">
 
-                    <div class="col-lg-12 form-group">
+                    <div class="col-md-12 form-group">
                         <label>Endere&ccedil;o</label>
                         <input class="form-control" name="endereco" placeholder="Nome da Rua e Número da casa">
                     </div>
 
-                    <div class="col-lg-8 form-group">
+                    <div class="col-md-8 form-group">
                         <label>Cidade</label>
                         <input class="form-control" name="cidade" placeholder="Nome da cidade">
                     </div>
 
-                    <div class="col-lg-4 form-group">
+                    <div class="col-md-4 form-group">
                         <label>Estado</label>
                         <input class="form-control" name="estado" placeholder="Nome ou UF">
                     </div>
 
                     <hr style="width:100%; height:1px; background: #fff" />
 
-                    <div class="col-lg-12 form-group">
+                    <div class="col-md-12 form-group">
                         <label>Nº do Cliente</label>
                         <input class="form-control" name="cliente" placeholder="Número de telefone do cliente">
                     </div>
 
                     <hr style="width:100%; height:1px; background: #fff" />
 
-                    <div class="col-lg-12 form-group">
+                    <div class="col-md-12 form-group">
                         <label>Nº do Entregador</label>
                         <input class="form-control" name="entregador" placeholder="Número de telefone do entregador">
                     </div>
 
-                    <center>
+                    <div style="text-align: center; margin-top: 8em">
                         <button type="submit" class="btn btn-success">Cadastrar Pedido</button>
                         <button type="reset" class="btn btn-default">Limpar</button>
-                    </center>
+                    </div>
                 </div>
 
             </form>
