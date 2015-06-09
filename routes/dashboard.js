@@ -12,6 +12,7 @@ router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
+
     Empresa.find({email: req.user.email}).populate('pedidos').exec(function(err, empresas){
         Entregador.find({empresa: empresas[0]._id}, function(err, entregadores){
             return res.render('dashboard', {'empresa' : empresas[0], 'entregadores': entregadores});

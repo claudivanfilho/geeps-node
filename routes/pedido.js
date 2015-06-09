@@ -22,7 +22,9 @@ router.get('/pedido', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    res.sendFile(path.join(__dirname+'/../views/pedido.html'));
+    Entregador.find({empresa : req.user._id}).populate('usuario').exec(function (err, entregadores) {
+        return res.render('pedido', {'entregadores' : entregadores});
+    });
 });
 
 
@@ -49,14 +51,9 @@ router.post('/pedido', function(req, res){
         } else {
             cliente = usuarios[0];
         }
-        var usuario = new Usuario({
-            phone : numero_entregador
-        });
-        usuario.save(function(){
-            var entregador = new Entregador({
-                usuario : usuario._id
-            })
-            entregador.save(function(){
+        // pega o entregador
+        Usuario.findOne({phone:numero_entregador}, function(err, user) {
+            Entregador.findOne({usuario : user._id}, function(err, entregador) {
                 var endereco_entrega = new Endereco({
                     rua : rua,
                     numero : numero,
@@ -76,7 +73,7 @@ router.post('/pedido', function(req, res){
                         return res.redirect('/empresa/dashboard');
                     });
                 });
-            });
+            })
         })
     });
 });

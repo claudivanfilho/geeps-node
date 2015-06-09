@@ -24,22 +24,26 @@ router.get('/entregador', function(req, res, next) {
 });
 
 router.post('/entregador', function(req, res){
-    var num_entregador = req.body.entregador;
+    var nome_entregador = req.body.nome_entregador;
+    var num_entregador = req.body.telefone_entregador;
 
     if (num_entregador.trim() == "") {
         res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
         //return res.render('empresa/entregador', {message: "Número do Entregador Requerido"});
     }
     Usuario.find({
-        phone: req.body.entregador
+        phone: num_entregador
     },function(err, usuarios){
         var user;
         if (usuarios.length == 0) {
             // cria um novo Usuario do sistema (Entregador também é usuário)
-            user = new Usuario({phone : num_entregador});
+            user = new Usuario({
+                phone : num_entregador,
+                name : nome_entregador
+            });
             user.save(function(){
                 var entregador = new Entregador({
-                    usuario : usuario._id,
+                    usuario : user._id,
                     empresa: req.user._id
                 })
                 entregador.save(function(){
