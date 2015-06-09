@@ -17,18 +17,16 @@
     "express-handlebars": "^1.1.0",
     "express-messages": "0.0.2",
     "express-session": "^1.8.2",
-    "method-override": "^2.2.0",
-    "mocha": "^2.2.5",
+    "method-override": "^2.2.0"
     "mongoose": "^4.0.2",
     "mongoose-relationship": "^0.1.4",
     "morgan": "~1.5.1",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.2.0",
-    "underscore": "^1.8.3"
+    "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.2.4",
+    "mocha": "^2.2.5",
     "supertest": "^1.0.1"
   }
 }
