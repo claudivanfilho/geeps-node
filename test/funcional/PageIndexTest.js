@@ -5,8 +5,8 @@ var express = require('express');
 process.env.NODE_ENV = "TESTING";
 var app = require('../../app');
 
-describe('Test GET /', function(){
-    it('Pagina Inicial', function(done){
+describe('Home Page Test', function(){
+    it('GET /', function(done){
         request(app)
             .get('/')
             .expect(200)

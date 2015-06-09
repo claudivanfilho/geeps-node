@@ -6,7 +6,7 @@ var Empresa = require("../../models/empresa");
 process.env.NODE_ENV = "TESTING";
 var app = require('../../app');
 
-describe('Pagina de Registro', function(){
+describe('Page Registro Test', function(){
     afterEach(function(done){
         // remove todos os registros do bd
         Empresa.remove({}, function(){
