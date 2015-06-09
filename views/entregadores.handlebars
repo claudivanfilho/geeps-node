@@ -131,6 +131,9 @@
                         <th>
                             Telefone
                         </th>
+                        <th>
+                            Possui Geeps
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -138,6 +141,11 @@
                         <tr>
                             <td>{{this.usuario.name}}</td>
                             <td> {{this.usuario.phone}}</td>
+                            {{#if this.usuario.regId}}
+                                <td>SIM </td>
+                            {{else}}
+                                <td>NÃO</td>
+                            {{/if}}
                         </tr>
                     {{/each}}
 
