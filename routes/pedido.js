@@ -10,8 +10,11 @@ router.get('/pedidos', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function(err, pedidos){
-        return res.render('pedidos', {'pedidos' : pedidos});
+    Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador'])
+        .exec(function(err, pedidos){
+            Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
+                return res.render('pedidos', {'pedidos' : pedidos});
+            })
     });
 });
 
@@ -24,32 +27,30 @@ router.get('/pedido', function(req, res, next) {
 
 
 router.post('/pedido', function(req, res){
-    var endereco = req.body.endereco;
+    var rua = req.body.rua;
+    var numero = req.body.numero;
+    var bairro = req.body.bairro;
     var cidade = req.body.cidade;
     var estado = req.body.estado;
-    var num_cliente = req.body.cliente;
-    var num_entregador = req.body.entregador;
+    var nome_cliente = req.body.nome_cliente;
+    var numero_cliente = req.body.telefone_cliente;
+    var numero_entregador = req.body.telefone_entregador;
 
-    if (endereco.trim() == "") {
-        return res.render('empresa/pedido', {message: "Endereço Requerido"});
-    } else if (num_cliente.trim() == "") {
-        return res.render('empresa/pedido', {message: "Número do Cliente Requerido"});
-    } else if (num_entregador.trim() == "") {
-        return res.render('empresa/pedido', {message: "Número do Entregador Requerido"});
-    }
     Usuario.find({
-        phone: req.body.cliente
+        phone: numero_cliente
     },function(err, usuarios){
         var cliente;
         if (usuarios.length == 0) {
-            // cria um novo cliente
-            cliente = new Usuario({phone : num_cliente});
+            cliente = new Usuario({
+                phone : numero_cliente,
+                name : nome_cliente
+            });
             cliente.save();
         } else {
             cliente = usuarios[0];
         }
         var usuario = new Usuario({
-            phone : num_entregador
+            phone : numero_entregador
         });
         usuario.save(function(){
             var entregador = new Entregador({
@@ -57,7 +58,11 @@ router.post('/pedido', function(req, res){
             })
             entregador.save(function(){
                 var endereco_entrega = new Endereco({
-                    rua : endereco
+                    rua : rua,
+                    numero : numero,
+                    bairro : bairro,
+                    cidade : cidade,
+                    estado : estado
                 })
                 endereco_entrega.save(function(){
                     var pedido = new Pedido({

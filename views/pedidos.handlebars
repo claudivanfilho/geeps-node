@@ -125,7 +125,10 @@
                     <thead>
                     <tr>
                         <th>
-                            Endereço
+                            Rua
+                        </th>
+                        <th>
+                            Bairro
                         </th>
                         <th>
                             Status
@@ -134,17 +137,18 @@
                             Cliente
                         </th>
                         <th>
-                            Entregador
+                            Nº Entregador
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     {{#each pedidos}}
                         <tr>
-                            <td class="text-muted">{{this.endereco_entrega.rua}}</td>
-                            <td>{{this.status}}</td>
-                            <td>{{this.usuario.name}}</td>
-                            <td>{{this.entregador.usuario.name}}</td>
+                            <td class="text-muted">{{this.endereco_entrega.rua}} {{this.endereco_entrega.numero}}</td>
+                            <td class="text-muted">{{this.endereco_entrega.bairro}}</td>
+                            <td class="text-muted">{{this.status}}</td>
+                            <td class="text-muted">{{this.usuario.name}}</td>
+                            <td>{{this.entregador.usuario.phone}}</td>
                         </tr>
                     {{/each}}
 
