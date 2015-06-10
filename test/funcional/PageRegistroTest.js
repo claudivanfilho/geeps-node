@@ -9,9 +9,7 @@ var app = require('../../app');
 describe('Page Registro Test', function(){
     afterEach(function(done){
         // remove todos os registros do bd
-        Empresa.remove({}, function(){
-            done();
-        });
+        Empresa.remove(done);
     })
     it('Test GET /auth/register', function(done){
         request(app)

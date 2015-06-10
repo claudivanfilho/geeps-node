@@ -4,6 +4,7 @@ var express = require('express');
 var Empresa = require("../../models/empresa");
 var Entregador = require("../../models/entregador");
 var Usuario = require("../../models/usuario");
+var mongoose = require('mongoose');
 
 process.env.NODE_ENV = "TESTING";
 var app = require('../../app');
@@ -17,18 +18,15 @@ describe('Entregador Page Test', function(){
             email: "email@email.com",
             senha: "senha123"
         });
-        empresa.save(done)
+        empresa.save(done);
     });
 
     after(function(done){
-        // remove todos os registros do bd
-        Empresa.remove({}, function(){
-            Entregador.remove({}, function(){
-                Usuario.remove({}, function(){
-                    done();
-                });
-            });
-        });
+        Empresa.remove(function(){
+            Usuario.remove(function(){
+                Entregador.remove(done);
+            })
+        })
     })
 
     beforeEach(function(done) {

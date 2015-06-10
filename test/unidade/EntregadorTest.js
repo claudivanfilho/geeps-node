@@ -6,14 +6,6 @@ var Empresa = require("../../models/empresa");
 var Endereco = require("../../models/endereco");
 var Entregador = require("../../models/entregador");
 
-
-/**
- * OBSERVAÇÃo: como o node trabalha de forma assynchrona, então é necessária a chamada dessa
- * função done() para indicar que precisa esperar por algum processo.
- *
- * para rodar os test basta ir na prompt e digitar ->  $> mocha
- */
-
 describe('Entregador TEST', function(){
 
     beforeEach(function(done){
@@ -23,35 +15,33 @@ describe('Entregador TEST', function(){
             email: 'Day Trip',
             senha: 'asdasdok'
         });
+        var endereco = new Endereco({
+            rua : "Rua Joao Lira",
+            bairro : "Bela Vista",
+            numero : "448",
+            cidade : "Campina Grande",
+            estado : "Paraiba"
+        });
+        var usuario = new Usuario({
+            name: "Cliente",
+            phone: "99876534",
+            countryCode: "+55",
+            regId: "aopdpaodspoajsdij1231ej1d09"
+        });
 
+        var usuario2 = new Usuario({
+            name: "Entregador",
+            phone: "99876534",
+            countryCode: "+55",
+            regId: "aopdpaodspoajsdij1231ej1d09"
+        });
+
+        var entregador = new Entregador({
+            usuario : usuario2._id,
+            empresa: empresa._id
+        });
         empresa.save(function(err){
-            var endereco = new Endereco({
-                rua : "Rua Joao Lira",
-                bairro : "Bela Vista",
-                numero : "448",
-                cidade : "Campina Grande",
-                estado : "Paraiba"
-            });
             endereco.save(function(err) {
-                var usuario = new Usuario({
-                    name: "Cliente",
-                    phone: "99876534",
-                    countryCode: "+55",
-                    regId: "aopdpaodspoajsdij1231ej1d09"
-                });
-
-                var usuario2 = new Usuario({
-                    name: "Entregador",
-                    phone: "99876534",
-                    countryCode: "+55",
-                    regId: "aopdpaodspoajsdij1231ej1d09"
-                });
-
-                var entregador = new Entregador({
-                    usuario : usuario2._id,
-                    empresa: empresa._id
-                });
-
                 usuario.save(function(){
                     usuario2.save(function(){
                         entregador.save(function(){
@@ -61,22 +51,20 @@ describe('Entregador TEST', function(){
                 });
             });
         });
-
     });
 
     afterEach(function(done) {
-        // remove todos os registros do bd
-        Empresa.remove({}, function () {
-            Usuario.remove({}, function () {
-                Entregador.remove({}, function () {
-                    done();
-                });
-            });
-        });
+        Empresa.remove(function(){
+            Endereco.remove(function(){
+                Usuario.remove(function(){
+                    Entregador.remove(done)
+                })
+            })
+        })
     });
 
-    describe('TESTA CRIACAO DO USUARIO' , function(){
-        it('Precisa existir uma usuario no BD', function(done){
+    describe('TESTA CRIACAO DO ENTREGADOR' , function(){
+        it('Precisa existir um entregador no BD', function(done){
             Usuario.find(function(err, usuarios){
                 assert.equal(2, usuarios.length);
                 Empresa.find(function(err, empresas) {

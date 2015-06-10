@@ -3,13 +3,6 @@ var Empresa = require("../../models/empresa");
 var Endereco = require("../../models/endereco");
 var mongoose = require("mongoose");
 
-/**
- * OBSERVAÇÃo: como o node trabalha de forma assynchrona, então é necessária a chamada dessa
- * função done() para indicar que precisa esperar por algum processo.
- *
- * para rodar os test basta ir na prompt e digitar ->  $> mocha
- */
-
 describe('Endereco TEST', function(){
 
     beforeEach(function(done){
@@ -26,10 +19,9 @@ describe('Endereco TEST', function(){
     })
 
     afterEach(function(done){
-        // remove todos os registros do bd
-        Endereco.remove({}, function(){
-            done();
-        });
+        Empresa.remove(function(){
+            Endereco.remove(done);
+        })
     })
 
     describe('TESTA CRIACAO DE UM ENDERECO' , function(){

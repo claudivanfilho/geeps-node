@@ -69,17 +69,14 @@ describe('Pedido COMPLETO TEST', function(){
     });
 
     afterEach(function(done){
-        // remove todos os registros do bd
-        Pedido.remove({}, function(){
-            Usuario.remove({}, function(){
-                Entregador.remove({}, function(){
-                    Endereco.remove({}, function(){
-                        Empresa.remove({}, function(){
-                            done();
-                        });
-                    });
-                });
-            });
+        Pedido.remove(function(){
+            Empresa.remove(function(){
+                Endereco.remove(function(){
+                    Usuario.remove(function(){
+                        Entregador.remove(done)
+                    })
+                })
+            })
         });
     });
 

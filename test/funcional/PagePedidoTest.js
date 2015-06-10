@@ -6,6 +6,7 @@ var Usuario = require("../../models/usuario");
 var Entregador = require("../../models/entregador");
 var Endereco = require("../../models/endereco");
 var Pedido = require("../../models/pedido");
+var mongoose = require('mongoose');
 
 process.env.NODE_ENV = "TESTING";
 var app = require('../../app');
@@ -14,18 +15,13 @@ var agent = request.agent(app);
 
 describe('Page Pedido Test', function(){
     after(function(done){
-        // remove todos os registros do bd
-        Pedido.remove({}, function(){
-            Usuario.remove({}, function(){
-                Entregador.remove({}, function(){
-                    Endereco.remove({}, function(){
-                        Empresa.remove({}, function(){
-                            done();
-                        });
-                    });
-                });
-            });
-        });
+        Empresa.remove(function(){
+            Pedido.remove(function(){
+                Usuario.remove(function(){
+                    Entregador.remove(done)
+                })
+            })
+        })
     });
     before(function(done){
         var empresa = new Empresa({

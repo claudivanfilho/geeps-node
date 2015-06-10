@@ -22,8 +22,7 @@ describe('Page Login Test', function () {
     });
 
     after(function(done) {
-        Empresa.remove().exec();
-        done();
+        Empresa.remove().exec(done);
     });
 
     beforeEach(function(done) {
@@ -35,7 +34,7 @@ describe('Page Login Test', function () {
                 assert(res.text.indexOf('empresa/dashboard') > -1);
                 done();
             });
-    })
+    });
 
     afterEach(function(done) {
         agent

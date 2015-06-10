@@ -12,8 +12,6 @@ var mongoose = require("mongoose");
 describe('Pedido TEST', function(){
 
     beforeEach(function(done){
-
-        // cria uma empresa
         Pedido.create({
             status : "EM ANDAMENTO"
         }, function(){
@@ -22,16 +20,13 @@ describe('Pedido TEST', function(){
     })
 
     afterEach(function(done){
-        // remove todos os registros do bd
-        Pedido.remove({}, function(){
-            done();
-        });
+        Pedido.remove(done);
     })
 
     describe('TESTA CRIACAO DE UM Pedido' , function(){
         it('Precisa existir um endereco  no BD', function(done){
             Pedido.find(function(err, pedidos){
-                //assert.equal(1, pedidos.length);
+                assert.equal(1, pedidos.length);
                 done();
             });
         })

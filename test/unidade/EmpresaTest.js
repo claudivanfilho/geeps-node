@@ -25,10 +25,7 @@ describe('Empresa TEST', function(){
     })
 
     afterEach(function(done){
-        // remove todos os registros do bd
-        Empresa.remove({}, function(){
-            done();
-        });
+        Empresa.remove(done);
     })
 
     describe('TESTA CRIACAO DA EMPRESA' , function(){

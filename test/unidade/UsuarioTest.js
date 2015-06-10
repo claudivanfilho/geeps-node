@@ -1,7 +1,6 @@
 var assert = require("assert");
 var Usuario = require("../../models/usuario");
 var mongoose = require("mongoose");
-//db = mongoose.connect('mongodb://localhost/geeps_test');
 
 describe('Usuario TEST', function(){
 
@@ -18,10 +17,7 @@ describe('Usuario TEST', function(){
     })
 
     afterEach(function(done){
-        // remove todos os registros do bd
-        Usuario.remove({}, function(){
-            done();
-        });
+        Usuario.remove(done);
     })
 
     describe('TESTA CRIACAO DO USUARIO' , function(){
