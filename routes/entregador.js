@@ -69,4 +69,16 @@ router.post('/entregador', function(req, res){
     });
 });
 
+router.post('/editar_entregador', function(req, res){
+    var nome_entregador = req.body.nome_entregador;
+    var num_entregador = req.body.telefone_entregador;
+    //TODO
+    return res.redirect('/empresa/entregadores');
+});
+
+router.post('/excluir_entregador', function(req, res){
+    //TODO
+    return res.redirect('/empresa/entregadores');
+});
+
 module.exports = router;

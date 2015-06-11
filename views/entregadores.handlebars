@@ -150,7 +150,7 @@
                                 <td>NÃO</td>
                             {{/if}}
                             <td style="text-align: center">
-                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Entregador">
+                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Entregador" onclick="loadEditForm()">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete" title="Excluir Entregador">
@@ -161,7 +161,7 @@
                                 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="Editar Entregador" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form role="form" method="POST" action="/empresa/entregador">
+                                            <form role="form" method="POST" action="/empresa/editar_entregador">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                     <h4 class="modal-title">Editar Entregador</h4>
@@ -174,7 +174,7 @@
                                                                 <label>Nome do Entregador</label>
                                                             </div>
                                                             <div class="col-sm-7">
-                                                                <input class="form-control" required name="nome_entregador" placeholder="Nome do entregador">
+                                                                <input class="form-control" required name="nome_entregador" placeholder="Nome do entregador" value="{{this.usuario.name}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 form-group">
@@ -182,7 +182,7 @@
                                                                 <label>Número do Entregador</label>
                                                             </div>
                                                             <div class="col-sm-7">
-                                                                <input class="form-control" required name="telefone_entregador" placeholder="Telefone do entregador">
+                                                                <input class="form-control" required name="telefone_entregador" placeholder="Telefone do entregador" value="{{this.usuario.phone}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -190,7 +190,7 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                    <button type="button" class="btn btn-success" disabled>Editar Entregador</button>
+                                                    <button type="submit" class="btn btn-success" >Editar Entregador</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -204,18 +204,20 @@
                                 <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="Excuir Entregador" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <h4 class="modal-title">Excuir Entregador</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Você tem certeza que deseja excluir permanentemente este entregador? <br/>
-                                                Tenha cuidado, pois esta operação não pode ser revertida. <br />
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                <button type="button" class="btn btn-danger">Excluir Entregador</button>
-                                            </div>
+                                            <form role="form" method="POST" action="/empresa/excluir_entregador">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title">Excuir Entregador</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Você tem certeza que deseja excluir permanentemente este entregador? <br/>
+                                                    Tenha cuidado, pois esta operação não pode ser revertida. <br />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    <button type="submit" class="btn btn-danger">Excluir Entregador</button>
+                                                </div>
+                                            </form>
                                         </div>
                                         <!-- /.modal-content -->
                                     </div>
