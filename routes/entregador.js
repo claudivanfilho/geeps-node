@@ -77,7 +77,10 @@ router.post('/editar_entregador', function(req, res){
 });
 
 router.post('/excluir_entregador', function(req, res){
-    //TODO
+    console.log(req.body.id_entregador);
+    Entregador.remove({_id:req.body.id_entregador}, function(err){
+
+    });
     return res.redirect('/empresa/entregadores');
 });
 

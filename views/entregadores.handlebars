@@ -210,12 +210,12 @@
                                                     <h4 class="modal-title">Excuir Entregador</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Você tem certeza que deseja excluir permanentemente este entregador? <br/>
+                                                    Você tem certeza que deseja excluir {{this.usuario.name}}? <br/>
                                                     Tenha cuidado, pois esta operação não pode ser revertida. <br />
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                    <button type="submit" class="btn btn-danger">Excluir Entregador</button>
+                                                    <button type="submit" name="id_entregador" value="{{this._id}}" class="btn btn-danger">Excluir Entregador</button>
                                                 </div>
                                             </form>
                                         </div>
