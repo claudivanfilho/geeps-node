@@ -153,7 +153,7 @@
                                 <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Entregador" onclick="loadEditForm()">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete" title="Excluir Entregador">
+                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Entregador">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
 
@@ -201,7 +201,7 @@
                                 <!-- /.modal -->
 
                                 <!-- Dialogo Modal para EXCLUIR um entregador -->
-                                <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="Excuir Entregador" aria-hidden="true" style="display: none;">
+                                <div class="modal fade" id="confirmDelete{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="Excuir Entregador" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form role="form" method="POST" action="/empresa/excluir_entregador">
