@@ -27,7 +27,6 @@ router.get('/pedido', function(req, res, next) {
     });
 });
 
-
 router.post('/pedido', function(req, res){
     var rua = req.body.rua;
     var numero = req.body.numero;

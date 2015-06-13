@@ -77,8 +77,11 @@ router.post('/editar_entregador', function(req, res){
 });
 
 router.post('/excluir_entregador', function(req, res){
+    console.log(req.body);
     Entregador.remove({_id:req.body.id_entregador}, function(err){
-        //TODO tratar se ocorrer erro
+        if(err){
+            return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+        }
     });
     return res.redirect('/empresa/entregadores');
 });
