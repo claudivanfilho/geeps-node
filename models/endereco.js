@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var relationship = require("mongoose-relationship");
 
 var enderecoSchema = new Schema({
 	rua : String,

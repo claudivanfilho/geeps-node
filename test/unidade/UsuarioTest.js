@@ -7,9 +7,9 @@ describe('Usuario TEST', function(){
     beforeEach(function(done){
         // cria um usuario
         Usuario.create({
-            name: "Joao",
-            phone: "99876534",
-            countryCode: "51",
+            nome: "Joao",
+            telefone: "99876534",
+            codigoPais: "51",
             regId: "aopdpaodspoajsdij1231ej1d09"
         }, function(){
             done();
@@ -32,7 +32,7 @@ describe('Usuario TEST', function(){
     describe('TESTA EXISTE USUARIO COM DADO TELEFONE' , function(){
         it('Precisa existir uma usuario com o dado telefone no BD', function(done){
             Usuario.find({
-                phone: "99876534"
+                telefone: "99876534"
             },function(err, usuarios){
                 assert.equal(1, usuarios.length);
                 done();
@@ -43,7 +43,7 @@ describe('Usuario TEST', function(){
     describe('TESTA SE NÃO EXISTE USUARIO COM DADO TELEFONE' , function(){
         it('Não deve existir uma usuario com o dado telefone no BD', function(done){
             Usuario.find({
-                phone: "4"
+                telefone: "4"
             },function(err, usuarios){
                 assert.equal(0, usuarios.length);
                 done();

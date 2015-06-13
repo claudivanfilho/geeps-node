@@ -23,16 +23,16 @@ describe('Entregador TEST', function(){
             estado : "Paraiba"
         });
         var usuario = new Usuario({
-            name: "Cliente",
-            phone: "99876534",
-            countryCode: "+55",
+            nome: "Cliente",
+            telefone: "99876534",
+            codigoPais: "+55",
             regId: "aopdpaodspoajsdij1231ej1d09"
         });
 
         var usuario2 = new Usuario({
-            name: "Entregador",
-            phone: "99876534",
-            countryCode: "+55",
+            nome: "Entregador",
+            telefone: "99876534",
+            codigoPais: "+55",
             regId: "aopdpaodspoajsdij1231ej1d09"
         });
 
@@ -71,7 +71,7 @@ describe('Entregador TEST', function(){
                     assert.equal(1, empresas.length);
                     Entregador.find(function (err, entregadores) {
                         assert.equal(1, entregadores.length);
-                        assert.equal(usuarios[1].name, "Entregador");
+                        assert.equal(usuarios[1].nome, "Entregador");
                         assert.equal(empresas[0]._id.toString(), entregadores[0].empresa.toString());
                         assert.equal(usuarios[1]._id.toString(), entregadores[0].usuario.toString());
                         done();

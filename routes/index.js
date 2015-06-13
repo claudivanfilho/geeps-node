@@ -34,9 +34,9 @@ router.get('/entregadores', function(req, res, next) {
 
 router.post('/usuario/cadastro', function(req, res){
     var a = new Usuario({
-        name: req.body.name,
-        phone: req.body.phone,
-        countryCode: req.body.countryCode,
+        nome: req.body.name,
+        telefone: req.body.phone,
+        codigoPais: req.body.countryCode,
         regId: req.body.regId
     });
     a.save(function(err, a){
@@ -48,7 +48,7 @@ router.post('/usuario/cadastro', function(req, res){
 router.post('/check_user', function(req, res){
     var telefone = req.body.phone;
     Usuario.find({
-        phone: telefone
+        telefone: telefone
     },function(err, usuarios){
         if (usuarios.length == 0) {
             res.json({'answer': 'false'});
@@ -61,16 +61,16 @@ router.post('/check_user', function(req, res){
 router.post('/get_user', function(req, res){
     var telefone = req.body.phone;
     Usuario.find({
-        phone: telefone
+        telefone: telefone
     },function(err, usuarios){
         if (usuarios.length == 0) {
             res.json({'error' : 'usuario inexistente'});
         } else {
             res.json({
               '_id': usuarios[0]._id,
-              'name': usuarios[0].name,
-              'phone': usuarios[0].phone,
-              'countryCode': usuarios[0].countryCode,
+              'nome': usuarios[0].name,
+              'telefone': usuarios[0].phone,
+              'codigoPais': usuarios[0].countryCode,
               'regId': usuarios[0].regId
             });
         }

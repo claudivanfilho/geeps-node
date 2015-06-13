@@ -31,13 +31,13 @@ router.post('/entregador', function(req, res){
         res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
         //return res.render('empresa/entregador', {message: "Número do Entregador Requerido"});
     }
-    Usuario.find({phone: num_entregador},function(err, usuarios){
+    Usuario.find({telefone: num_entregador},function(err, usuarios){
         var user;
         if (usuarios.length == 0) {
             // cria um novo Usuario do sistema (Entregador também é usuário)
             user = new Usuario({
-                phone : num_entregador,
-                name : nome_entregador
+                telefone : num_entregador,
+                nome : nome_entregador
             });
             user.save(function(){
                 var entregador = new Entregador({

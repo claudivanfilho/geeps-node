@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var usuarioSchema = new Schema({
-	name: String,
-	phone: String,
-	countryCode: String,
+	nome: String,
+	telefone: String,
+	codigoPais: String,
 	regId: String,
 	pedidos:[{ type:Schema.ObjectId, ref:"Pedido"}]
 });

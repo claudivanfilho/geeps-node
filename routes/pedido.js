@@ -39,20 +39,20 @@ router.post('/pedido', function(req, res){
     var numero_entregador = req.body.telefone_entregador;
 
     Usuario.find({
-        phone: numero_cliente
+        telefone: numero_cliente
     },function(err, usuarios){
         var cliente;
         if (usuarios.length == 0) {
             cliente = new Usuario({
-                phone : numero_cliente,
-                name : nome_cliente
+                telefone : numero_cliente,
+                nome : nome_cliente
             });
             cliente.save();
         } else {
             cliente = usuarios[0];
         }
         // pega o entregador
-        Usuario.findOne({phone:numero_entregador}, function(err, user) {
+        Usuario.findOne({telefone:numero_entregador}, function(err, user) {
             Entregador.findOne({usuario : user._id}, function(err, entregador) {
                 var endereco_entrega = new Endereco({
                     rua : rua,

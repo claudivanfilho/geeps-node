@@ -33,15 +33,15 @@ describe('Pedido COMPLETO TEST', function(){
             });
             endereco.save(function(err) {
                 var usuario = new Usuario({
-                    name: "Joao",
-                    phone: "99876534",
-                    countryCode: "51",
+                    nome: "Joao",
+                    telefone: "99876534",
+                    codigoPais: "51",
                     regId: "aopdpaodspoajsdij1231ej1d09"
                 });
                 var usuario2 = new Usuario({
-                    name: "Jonas",
-                    phone: "99876534",
-                    countryCode: "51",
+                    nome: "Jonas",
+                    telefone: "99876534",
+                    codigoPais: "51",
                     regId: "aopdpaodspoajsdij1231ej1d09"
                 });
                 var entregador = new Entregador({

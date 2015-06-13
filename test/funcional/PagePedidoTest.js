@@ -32,9 +32,9 @@ describe('Page Pedido Test', function(){
         });
         empresa.save(function(){
             var usuario = new Usuario({
-                name: "Entregador",
-                phone: "99876534",
-                countryCode: "+55",
+                nome: "Entregador",
+                telefone: "99876534",
+                codigoPais: "+55",
                 regId: "aopdpaodspoajsdij1231ej1d09"
             });
             usuario.save(function(){
