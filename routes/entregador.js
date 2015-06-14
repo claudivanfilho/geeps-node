@@ -69,15 +69,14 @@ router.post('/entregador', function(req, res){
     });
 });
 
-router.post('/editar_entregador', function(req, res){
+router.post('/entregador/editar', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var num_entregador = req.body.telefone_entregador;
     //TODO
     return res.redirect('/empresa/entregadores');
 });
 
-router.post('/excluir_entregador', function(req, res){
-    console.log(req.body);
+router.post('/entregador/excluir', function(req, res){
     Entregador.remove({_id:req.body.id_entregador}, function(err){
         if(err){
             return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});

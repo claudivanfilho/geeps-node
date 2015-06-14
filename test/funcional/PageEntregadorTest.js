@@ -76,6 +76,45 @@ describe('Entregador Page Test', function(){
                 });
             });
     })
+    it('Test POST /empresa/entregador/editar', function(done){
+        Entregador.findOne(function(err, entregador) {
+            agent
+                .post('/empresa/entregador/editar')
+                .send({
+                    'id_entregador' : entregador._id,
+                    'nome_entregador' : 'JOSE',
+                    'telefone_entregador' :'99997777'
+                })
+                .expect(302)
+                .end(function(err, res){
+                    if (err) throw err;
+                    assert(res.text.indexOf('empresa/entregadores') > -1);
+                    Entregador.find(function(err, entregadores){
+                        assert.equal(1, entregadores.length);
+                        assert.equal('JOSE', entregadores[0].nome);
+                        done();
+                    });
+                });
+        })
+    })
+    it('Test POST /empresa/entregador/excluir', function(done){
+        Entregador.findOne(function(err, entregador) {
+            agent
+                .post('/empresa/entregador/excluir')
+                .send({
+                    'id_entregador' : entregador._id
+                })
+                .expect(302)
+                .end(function(err, res){
+                    if (err) throw err;
+                    assert(res.text.indexOf('empresa/entregadores') > -1);
+                    Entregador.find(function(err, entregadores){
+                        assert.equal(0, entregadores.length);
+                        done();
+                    });
+                });
+        });
+    })
 })
 
 
