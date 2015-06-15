@@ -35,4 +35,24 @@ router.get('/logout', function(req, res){
     req.session.notice = "You have successfully been logged out!";
 });
 
+router.get('/perfil', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    return res.render('empresa/perfil', {'empresa' : req.empresa});
+});
+
+router.post('/perfil/editar', function(req, res){
+    var nome = req.body.nome;
+    var email = req.body.email;
+    var rua = req.body.rua;
+    var numero = req.body.numero;
+    var bairro = req.body.bairro;
+    var cidade = req.body.cidade;
+    var estado = req.body.estado;
+    //TODO
+    return res.redirect('/empresa/perfil');
+});
+
+
 module.exports = router;

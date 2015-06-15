@@ -54,7 +54,7 @@
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="/empresa/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
@@ -139,6 +139,9 @@
                         <th>
                             Nº Entregador
                         </th>
+                        <th class="col-xs-1" style="text-align: center">
+                            Opções
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -149,6 +152,115 @@
                             <td class="text-muted">{{this.status}}</td>
                             <td class="text-muted">{{this.usuario.nome}}</td>
                             <td>{{this.entregador.usuario.nome}}</td>
+                            <td style="text-align: center">
+                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Pedido">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Pedido">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+
+                                <!-- Dialogo Modal para EDITAR um pedido -->
+                                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="Editar Pedido" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form role="form" method="POST" action="/empresa/pedido/editar">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title">Editar Pedido</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="row" style="text-align: left">
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Nº do Cliente</label>
+                                                            <input class="form-control" name="telefone_cliente" placeholder="Telefone do cliente" required value="{{this.usuario.telefone}}">
+                                                        </div>
+
+                                                        <div class="col-md-6 form-group">
+                                                            <label>Nome do Cliente</label>
+                                                            <input class="form-control" name="nome_cliente" placeholder="Nome do cliente" required value="{{this.usuario.nome}}">
+                                                        </div>
+
+                                                        <hr style="width:100%; height:1px; background: #fff" />
+
+                                                        <div class="col-md-9 form-group">
+                                                            <label>Rua</label>
+                                                            <input class="form-control" name="rua" placeholder="Nome da Rua" required value="{{this.endereco_entrega.rua}}">
+                                                        </div>
+
+                                                        <div class="col-md-3 form-group">
+                                                            <label>Número</label>
+                                                            <input class="form-control" name="numero" placeholder="Número da casa" required  value="{{this.endereco_entrega.numero}}">
+                                                        </div>
+
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Bairro</label>
+                                                            <input class="form-control" name="bairro" placeholder="Bairro" required  value="{{this.endereco_entrega.bairro}}">
+                                                        </div>
+
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Cidade</label>
+                                                            <input class="form-control" name="cidade" placeholder="Nome da cidade"  value="{{this.endereco_entrega.cidade}}">
+                                                        </div>
+
+                                                        <div class="col-md-4 form-group">
+                                                            <label>Estado</label>
+                                                            <input class="form-control" name="estado" placeholder="Nome ou UF"  value="{{this.endereco_entrega.estado}}">
+                                                        </div>
+
+                                                        <hr style="width:100%; height:1px; background: #fff">
+
+                                                        <div class="col-md-12 form-group">
+                                                            <label>Entregador</label>
+                                                            <select class="form-control" name="telefone_entregador" form="pedidoForm">
+                                                                {{#each entregadores}}
+                                                                    <option value="{{this.usuario.telefone}}">{{this.usuario.nome}}</option>
+                                                                {{/each}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-success" >Editar Pedido</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+
+                                <!-- Dialogo Modal para EXCLUIR um pedido -->
+                                <div class="modal fade" id="confirmDelete{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="Excuir Pedido" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form role="form" method="POST" action="/empresa/pedido/excluir">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title">Excuir Pedido</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Você tem certeza que deseja excluir o pedido do cliente <b>{{this.usuario.nome}}</b>,<br/> associado ao entregador <b>{{this.entregador.usuario.nome}}</b>? <br/>
+                                                    Tenha cuidado, pois esta operação não pode ser revertida. <br />
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                                    <button type="submit" name="id_pedido" value="{{this._id}}" class="btn btn-danger">Excluir Pedido</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
+
+                            </td>
                         </tr>
                     {{/each}}
 

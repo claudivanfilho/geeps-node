@@ -77,4 +77,26 @@ router.post('/pedido', function(req, res){
     });
 });
 
+router.post('/pedido/editar', function(req, res){
+    var rua = req.body.rua;
+    var numero = req.body.numero;
+    var bairro = req.body.bairro;
+    var cidade = req.body.cidade;
+    var estado = req.body.estado;
+    var nome_cliente = req.body.nome_cliente;
+    var numero_cliente = req.body.telefone_cliente;
+    var numero_entregador = req.body.telefone_entregador;
+    //TODO
+    return res.redirect('/empresa/pedidos');
+});
+
+router.post('/pedido/excluir', function(req, res){
+    Pedido.remove({_id:req.body.id_pedido}, function(err){
+        if(err){
+            return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+        }
+    });
+    return res.redirect('/empresa/pedidos');
+});
+
 module.exports = router;

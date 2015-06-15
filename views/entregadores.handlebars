@@ -54,7 +54,7 @@
                     <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="/empresa/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
@@ -150,7 +150,7 @@
                                 <td>NÃO</td>
                             {{/if}}
                             <td style="text-align: center">
-                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Entregador" onclick="loadEditForm()">
+                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Entregador">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Entregador">
@@ -210,7 +210,7 @@
                                                     <h4 class="modal-title">Excuir Entregador</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Você tem certeza que deseja excluir {{this.usuario.nome}}? <br/>
+                                                    Você tem certeza que deseja excluir <b>{{this.usuario.nome}}</b>? <br/>
                                                     Tenha cuidado, pois esta operação não pode ser revertida. <br />
                                                 </div>
                                                 <div class="modal-footer">
