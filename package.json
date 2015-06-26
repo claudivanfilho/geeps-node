@@ -21,6 +21,7 @@
     "mongoose": "^4.0.2",
     "mongoose-relationship": "^0.1.4",
     "morgan": "~1.5.1",
+    "node-gcm": "^0.9.15",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.2.0"
