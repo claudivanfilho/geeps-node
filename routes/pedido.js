@@ -5,6 +5,7 @@ var Usuario = require("../models/usuario");
 var Entregador = require("../models/entregador");
 var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
+var gcm = require('../config/gcm-service');
 
 router.get('/pedidos', function(req, res, next) {
     if (!req.user) {
@@ -50,30 +51,43 @@ router.post('/pedido', function(req, res){
         } else {
             cliente = usuarios[0];
         }
-        // pega o entregador
-        Usuario.findOne({telefone:numero_entregador}, function(err, user) {
-            Entregador.findOne({usuario : user._id}, function(err, entregador) {
-                var endereco_entrega = new Endereco({
-                    rua : rua,
-                    numero : numero,
-                    bairro : bairro,
-                    cidade : cidade,
-                    estado : estado
-                })
-                endereco_entrega.save(function(){
-                    var pedido = new Pedido({
-                        status: "EM ANDAMENTO",
-                        empresa: req.user._id,
-                        endereco_entrega: endereco_entrega._id,
-                        usuario: cliente._id,
-                        entregador: entregador._id
-                    });
+
+        var endereco_entrega = new Endereco({
+            rua : rua,
+            numero : numero,
+            bairro : bairro,
+            cidade : cidade,
+            estado : estado
+        });
+        var pedido = new Pedido({
+            status: "EM ANDAMENTO",
+            empresa: req.user._id,
+            endereco_entrega: endereco_entrega._id,
+            usuario: cliente._id
+        });
+
+        // pega o entregador e
+        if (numero_entregador == "") {
+            endereco_entrega.save();
+            pedido.entregador = null;
+            pedido.save(function(){
+                // manda uma notificação para o cliente via GSM
+                gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
+                return res.redirect('/empresa/dashboard');
+            });
+        } else {
+            Usuario.findOne({telefone:numero_entregador}, function(err, user) {
+                Entregador.findOne({usuario : user._id}, function(err, entregador) {
+                    endereco_entrega.save();
+                    pedido.entregador = entregador._id;
                     pedido.save(function(){
+                        // manda uma notificação para o cliente via GSM
+                        gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
                         return res.redirect('/empresa/dashboard');
                     });
                 });
-            })
-        })
+            });
+        }
     });
 });
 

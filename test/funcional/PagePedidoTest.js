@@ -30,20 +30,28 @@ describe('Page Pedido Test', function(){
             email: 'Day Trip',
             senha: 'asdasdok'
         });
+        var usuario2 = new Usuario({
+            nome: "Cliente",
+            telefone: "99880000",
+            codigoPais: "+55",
+            regId: "APA91bFpJ9lHajNdf41Gi0KyfXtEHjvwo7ZUuvcGuRLI7C0t_or5KjoMQbXUjZ01gfV7Rqo5OfgjKlMQDaKoSB4DcTQ116ZsZULJ4KY6W99gn2-YwtlxQJc"
+        });
+        var usuario = new Usuario({
+            nome: "Entregador",
+            telefone: "99876534",
+            codigoPais: "+55",
+            regId: "aopdpaodspoajsdij1231ej1d09"
+        });
+        var entregador = new Entregador({
+            usuario : usuario._id,
+            empresa: empresa._id
+        });
         empresa.save(function(){
-            var usuario = new Usuario({
-                nome: "Entregador",
-                telefone: "99876534",
-                codigoPais: "+55",
-                regId: "aopdpaodspoajsdij1231ej1d09"
-            });
             usuario.save(function(){
-                var entregador = new Entregador({
-                    usuario : usuario._id,
-                    empresa: empresa._id
-                });
                 entregador.save(function(){
-                    done();
+                    usuario2.save(function(){
+                        done();
+                    });
                 });
             });
         })
@@ -97,12 +105,17 @@ describe('Page Pedido Test', function(){
             .end(function(err, res){
                 if (err) throw err;
                 assert(res.text.indexOf('/') > -1);
-                Pedido.find(function(err, pedidos){
-                    assert.equal(1, pedidos.length);
-                    done();
+                Pedido.find().populate(['entregador', 'usuario', 'endereco_entrega']).exec(function(err, pedidos){
+                    Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos) {
+                        assert.equal(1, pedidos.length);
+                        assert.equal('99880000', pedidos[0].usuario.telefone);
+                        assert.equal('Prata', pedidos[0].endereco_entrega.bairro);
+                        assert.equal('99876534', pedidos[0].entregador.usuario.telefone);
+                        done();
+                    });
                 });
             });
-    })
-})
+    });
+});
 
 
