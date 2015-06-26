@@ -23,6 +23,7 @@ router.get('/dashboard', function(req, res, next) {
                             'entregadores': entregadores,
                             'pedidos' : pedidos
                         });
+                        //res.sendFile(path.join(__dirname+'/../views/dashboard.html'));
                     });
                 })
             });

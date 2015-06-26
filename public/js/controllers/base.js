@@ -1,6 +1,6 @@
-angular.module("Geeps", ['ui.bootstrap','ui.router','cgBusy'])
+angular.module("Geeps", [])
 
 .config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('##');
     $interpolateProvider.endSymbol('##');
-})
+});
