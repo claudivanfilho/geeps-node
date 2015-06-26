@@ -9,7 +9,7 @@ var GCMService = {
             case "REGISTRADO" :
                 texto = nomeEmpresa + " acabou de registrar seu pedido. Logo ele estará em processo de entrega!"
                 break;
-            case "EM_ANDAMENTO" :
+            case "EM ANDAMENTO" :
                 texto = nomeEmpresa + " acabou de despachar seu pedido. Logo o enregador chegará em sua casa!"
                 break;
             case "FINALIZADO" :
