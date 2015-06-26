@@ -5,9 +5,10 @@ var Usuario = require('../models/usuario');
 
 var gcm = require('node-gcm');
 // TODO Set up the sender with you API key
-var sender = new gcm.Sender('YOUR_API_KEY_HERE');
+//var sender = new gcm.Sender('AIzaSyB_UfPKopXTwPSryspKHuowjLkWpuo5M-w');
+var sender = new gcm.Sender('AIzaSyBpRXYncUHxPTJJo0pqblKWZUOCdAzSyVA');
 
-router.post('cadastro', function(req, res){
+router.post('/cadastro', function(req, res){
     var a = new Usuario({
         nome: req.body.name,
         telefone: req.body.phone,
@@ -20,7 +21,7 @@ router.post('cadastro', function(req, res){
     });
 });
 
-router.post('check', function(req, res){
+router.post('/check', function(req, res){
     var telefone = req.body.phone;
     Usuario.find({
         telefone: telefone
@@ -39,11 +40,11 @@ router.post('check', function(req, res){
     });
 });
 
-router.get('testgcm', function(req, res) {
+router.get('/testgcm', function(req, res) {
     var message = new gcm.Message();
     message.addData('TESTE', 'MiNHA MENSAGEM');
 
-    var regId = 'APA91bFpJ9lHajNdf41Gi0KyfXtEHjvwo7ZUuvcGuRLI7C0t_or5KjoMQbXUjZ01gfV7Rqo5OfgjKlMQDaKoSB4DcTQ116ZsZULJ4KY6W99gn2-YwtlxQJc';
+    var regId = 'APA91bGV7CAO8o1wvBoPcMIdOy-1YpI4_B_WG2yHsC32otUXNZjJe7opUmeQf6h9LzeKtG0Jdo7fngvINdrF99lkwTPykEUtEtWOjKiMqbgsHqi4P27m66lBcUSoJFJ5nLawfxViejJl';
 
     sender.send(message, regId, function (err, result) {
         if(err) console.error(err);
