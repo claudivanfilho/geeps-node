@@ -26,19 +26,6 @@ router.post('check', function(req, res){
         telefone: telefone
     },function(err, usuarios){
         if (usuarios.length == 0) {
-            res.json({'answer': 'false'});
-        } else {
-            res.json({'answer': 'true'});
-        }
-    });
-});
-
-router.post('get', function(req, res){
-    var telefone = req.body.phone;
-    Usuario.find({
-        telefone: telefone
-    },function(err, usuarios){
-        if (usuarios.length == 0) {
             res.json({'error' : 'usuario inexistente'});
         } else {
             res.json({
