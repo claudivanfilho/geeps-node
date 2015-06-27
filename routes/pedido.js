@@ -11,12 +11,16 @@ router.get('/pedidos', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador'])
-        .exec(function(err, pedidos){
-            Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
-                return res.render('pedidos', {'pedidos' : pedidos});
-            })
-    });
+    Entregador.find({empresa : req.user._id}).populate('usuario').exec(function (err, entregadores) {
+
+        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador'])
+            .exec(function (err, pedidos) {
+                Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
+                    console.log(entregadores.length);
+                    return res.render('pedidos', {'pedidos': pedidos , 'entregadores' : entregadores});
+                })
+            });
+    })
 });
 
 router.get('/pedido', function(req, res, next) {

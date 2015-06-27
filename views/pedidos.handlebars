@@ -145,6 +145,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     {{#each pedidos}}
                         <tr>
                             <td class="text-muted">{{this.endereco_entrega.rua}} {{this.endereco_entrega.numero}}</td>
@@ -153,7 +154,7 @@
                             <td class="text-muted">{{this.usuario.nome}}</td>
                             <td>{{this.entregador.usuario.nome}}</td>
                             <td style="text-align: center">
-                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit" title="Editar Pedido">
+                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit{{this._id}}" title="Editar Pedido">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Pedido">
@@ -161,7 +162,7 @@
                                 </button>
 
                                 <!-- Dialogo Modal para EDITAR um pedido -->
-                                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="Editar Pedido" aria-hidden="true" style="display: none;">
+                                <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="Editar Pedido" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form role="form" method="POST" action="/empresa/pedido/editar">
