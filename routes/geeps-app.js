@@ -23,7 +23,7 @@ router.post('/check', function(req, res){
         telefone: telefone
     },function(err, usuarios){
         if (usuarios.length == 0) {
-            res.json({'error' : 'usuario inexistente'});
+            res.json({'success' : 'usuario nao cadastrado'});
         } else {
             res.json({
                 '_id': usuarios[0]._id,
