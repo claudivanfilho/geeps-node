@@ -95,6 +95,27 @@ router.post('/pedido', function(req, res){
     });
 });
 
+router.get('/pedido/editar', function(req, res){
+    var pedidoId = req.query.entid;
+    console.log(req.query.entid);
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    Entregador.find({empresa : req.user._id}).populate('usuario').exec(function (err, entregadores) {
+        Pedido.findOne({_id: pedidoId}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function (err, pedido) {
+            Entregador.findOne({_id: pedido.entregador._id}).populate('usuario').exec(function(err, entregador){
+                for(i = 0; i<entregadores.length;i++){
+                    if (entregadores[i]._id.equals(entregador._id) ){
+                        entregadores[i] = entregadores[0];
+                    }
+                }
+                entregadores[0]= entregador;
+                return res.render('editarPedido', {'pedido': pedido, 'entregadores': entregadores});
+            });
+
+        });
+    });
+});
 router.post('/pedido/editar', function(req, res){
     var rua = req.body.rua;
     var numero = req.body.numero;
