@@ -124,9 +124,27 @@ router.post('/pedido/editar', function(req, res){
     var estado = req.body.estado;
     var nome_cliente = req.body.nome_cliente;
     var numero_cliente = req.body.telefone_cliente;
-    var numero_entregador = req.body.telefone_entregador;
-    //TODO
-    return res.redirect('/empresa/pedidos');
+    var id_entregador = req.body.id_entregador;
+
+    var endereco = new Endereco({
+        rua : rua,
+        numero : numero,
+        bairro : bairro,
+        cidade : cidade,
+        estado : estado
+    });
+    endereco.save();
+    Entregador.findOne({ _id: id_entregador}).exec(function(err, novo_entregador){
+        Pedido.update(
+            {_id: req.body.pedidoId},
+            { endereco_entrega: endereco,
+            entregador: novo_entregador},
+            {upsert: true}).exec(function(err){
+            return res.redirect('/empresa/pedidos');
+        });
+    });
+
+
 });
 
 router.post('/pedido/excluir', function(req, res){
