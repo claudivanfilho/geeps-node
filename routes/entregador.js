@@ -71,9 +71,17 @@ router.post('/entregador', function(req, res){
 
 router.post('/entregador/editar', function(req, res){
     var nome_entregador = req.body.nome_entregador;
-    var num_entregador = req.body.telefone_entregador;
+    var id_entregador = req.body.id_entregador;
+    console.log(nome_entregador+", "+id_entregador);
+    Entregador.findOne({_id: id_entregador}).populate("usuario").exec(function(err, entregador){
+    	Usuario.update({_id: entregador.usuario._id},
+    						{nome: nome_entregador},
+	    					{upsert: true}).exec(function(err){
+    							return res.redirect('/empresa/entregadores');
+	    					});
+    });
     //TODO
-    return res.redirect('/empresa/entregadores');
+    
 });
 
 router.post('/entregador/excluir', function(req, res){
