@@ -1,21 +1,29 @@
 var assert = require("assert");
+var request = require('supertest');
+var express = require('express');
 var Empresa = require("../../models/empresa");
 var Usuario = require("../../models/usuario");
 var Entregador = require("../../models/entregador");
 var Endereco = require("../../models/endereco");
 var Pedido = require("../../models/pedido");
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
-/**
- * OBSERVA��o: como o node trabalha de forma assynchrona, ent�o � necess�ria a chamada dessa
- * fun��o done() para indicar que precisa esperar por algum processo.
- *
- * para rodar os test basta ir na prompt e digitar ->  $> mocha
- */
+process.env.NODE_ENV = "TESTING";
+var app = require('../../app');
 
-describe('Pedido COMPLETO TEST', function(){
+var agent = request.agent(app);
 
-    beforeEach(function(done){
+describe('Geeps Routes Test', function(){
+    after(function(done){
+        Empresa.remove(function(){
+            Pedido.remove(function(){
+                Usuario.remove(function(){
+                    Entregador.remove(done)
+                })
+            })
+        })
+    });
+    before(function(done){
         var empresa = new Empresa({
             nome: 'bar teste',
             img_path: 'hood-river-day-trip',
@@ -69,34 +77,17 @@ describe('Pedido COMPLETO TEST', function(){
         });
     });
 
-    afterEach(function(done){
-        Pedido.remove(function(){
-            Empresa.remove(function(){
-                Endereco.remove(function(){
-                    Usuario.remove(function(){
-                        Entregador.remove(done)
-                    })
-                })
-            })
-        });
-    });
 
-    describe('TESTA CRIACAO DE UM Pedido' , function(){
-        it('Precisa existir um pedido completo no BD', function(done){
-            Pedido.find({}).populate('empresa').exec(function(err, pedidos){
-                assert.equal(1, pedidos.length);
-                assert.equal("bar teste", pedidos[0].empresa.nome);
-                Empresa.find(function(err, empresas){
-                    assert.equal(1, empresas.length);
-                    Entregador.find(function(err, entregadores){
-                        assert.equal(1, entregadores.length);
-                        Usuario.find(function(err, usuarios){
-                            assert.equal(2, usuarios.length);
-                            done();
-                        });
-                    });
-                });
+    it('Test POST /usuario/pedidos', function(done){
+        agent
+            .post('/usuario/pedidos')
+            .send({phone : '99876534'})
+            .expect(200)
+            .end(function(err, res){
+                assert.equal(JSON.parse(res.text)[0].empresa.nome, "bar teste");
+                done();
             });
-        })
     });
-})
+});
+
+

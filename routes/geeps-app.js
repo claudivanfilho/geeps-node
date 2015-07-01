@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 var Usuario = require('../models/usuario');
+var Pedido = require('../models/pedido');
 var gcm = require('../config/gcm-service');
 
 router.post('/cadastro', function(req, res){
@@ -35,6 +36,23 @@ router.post('/check', function(req, res){
         }
     });
 });
+
+router.post('/pedidos', function(req, res){
+    var telefone = req.body.phone;
+    Usuario.find({
+        telefone: telefone
+    }, function(err, usuarios){
+        if (usuarios.length == 0) {
+            res.json({'error': 'telefone nao cadastrado'});
+        } else {
+            Pedido.find({usuario:usuarios[0]}).populate(['empresa']).exec(function(err, pedidos) {
+                return res.json(pedidos);
+            });
+        }
+    });
+});
+
+
 
 router.get('/testgcm', function(req, res) {
     gcm.sendNotificacaoPedido(
