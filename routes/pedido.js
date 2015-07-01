@@ -81,7 +81,7 @@ router.post('/pedido', function (req, res) {
                 estado: estado
             });
             var pedido = new Pedido({
-                status: "EM ANDAMENTO",
+                status: "REGISTRADO",
                 empresa: req.user._id,
                 endereco_entrega: endereco_entrega._id,
                 usuario: cliente._id
@@ -104,6 +104,7 @@ router.post('/pedido', function (req, res) {
                         pedido.save(function () {
                             // manda uma notifica��o para o cliente via GSM
                             gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
+                            gcm.sendGCMToEntregador(entregador.usuario.regId, req.user.nome, pedido._id);
                             return res.redirect('/empresa/dashboard');
                         });
                     });
@@ -179,13 +180,14 @@ router.post('/pedido/atualiza', function (req, res) {
     Pedido.update(
         {_id: req.body.id_pedido},
         {
-            status: 'Finalizado'
+            status: 'EM ANDAMENTO'
         },
         {upsert: true}).exec(function (err) {
             if (err) {
                 return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
             }
         });
+
     return res.redirect('/empresa/pedidos');
 });
 
