@@ -51,6 +51,7 @@ router.post('/pedidos', function(req, res){
                     var jsonObj = {};
                     jsonObj['id'] = pedidos[i]._id;
                     jsonObj['empresa_nome'] = pedidos[i].empresa.nome;
+                    jsonObj['status'] = pedidos[i].status;
                     arrayPedidos.push(jsonObj);
                 }
                 return res.json(arrayPedidos);
