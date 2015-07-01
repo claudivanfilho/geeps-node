@@ -14,19 +14,17 @@ router.get('/dashboard', function(req, res, next) {
     }
 
     Empresa.findOne({email: req.user.email}).populate('pedidos').exec(function(err, empresa){
-        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador'])
-            .exec(function(err, pedidos){
-                Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
-                    Entregador.find({empresa: empresa._id}).populate('usuario').exec(function(err, entregadores){
-                        return res.render('dashboard', {
-                            'empresa' : empresa,
-                            'entregadores': entregadores,
-                            'pedidos' : pedidos
-                        });
-                        //res.sendFile(path.join(__dirname+'/../views/dashboard.html'));
+        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function(err, pedidos){
+            Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
+                Entregador.find({empresa: empresa._id}).populate('usuario').exec(function(err, entregadores){
+                    return res.render('dashboard', {
+                        'empresa' : empresa,
+                        'entregadores': entregadores,
+                        'pedidos' : pedidos
                     });
-                })
+                });
             });
+        });
     });
 });
 
@@ -54,6 +52,5 @@ router.post('/perfil/editar', function(req, res){
     //TODO
     return res.redirect('/empresa/perfil');
 });
-
 
 module.exports = router;
