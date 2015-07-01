@@ -45,8 +45,15 @@ router.post('/pedidos', function(req, res){
         if (usuarios.length == 0) {
             res.json({'error': 'telefone nao cadastrado'});
         } else {
+            var arrayPedidos = [];
             Pedido.find({usuario:usuarios[0]}).populate(['empresa']).exec(function(err, pedidos) {
-                return res.json(pedidos);
+                for (var i=0; i<pedidos.length; i++) {
+                    var jsonObj = {};
+                    jsonObj['id'] = pedidos[i]._id;
+                    jsonObj['empresa_nome'] = pedidos[i].empresa.nome;
+                    arrayPedidos.push(jsonObj);
+                }
+                return res.json(arrayPedidos);
             });
         }
     });

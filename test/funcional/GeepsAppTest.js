@@ -84,7 +84,7 @@ describe('Geeps Routes Test', function(){
             .send({phone : '99876534'})
             .expect(200)
             .end(function(err, res){
-                assert.equal(JSON.parse(res.text)[0].empresa.nome, "bar teste");
+                assert.equal(JSON.parse(res.text)[0].empresa_nome, "bar teste");
                 done();
             });
     });
