@@ -98,13 +98,13 @@ router.post('/pedido', function (req, res) {
                 });
             } else {
                 Usuario.findOne({telefone: telefone_entregador}, function (err, user) {
-                    Entregador.findOne({usuario: user._id}, function (err, entregador) {
+                    Entregador.find({usuario: user._id}).populate(['usuario']).exec(function (err, entregadores) {
                         endereco_entrega.save();
-                        pedido.entregador = entregador._id;
+                        pedido.entregador = entregadores[0]._id;
                         pedido.save(function () {
-                            // manda uma notifica��o para o cliente via GSM
+                            // manda uma notificação para o cliente via GSM
                             gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-                            gcm.sendGCMToEntregador(entregador.usuario.regId, req.user.nome, pedido._id);
+                            gcm.sendGCMToEntregador(entregadores[0].usuario.regId, req.user.nome, pedido._id);
                             return res.redirect('/empresa/dashboard');
                         });
                     });
