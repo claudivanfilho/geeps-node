@@ -37,25 +37,6 @@ router.post('/check', function(req, res){
     });
 });
 
-router.post('/get', function(req, res){
-    var regId = req.body.regId;
-    Usuario.find({
-        regId: regId
-    },function(err, usuarios){
-        if (usuarios.length == 0) {
-            res.json({'not_exist' : 'usuario nao cadastrado'});
-        } else {
-            res.json({
-                '_id': usuarios[0]._id,
-                'nome': usuarios[0].nome,
-                'telefone': usuarios[0].telefone,
-                'codigoPais': usuarios[0].codigoPais,
-                'regId': usuarios[0].regId
-            });
-        }
-    });
-});
-
 router.post('/pedidos', function(req, res){
     var telefone = req.body.phone;
     Usuario.find({
@@ -71,6 +52,7 @@ router.post('/pedidos', function(req, res){
                     jsonObj['id'] = pedidos[i]._id;
                     jsonObj['empresa_nome'] = pedidos[i].empresa.nome;
                     jsonObj['status'] = pedidos[i].status;
+                    jsonObj['entregador_id'] = pedidos[i].entregador;
                     arrayPedidos.push(jsonObj);
                 }
                 return res.json(arrayPedidos);
@@ -78,8 +60,6 @@ router.post('/pedidos', function(req, res){
         }
     });
 });
-
-
 
 router.get('/testgcm', function(req, res) {
     gcm.sendNotificacaoPedido(
