@@ -29,12 +29,12 @@ var GCMService = {
         }
     },
 
-    sendGCMToEntregador: function(regId, nomeEmpresa, pedidoId) {
+    sendGCMToEntregador: function(regId, nomeEmpresa, entregadorId) {
         var texto = nomeEmpresa + ' acabou de alocar um pedido para você';
 
         var message = new gcm.Message();
         message.addData('ENTREGADOR_NOTIFICATION', texto);
-        message.addData('PEDIDO_ID', pedidoId);
+        message.addData('ENTREGADOR_ID', entregadorId);
 
         // verifica se o REGIG é válido
         if (regId != null && regId != "") {
@@ -46,5 +46,3 @@ var GCMService = {
     }
 };
 module.exports = GCMService;
-
-

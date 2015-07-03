@@ -42,8 +42,6 @@ router.post('/pedido', function (req, res) {
 
     if (telefone_cliente == telefone_entregador) {
 
-        //TODO Enviar tamb�m os entregadores para o pedido.handlebars
-
         Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
             //return res.render('pedido', {'entregadores': entregadores});
             return res.render('pedido', {
@@ -87,7 +85,7 @@ router.post('/pedido', function (req, res) {
                 usuario: cliente._id
             });
 
-            // pega o entregador e
+            // pega o entregador e salva o pedido
             if (telefone_entregador == "") {
                 endereco_entrega.save();
                 pedido.entregador = null;
@@ -103,8 +101,9 @@ router.post('/pedido', function (req, res) {
                         pedido.entregador = entregadores[0]._id;
                         pedido.save(function () {
                             // manda uma notificação para o cliente via GSM
+                            // e também para o entregador
                             gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-                            gcm.sendGCMToEntregador(entregadores[0].usuario.regId, req.user.nome, pedido._id);
+                            gcm.sendGCMToEntregador(entregadores[0].usuario.regId, req.user.nome, entregadores[0]._id);
                             return res.redirect('/empresa/dashboard');
                         });
                     });

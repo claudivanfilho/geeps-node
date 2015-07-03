@@ -13,17 +13,30 @@ var app = require('../../app');
 
 var agent = request.agent(app);
 
+var fields = {
+    rua : 'Rua Siqueira Campos',
+    numero : '333',
+    bairro : 'Prata',
+    cidade :'Campina Grande',
+    estado :'Paraiba',
+    nome_cliente : 'Ronaldo',
+    telefone_cliente :'99880000',
+    telefone_entregador : '99876534'
+};
+
 describe('Page Pedido Test', function(){
-    after(function(done){
+    afterEach(function(done){
         Empresa.remove(function(){
             Pedido.remove(function(){
                 Usuario.remove(function(){
-                    Entregador.remove(done)
+                    Endereco.remove(function(){
+                        Entregador.remove(done);
+                    });
                 })
             })
         })
     });
-    before(function(done){
+    beforeEach(function(done){
         var empresa = new Empresa({
             nome: 'bar teste',
             img_path: 'hood-river-day-trip',
@@ -88,7 +101,27 @@ describe('Page Pedido Test', function(){
                 done()
             });
     })
-    it('Test POST /empresa/pedido', function(done){
+    it('Test cadastrar pedido', function(done){
+        agent
+            .post('/empresa/pedido')
+            .send(fields)
+            .expect(302)
+            .end(function(err, res){
+                if (err) throw err;
+                assert(res.text.indexOf('/empresa/dashboard') > -1);
+                Pedido.find().populate(['entregador', 'usuario', 'endereco_entrega']).exec(function(err, pedidos){
+                    Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos) {
+                        assert.equal(1, pedidos.length);
+                        assert.equal('99880000', pedidos[0].usuario.telefone);
+                        assert.equal('Prata', pedidos[0].endereco_entrega.bairro);
+                        assert.equal('99876534', pedidos[0].entregador.usuario.telefone);
+                        done();
+                    });
+                });
+            });
+    });
+
+    it('Test cadastrar pedido sem entregador', function(done){
         agent
             .post('/empresa/pedido')
             .send({
@@ -99,20 +132,78 @@ describe('Page Pedido Test', function(){
                 estado :'Paraiba',
                 nome_cliente : 'Ronaldo',
                 telefone_cliente :'99880000',
-                telefone_entregador : '99876534'
+                telefone_entregador : ''
             })
             .expect(302)
             .end(function(err, res){
                 if (err) throw err;
                 assert(res.text.indexOf('/') > -1);
-                Pedido.find().populate(['entregador', 'usuario', 'endereco_entrega']).exec(function(err, pedidos){
-                    Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos) {
-                        assert.equal(1, pedidos.length);
-                        assert.equal('99880000', pedidos[0].usuario.telefone);
-                        assert.equal('Prata', pedidos[0].endereco_entrega.bairro);
-                        assert.equal('99876534', pedidos[0].entregador.usuario.telefone);
+                Pedido.find().populate(['entregador']).exec(function(err, pedidos){
+                    assert.equal(1, pedidos.length);
+                    assert.equal(null, pedidos[0].entregador);
+                    done();
+                });
+            });
+    });
+
+    it('Test cadastrar pedido cliente = entregador', function(done){
+        agent
+            .post('/empresa/pedido')
+            .send({
+                rua : 'Rua Siqueira Campos',
+                numero : '333',
+                bairro : 'Prata',
+                cidade :'Campina Grande',
+                estado :'Paraiba',
+                nome_cliente : 'Ronaldo',
+                telefone_cliente :'99876534',
+                telefone_entregador : '99876534'
+            })
+            .expect(200)
+            .end(function(err, res){
+                if (err) throw err;
+                assert(res.text.indexOf('Registrar Pedido') > -1);
+                Pedido.find({}, function(err, pedidos){
+                    assert.equal(0, pedidos.length);
+                    Usuario.find({}, function(err, usuarios) {
+                        assert.equal(2, usuarios.length);
                         done();
                     });
+                });
+            });
+    });
+
+    it('Test deletar pedido', function(done){
+        agent
+            .post('/empresa/pedido')
+            .send(fields)
+            .expect(302)
+            .end(function(err, res){
+                if (err) throw err;
+                Pedido.find({}, function(err, pedidos){
+                    assert.equal(1, pedidos.length);
+                    agent
+                        .post('/empresa/pedido/excluir')
+                        .send({
+                            id_pedido : pedidos[0]._id
+                        })
+                        .expect(302)
+                        .end(function(err, res){
+                            if (err) throw err;
+                            Pedido.find({}, function(err, pedidos){
+                                assert.equal(0, pedidos.length);
+                                Usuario.find({}, function(err, usuarios) {
+                                    assert.equal(2, usuarios.length);
+                                    Entregador.find({}, function(err, entregadores) {
+                                        assert.equal(1, entregadores.length);
+                                        Endereco.find({}, function(err, enderecos) {
+                                            //assert.equal(0, enderecos.length);
+                                            done();
+                                        });
+                                    });
+                                });
+                            });
+                        });
                 });
             });
     });
