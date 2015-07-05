@@ -49,7 +49,7 @@ describe('Entregador Page Test', function(){
                 done()
             });
     });
-    it('Test GET /empresa/entregador', function(done){
+    it('Test page de cadastro do entregador', function(done){
         agent
             .get('/empresa/entregador')
             .expect(200)
@@ -59,7 +59,7 @@ describe('Entregador Page Test', function(){
                 done()
             });
     })
-    it('Test POST /empresa/entregador', function(done){
+    it('Test cadastrar entregador', function(done){
         agent
             .post('/empresa/entregador')
             .send({
@@ -76,7 +76,7 @@ describe('Entregador Page Test', function(){
                 });
             });
     })
-    it('Test POST /empresa/entregador/editar', function(done){
+    it('Test editar entregador', function(done){
         Entregador.findOne(function(err, entregador) {
             agent
                 .post('/empresa/entregador/editar')
@@ -97,7 +97,8 @@ describe('Entregador Page Test', function(){
                 });
         })
     })
-    it('Test POST /empresa/entregador/excluir', function(done){
+
+    it('Test deletar entregador', function(done){
         Entregador.findOne(function(err, entregador) {
             agent
                 .post('/empresa/entregador/excluir')
@@ -114,6 +115,29 @@ describe('Entregador Page Test', function(){
                     });
                 });
         });
+    })
+
+    it('Test deletar entregador com pedidos', function(done){
+        // TODO criar teste
+        // deve deletar somente o entregador, deixa os pedidos intactos
+        // e o usuario referente ao entregador intacto tb
+        done();
+    })
+
+    it('Test cadastrar entregador em mais de uma empresa', function(done){
+        // TODO criar teste
+        done();
+    })
+
+    it('Test deletar entregador que pertence a mais de uma empresa', function(done){
+        // TODO criar teste
+        // so deve ser deletado o entregador de determinada empresa
+        done();
+    })
+
+    it('Test cadastrar entregador que ja seja usuario do sistema', function(done){
+        // TODO criar teste
+        done();
     })
 })
 

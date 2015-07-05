@@ -190,6 +190,7 @@ describe('Page Pedido Test', function(){
                         .expect(302)
                         .end(function(err, res){
                             if (err) throw err;
+                            console.log(res.text);
                             Pedido.find({}, function(err, pedidos){
                                 assert.equal(0, pedidos.length);
                                 Usuario.find({}, function(err, usuarios) {
@@ -197,7 +198,7 @@ describe('Page Pedido Test', function(){
                                     Entregador.find({}, function(err, entregadores) {
                                         assert.equal(1, entregadores.length);
                                         Endereco.find({}, function(err, enderecos) {
-                                            //assert.equal(0, enderecos.length);
+                                            assert.equal(0, enderecos.length);
                                             done();
                                         });
                                     });

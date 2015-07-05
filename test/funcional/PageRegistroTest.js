@@ -11,7 +11,7 @@ describe('Page Registro Test', function(){
         // remove todos os registros do bd
         Empresa.remove(done);
     })
-    it('Test GET /auth/register', function(done){
+    it('Test pagina de registro', function(done){
         request(app)
             .get('/auth/register')
             .expect(200)
@@ -21,7 +21,7 @@ describe('Page Registro Test', function(){
                 done()
             });
     })
-    it('Test POST /auth/register', function(done){
+    it('Test cadastrar empresa', function(done){
         request(app)
             .post('/auth/register')
             .send({
@@ -39,7 +39,13 @@ describe('Page Registro Test', function(){
                     done();
                 });
             });
-    })
+    });
+
+    it('Test cadastrar empresa com email ja cadastrado', function(done){
+        // TODO criar test
+        done();
+    });
+
 })
 
 

@@ -73,4 +73,9 @@ describe('Page Login Test', function () {
 
             });
     })
+
+    it('Test logar com campos invalidos', function(done){
+        // TODO criar test
+        done();
+    });
 })

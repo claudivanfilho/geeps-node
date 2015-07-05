@@ -167,9 +167,15 @@ router.post('/pedido/editar', function (req, res) {
 });
 
 router.post('/pedido/excluir', function (req, res) {
-    Pedido.remove({_id: req.body.id_pedido}, function (err) {
+    Pedido.findOne({
+        _id: req.body.id_pedido
+    }, function(err, pedido) {
         if (err) {
             return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+        }
+        if (pedido) {
+            Pedido.findByIdAndRemove(pedido._id).exec();
+            Endereco.findByIdAndRemove(pedido.endereco_entrega).exec();
         }
     });
     return res.redirect('/empresa/pedidos');

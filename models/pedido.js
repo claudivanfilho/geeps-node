@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var relationship = require("mongoose-relationship");
+var Endereco = require('./endereco');
 
 var pedidoSchema = new Schema({
 	status: String,
