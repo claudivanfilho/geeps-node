@@ -7,7 +7,7 @@ var gcm = require('../config/gcm-service');
 
 router.post('/cadastro', function(req, res){
     var a = new Usuario({
-        nome: req.body.name,
+        nome_geeps: req.body.name,
         telefone: req.body.phone,
         codigoPais: req.body.countryCode,
         regId: req.body.regId
@@ -28,9 +28,9 @@ router.post('/check', function(req, res){
         } else {
             res.json({
                 '_id': usuarios[0]._id,
-                'nome': usuarios[0].name,
-                'telefone': usuarios[0].phone,
-                'codigoPais': usuarios[0].countryCode,
+                'nome_geeps': usuarios[0].nome_geeps,
+                'telefone': usuarios[0].telefone,
+                'codigoPais': usuarios[0].codigoPais,
                 'regId': usuarios[0].regId
             });
         }
@@ -39,14 +39,14 @@ router.post('/check', function(req, res){
 
 router.post('/pedidos', function(req, res){
     var telefone = req.body.phone;
-    Usuario.find({
+    Usuario.findOne({
         telefone: telefone
-    }, function(err, usuarios){
-        if (usuarios.length == 0) {
+    }, function(err, usuario){
+        if (!usuario) {
             res.json({'error': 'telefone nao cadastrado'});
         } else {
-            var arrayPedidos = [];
-            Pedido.find({usuario:usuarios[0]}).populate(['empresa']).exec(function(err, pedidos) {
+            Pedido.find({cliente : usuario}).populate(['empresa']).exec(function(err, pedidos) {
+                var arrayPedidos = [];
                 for (var i=0; i<pedidos.length; i++) {
                     var jsonObj = {};
                     jsonObj['id'] = pedidos[i]._id;

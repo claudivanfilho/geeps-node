@@ -28,19 +28,20 @@ router.post('/entregador', function(req, res){
     var num_entregador = req.body.telefone_entregador;
 
     if (num_entregador.trim() == "") {
-        res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
-        //return res.render('empresa/entregador', {message: "Número do Entregador Requerido"});
+        res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "NÃºmero do Entregador Requerido"});
     }
-    Usuario.find({telefone: num_entregador},function(err, usuarios){
+    Usuario.find({
+        telefone: num_entregador
+    },function(err, usuarios){
         var user;
         if (usuarios.length == 0) {
-            // cria um novo Usuario do sistema (Entregador também é usuário)
+            // cria um novo Usuario do sistema (Entregador tambÃ©m Ã© usuÃ¡rio)
             user = new Usuario({
-                telefone : num_entregador,
-                nome : nome_entregador
+                telefone : num_entregador
             });
             user.save(function(){
                 var entregador = new Entregador({
+                    nome : nome_entregador,
                     usuario : user._id,
                     empresa: req.user._id
                 })
@@ -52,7 +53,7 @@ router.post('/entregador', function(req, res){
             user = usuarios[0];
 
             Entregador.find({empresa: req.user._id, usuario: user._id}, function (err, entregadores) {
-                // Verifica se o telefone passado já consta no banco de entregadores para determinada empresa
+                // Verifica se o telefone passado jÃ¡ consta no banco de entregadores para determinada empresa
                 if(entregadores.length == 0){
                     var entregador = new Entregador({
                         usuario : user._id,
@@ -72,16 +73,12 @@ router.post('/entregador', function(req, res){
 router.post('/entregador/editar', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var id_entregador = req.body.id_entregador;
-    console.log(nome_entregador+", "+id_entregador);
-    Entregador.findOne({_id: id_entregador}).populate("usuario").exec(function(err, entregador){
-    	Usuario.update({_id: entregador.usuario._id},
-    						{nome: nome_entregador},
-	    					{upsert: true}).exec(function(err){
-    							return res.redirect('/empresa/entregadores');
-	    					});
-    });
-    //TODO
-    
+    Entregador.update({_id: id_entregador},
+        {nome: nome_entregador},
+        {upsert: true}).exec(function(err){
+            return res.redirect('/empresa/entregadores');
+        });
+    //TODO testar
 });
 
 router.post('/entregador/excluir', function(req, res){

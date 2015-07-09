@@ -14,7 +14,7 @@ router.get('/dashboard', function(req, res, next) {
     }
 
     Empresa.findOne({email: req.user.email}).populate('pedidos').exec(function(err, empresa){
-        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function(err, pedidos){
+        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos){
             Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
                 Entregador.find({empresa: empresa._id}).populate('usuario').exec(function(err, entregadores){
                     return res.render('dashboard', {
@@ -53,7 +53,7 @@ router.post('/perfil/editar', function(req, res){
     var bairro = req.body.bairro;
     var cidade = req.body.cidade;
     var estado = req.body.estado;
-    //TODO
+    //TODO criar editar empresa
 
     console.log(req);
     return res.redirect('/empresa/perfil');

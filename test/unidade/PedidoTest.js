@@ -1,13 +1,5 @@
 var assert = require("assert");
 var Pedido = require("../../models/pedido");
-var mongoose = require("mongoose");
-
-/**
- * OBSERVAÇÃo: como o node trabalha de forma assynchrona, então é necessária a chamada dessa
- * função done() para indicar que precisa esperar por algum processo.
- *
- * para rodar os test basta ir na prompt e digitar ->  $> mocha
- */
 
 describe('Pedido TEST', function(){
 

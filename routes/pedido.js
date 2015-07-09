@@ -12,9 +12,8 @@ router.get('/pedidos', function (req, res, next) {
         return res.redirect('/auth/login');
     }
     Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
-        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function (err, pedidos) {
+        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
             Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
-                console.log(entregadores.length);
                 return res.render('pedidos', {'pedidos': pedidos, 'entregadores': entregadores});
             });
         });
@@ -25,7 +24,7 @@ router.get('/pedido', function (req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
+    Entregador.find({empresa: req.user._id}, function (err, entregadores) {
         return res.render('pedido', {'entregadores': entregadores});
     });
 });
@@ -42,8 +41,8 @@ router.post('/pedido', function (req, res) {
 
     if (telefone_cliente == telefone_entregador) {
 
-        Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
-            //return res.render('pedido', {'entregadores': entregadores});
+        Entregador.find({empresa: req.user._id}, function (err, entregadores) {
+
             return res.render('pedido', {
                 'nome_cliente': nome_cliente,
                 'telefone_cliente': telefone_cliente,
@@ -63,8 +62,7 @@ router.post('/pedido', function (req, res) {
             var cliente;
             if (usuarios.length == 0) {
                 cliente = new Usuario({
-                    telefone: telefone_cliente,
-                    nome: nome_cliente
+                    telefone: telefone_cliente
                 });
                 cliente.save();
             } else {
@@ -79,10 +77,11 @@ router.post('/pedido', function (req, res) {
                 estado: estado
             });
             var pedido = new Pedido({
+                nome_cliente : nome_cliente,
                 status: "REGISTRADO",
                 empresa: req.user._id,
                 endereco_entrega: endereco_entrega._id,
-                usuario: cliente._id
+                cliente: cliente._id
             });
 
             // pega o entregador e salva o pedido
@@ -96,12 +95,12 @@ router.post('/pedido', function (req, res) {
                 });
             } else {
                 Usuario.findOne({telefone: telefone_entregador}, function (err, user) {
+                    // TODO mandar mensagem de erro caso o entregador n exista
                     Entregador.find({usuario: user._id}).populate(['usuario']).exec(function (err, entregadores) {
                         endereco_entrega.save();
                         pedido.entregador = entregadores[0]._id;
                         pedido.save(function () {
-                            // manda uma notificação para o cliente via GSM
-                            // e também para o entregador
+                            // manda uma notificação para o cliente via GSM e também para o entregador
                             gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
                             gcm.sendGCMToEntregador(entregadores[0].usuario.regId, req.user.nome, entregadores[0]._id);
                             return res.redirect('/empresa/dashboard');
@@ -115,23 +114,15 @@ router.post('/pedido', function (req, res) {
 
 router.get('/pedido/editar', function (req, res) {
     var pedidoId = req.query.entid;
-    console.log(req.query.entid);
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
-        Pedido.findOne({_id: pedidoId}).populate(['endereco_entrega', 'usuario', 'entregador']).exec(function (err, pedido) {
-            Entregador.findOne({_id: pedido.entregador._id}).populate('usuario').exec(function (err, entregador) {
-                for (i = 0; i < entregadores.length; i++) {
-                    if (entregadores[i]._id.equals(entregador._id)) {
-                        entregadores[i] = entregadores[0];
-                    }
-                }
-                entregadores[0] = entregador;
-                return res.render('editarPedido', {'pedido': pedido, 'entregadores': entregadores});
-            });
-
+    Pedido.findOne({_id: pedidoId}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedido) {
+        // TODO tratar o caso de nao achar o pedido
+        Entregador.find({}, function (err, entregadores) {
+            return res.render('editarPedido', {'pedido': pedido, 'entregadores': entregadores});
         });
+
     });
 });
 
@@ -145,6 +136,9 @@ router.post('/pedido/editar', function (req, res) {
     var numero_cliente = req.body.telefone_cliente;
     var id_entregador = req.body.id_entregador;
 
+    // TODO UPDATE NÚMERO DO CLIENTE
+
+    // TODO NÂO É PRA CRIAR UM NOVO ENDERECO!!! APENAS DAR UPDATE EM UM ENDERECO QUE JA EXISTE `-´
     var endereco = new Endereco({
         rua: rua,
         numero: numero,
@@ -153,17 +147,18 @@ router.post('/pedido/editar', function (req, res) {
         estado: estado
     });
     endereco.save();
-    Entregador.findOne({_id: id_entregador}).exec(function (err, novo_entregador) {
-        Pedido.update(
-            {_id: req.body.pedidoId},
-            {
-                endereco_entrega: endereco,
-                entregador: novo_entregador
-            },
-            {upsert: true}).exec(function (err) {
-                return res.redirect('/empresa/pedidos');
-            });
-    });
+    // =================================================
+
+    Pedido.update(
+        {_id: req.body.pedidoId},
+        {
+            nome_cliente:nome_cliente,
+            endereco_entrega: endereco,
+            entregador: id_entregador
+        },
+        {upsert: true}).exec(function (err) {
+            return res.redirect('/empresa/pedidos');
+        });
 });
 
 router.post('/pedido/excluir', function (req, res) {
@@ -176,17 +171,17 @@ router.post('/pedido/excluir', function (req, res) {
         if (pedido) {
             Pedido.findByIdAndRemove(pedido._id).exec();
             Endereco.findByIdAndRemove(pedido.endereco_entrega).exec();
+            return res.redirect('/empresa/pedidos');
+        } else {
+            // TODO mandar mensagem de erro caso n exista o pedido
         }
     });
-    return res.redirect('/empresa/pedidos');
 });
 
 router.post('/pedido/atualiza', function (req, res) {
-    Pedido.update(
-        {_id: req.body.id_pedido},
-        {
-            status: 'EM ANDAMENTO'
-        },
+    // TODO o que é isso ? lembre o que pedido tem 3 estados!!
+    Pedido.update({_id: req.body.id_pedido},
+        {status: 'EM ANDAMENTO'},
         {upsert: true}).exec(function (err) {
             if (err) {
                 return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});

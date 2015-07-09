@@ -7,7 +7,7 @@ describe('Usuario TEST', function(){
     beforeEach(function(done){
         // cria um usuario
         Usuario.create({
-            nome: "Joao",
+            nome_geeps: "Joao",
             telefone: "99876534",
             codigoPais: "51",
             regId: "aopdpaodspoajsdij1231ej1d09"
@@ -40,8 +40,8 @@ describe('Usuario TEST', function(){
         })
     });
 
-    describe('TESTA SE NÃO EXISTE USUARIO COM DADO TELEFONE' , function(){
-        it('Não deve existir uma usuario com o dado telefone no BD', function(done){
+    describe('TESTA SE NAO EXISTE USUARIO COM DADO TELEFONE' , function(){
+        it('Nao deve existir uma usuario com o dado telefone no BD', function(done){
             Usuario.find({
                 telefone: "4"
             },function(err, usuarios){

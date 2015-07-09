@@ -5,14 +5,15 @@ var Endereco = require('./endereco');
 
 var pedidoSchema = new Schema({
 	status: String,
+	nome_cliente: String,
 	empresa: { type:Schema.Types.ObjectId, ref:"Empresa", childPath:"pedidos"},
 	endereco_entrega : { type:Schema.Types.ObjectId, ref:"Endereco"},
-	usuario: { type:Schema.Types.ObjectId, ref:"Usuario", childPath:"pedidos"},
+	cliente: { type:Schema.Types.ObjectId, ref:"Usuario", childPath:"pedidos"},
 	entregador: { type:Schema.Types.ObjectId, ref:"Entregador", childPath:"pedidos"}
 });
 
 pedidoSchema.plugin(relationship, { relationshipPathName:'empresa' });
-pedidoSchema.plugin(relationship, { relationshipPathName:'usuario' });
+pedidoSchema.plugin(relationship, { relationshipPathName:'cliente' });
 pedidoSchema.plugin(relationship, { relationshipPathName:'entregador' });
 
 var Pedido = mongoose.model('Pedido', pedidoSchema);

@@ -7,8 +7,8 @@ var Pedido = require("../../models/pedido");
 var mongoose = require("mongoose");
 
 /**
- * OBSERVA��o: como o node trabalha de forma assynchrona, ent�o � necess�ria a chamada dessa
- * fun��o done() para indicar que precisa esperar por algum processo.
+ * OBSERVAÇÃO: como o node trabalha de forma assynchrona, então é necessária a chamada dessa
+ * função done() para indicar que precisa esperar por algum processo.
  *
  * para rodar os test basta ir na prompt e digitar ->  $> mocha
  */
@@ -31,22 +31,24 @@ describe('Pedido COMPLETO TEST', function(){
         });
 
         var usuario = new Usuario({
-            nome: "Joao",
+            nome_geeps: "Joao",
             telefone: "99876534",
             codigoPais: "51",
             regId: "aopdpaodspoajsdij1231ej1d09"
         });
         var usuario2 = new Usuario({
-            nome: "Jonas",
+            nome_geeps: "Jonas",
             telefone: "99876534",
             codigoPais: "51",
             regId: "aopdpaodspoajsdij1231ej1d09"
         });
         var entregador = new Entregador({
+            nome_entregador : "Entregador 1",
             usuario : usuario2._id,
             empresa: empresa._id
         });
         var pedido = new Pedido({
+            nome_cliente : "cliente 1",
             status: "ANDAMENTO",
             empresa: empresa._id,
             endereco_entrega : endereco._id,
@@ -54,8 +56,8 @@ describe('Pedido COMPLETO TEST', function(){
             entregador: entregador._id
         });
 
-        empresa.save(function(err){
-            endereco.save(function(err) {
+        empresa.save(function(){
+            endereco.save(function() {
                 usuario.save(function(){
                     usuario2.save(function(){
                         entregador.save(function(){

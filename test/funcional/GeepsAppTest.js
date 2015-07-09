@@ -6,7 +6,6 @@ var Usuario = require("../../models/usuario");
 var Entregador = require("../../models/entregador");
 var Endereco = require("../../models/endereco");
 var Pedido = require("../../models/pedido");
-var mongoose = require('mongoose');
 
 process.env.NODE_ENV = "TESTING";
 var app = require('../../app');
@@ -28,26 +27,28 @@ var endereco = new Endereco({
 });
 
 var usuario = new Usuario({
-    nome: "Joao",
+    nome_geeps: "Joao",
     telefone: "99876534",
     codigoPais: "51",
     regId: "aopdpaodspoajsdij1231ej1d09"
 });
 var usuario2 = new Usuario({
-    nome: "Jonas",
+    nome_geeps: "Jonas",
     telefone: "99876534",
     codigoPais: "51",
     regId: "aopdpaodspoajsdij1231ej1d09"
 });
 var entregador = new Entregador({
+    nome: "Entregador 1",
     usuario : usuario2._id,
     empresa: empresa._id
 });
 var pedido = new Pedido({
+    nome_cliente : "cliente 1",
     status: "EM ANDAMENTO",
     empresa: empresa._id,
     endereco_entrega : endereco._id,
-    usuario: usuario._id,
+    cliente: usuario._id,
     entregador: entregador._id
 });
 
@@ -62,8 +63,8 @@ describe('Geeps Routes Test', function(){
         })
     });
     before(function(done){
-        empresa.save(function(err){
-            endereco.save(function(err) {
+        empresa.save(function(){
+            endereco.save(function() {
                 usuario.save(function(){
                     usuario2.save(function(){
                         entregador.save(function(){
