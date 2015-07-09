@@ -153,8 +153,8 @@
                             <td class="text-muted">
                                 {{this.status}}
                             </td>
-                            <td class="text-muted">{{this.usuario.nome}}</td>
-                            <td>{{this.entregador.usuario.nome}}</td>
+                            <td class="text-muted">{{this.nome_cliente}}</td>
+                            <td>{{this.entregador.nome}}</td>
                             <td style="text-align: center">
 
                                 <form id={{this._id}} role="form" method="GET" action="/empresa/pedido/editar">
@@ -188,8 +188,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     Você tem certeza que deseja atualizar o status do pedido do cliente
-                                                    <b>{{this.usuario.nome}}</b>,<br/> associado ao entregador
-                                                    <b>{{this.entregador.usuario.nome}}</b>? <br/>
+                                                    <b>{{this.nome_cliente}}</b>,<br/> associado ao entregador
+                                                    <b>{{this.entregador.nome}}</b>? <br/>
                                                     <br/>
                                                 </div>
                                                 <div class="modal-footer">
@@ -222,8 +222,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     Você tem certeza que deseja excluir o pedido do cliente
-                                                    <b>{{this.usuario.nome}}</b>,<br/> associado ao entregador
-                                                    <b>{{this.entregador.usuario.nome}}</b>? <br/>
+                                                    <b>{{this.nome_cliente}}</b>,<br/> associado ao entregador
+                                                    <b>{{this.entregador.nome}}</b>? <br/>
                                                     Tenha cuidado, pois esta operação não pode ser revertida e seus
                                                     relatórios serão modificados. <br/>
                                                 </div>

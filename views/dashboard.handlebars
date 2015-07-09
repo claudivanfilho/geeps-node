@@ -171,8 +171,8 @@
                             <tbody>
                             {{#each pedidos}}
                                 <tr>
-                                    <td class="text-muted">{{this.usuario.nome}}</td>
-                                    <td>{{this.entregador.usuario.nome}}</td>
+                                    <td class="text-muted">{{this.nome_cliente}}</td>
+                                    <td>{{this.entregador.nome}}</td>
                                 </tr>
                             {{/each}}
                             </tbody>
@@ -226,7 +226,7 @@
                             <tbody>
                             {{#each entregadores}}
                                 <tr>
-                                    <td class="text-muted">{{this.usuario.nome}}</td>
+                                    <td class="text-muted">{{this.nome}}</td>
                                     <td>{{this.usuario.telefone}}</td>
                                 </tr>
                             {{/each}}

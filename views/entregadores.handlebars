@@ -142,7 +142,7 @@
                     <tbody>
                     {{#each entregadores}}
                         <tr>
-                            <td>{{this.usuario.nome}}</td>
+                            <td>{{this.nome}}</td>
                             <td> {{this.usuario.telefone}}</td>
                             {{#if this.usuario.regId}}
                                 <td>SIM </td>
@@ -203,7 +203,7 @@
                                                     <h4 class="modal-title">Excuir Entregador</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Você tem certeza que deseja excluir <b>{{this.usuario.nome}}</b>? <br/>
+                                                    Você tem certeza que deseja excluir <b>{{this.nome}}</b>? <br/>
                                                     Tenha cuidado, pois esta operação não pode ser revertida. <br />
                                                 </div>
                                                 <div class="modal-footer">
