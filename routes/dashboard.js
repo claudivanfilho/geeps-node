@@ -38,7 +38,11 @@ router.get('/perfil', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    return res.render('empresa/perfil', {'empresa' : req.empresa});
+
+    Empresa.findOne({email: req.user.email}).populate('endereco').exec(function(err, empresa){
+        return res.render('empresa/perfil', {'empresa' : empresa});
+
+    });
 });
 
 router.post('/perfil/editar', function(req, res){
@@ -50,6 +54,8 @@ router.post('/perfil/editar', function(req, res){
     var cidade = req.body.cidade;
     var estado = req.body.estado;
     //TODO
+
+    console.log(req);
     return res.redirect('/empresa/perfil');
 });
 
