@@ -37,79 +37,75 @@ router.post('/pedido', function (req, res) {
     var estado = req.body.estado;
     var nome_cliente = req.body.nome_cliente;
     var telefone_cliente = req.body.telefone_cliente;
-    var telefone_entregador = req.body.telefone_entregador;
+    var id_entregador = req.body.telefone_entregador;
 
-    if (telefone_cliente == telefone_entregador) {
-
-        Entregador.find({empresa: req.user._id}, function (err, entregadores) {
-
-            return res.render('pedido', {
-                'nome_cliente': nome_cliente,
-                'telefone_cliente': telefone_cliente,
-                'rua': rua,
-                'numero': numero,
-                'bairro': bairro,
-                'cidade': cidade,
-                'estado': estado,
-                'message': 'Não pode cadastrar um Pedido para o próprio Entregador',
-                'entregadores': entregadores
+    Usuario.find({
+        telefone: telefone_cliente
+    }, function (err, usuarios) {
+        var cliente;
+        if (usuarios.length == 0) {
+            cliente = new Usuario({
+                telefone: telefone_cliente
             });
+            cliente.save();
+        } else {
+            cliente = usuarios[0];
+        }
+
+        var endereco_entrega = new Endereco({
+            rua: rua,
+            numero: numero,
+            bairro: bairro,
+            cidade: cidade,
+            estado: estado
         });
-    } else {
-        Usuario.find({
-            telefone: telefone_cliente
-        }, function (err, usuarios) {
-            var cliente;
-            if (usuarios.length == 0) {
-                cliente = new Usuario({
-                    telefone: telefone_cliente
-                });
-                cliente.save();
-            } else {
-                cliente = usuarios[0];
-            }
+        var pedido = new Pedido({
+            nome_cliente : nome_cliente,
+            status: "REGISTRADO",
+            empresa: req.user._id,
+            endereco_entrega: endereco_entrega._id,
+            cliente: cliente._id
+        });
 
-            var endereco_entrega = new Endereco({
-                rua: rua,
-                numero: numero,
-                bairro: bairro,
-                cidade: cidade,
-                estado: estado
+        // pega o entregador e salva o pedido
+        if (id_entregador == "") {
+            endereco_entrega.save();
+            pedido.entregador = null;
+            pedido.save(function () {
+                // manda uma notificação para o cliente via GCM
+                gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
+                return res.redirect('/empresa/dashboard');
             });
-            var pedido = new Pedido({
-                nome_cliente : nome_cliente,
-                status: "REGISTRADO",
-                empresa: req.user._id,
-                endereco_entrega: endereco_entrega._id,
-                cliente: cliente._id
-            });
-
-            // pega o entregador e salva o pedido
-            if (telefone_entregador == "") {
-                endereco_entrega.save();
-                pedido.entregador = null;
-                pedido.save(function () {
-                    // manda uma notificação para o cliente via GCM
-                    gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-                    return res.redirect('/empresa/dashboard');
-                });
-            } else {
-                Usuario.findOne({telefone: telefone_entregador}, function (err, user) {
-                    // TODO mandar mensagem de erro caso o entregador n exista
-                    Entregador.find({usuario: user._id}).populate(['usuario']).exec(function (err, entregadores) {
-                        endereco_entrega.save();
-                        pedido.entregador = entregadores[0]._id;
-                        pedido.save(function () {
-                            // manda uma notificação para o cliente via GSM e também para o entregador
-                            gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-                            gcm.sendGCMToEntregador(entregadores[0].usuario.regId, req.user.nome, entregadores[0]._id);
-                            return res.redirect('/empresa/dashboard');
+        } else {
+            Entregador.findOne({_id: id_entregador}).populate(['usuario']).exec(function (err, entregador) {
+                if (entregador.usuario._id == cliente._id) {
+                    Entregador.find({empresa: req.user._id}, function (err, entregadores) {
+                        return res.render('pedido', {
+                            'nome_cliente': nome_cliente,
+                            'telefone_cliente': telefone_cliente,
+                            'rua': rua,
+                            'numero': numero,
+                            'bairro': bairro,
+                            'cidade': cidade,
+                            'estado': estado,
+                            'message': 'Não pode cadastrar um Pedido para o próprio Entregador',
+                            'entregadores': entregadores
                         });
                     });
+                }
+                // TODO mandar mensagem de erro caso o entregador n exista
+
+                endereco_entrega.save();
+                pedido.entregador = entregador._id;
+                pedido.save(function () {
+                    // manda uma notificação para o cliente via GSM e também para o entregador
+                    gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
+                    gcm.sendGCMToEntregador(entregador.usuario.regId, req.user.nome, entregador._id);
+                    return res.redirect('/empresa/dashboard');
                 });
-            }
-        });
-    }
+            });
+        }
+    });
 });
 
 router.get('/pedido/editar', function (req, res) {

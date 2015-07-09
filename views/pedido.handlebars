@@ -176,7 +176,7 @@
                         <label>Entregador</label>
                         <select class="form-control" name="telefone_entregador" required form="pedidoForm">
                             {{#each entregadores}}
-                                <option value="{{this.usuario.telefone}}">{{this.nome}}</option>
+                                <option value="{{this._id}}">{{this.nome}}</option>
                             {{/each}}
                         </select>
                     </div>
