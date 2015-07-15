@@ -4,7 +4,7 @@ var Endereco = require('./endereco');
 
 var empresaSchema = new Schema({
  nome: String,
- img_path: String,
+ imgPath: String,
  email: String,
  senha: String,
  endereco:{type:Schema.ObjectId, ref:"Endereco"},
