@@ -5,6 +5,7 @@ var fs = require('fs-extra');
 var router = express.Router();
 var Empresa = require('../models/empresa');
 var Endereco = require('../models/endereco');
+var path = require('path');
 
 router.get('/', function(req, res, next) {
     if (req.user) {
@@ -41,7 +42,7 @@ checkDataPost = function(req, res) {
 saveEmpresa = function(fields, files, res) {
     var empresa = new Empresa({
         nome: fields.name,
-        imgPath: __dirname + '/../uploads/' + fields.email + '/' + files.image.name,
+        imgPath: '/uploads/' + fields.email + '/' + files.image.name,
         email: fields.email,
         senha: fields.password
     });
@@ -69,7 +70,7 @@ saveEmpresa = function(fields, files, res) {
             } else {
                 empresa.endereco = endereco._id;
                 empresa.save(function() {
-                    return res.render('auth/login',{
+                    return res.render('auth/login', {
                         success: "Empresa cadastrada com sucesso."
                     });
                 });
@@ -96,7 +97,8 @@ router.post('/', function(req, res) {
                             email: fields.email
                         }).exec(function(err, empresa) {
                             if (!empresa) {
-                                var newLocation = __dirname + '/../uploads/' + fields.email + '/' + files.image.name;
+                                var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
+                                // var newLocation = path.resolve('./uploads/' + fields.email + '/' + files.image.name);
                                 fs.copy(files.image.path, newLocation, function(err) {
                                     if (err) {
                                         return res.render("/auth/register", {
