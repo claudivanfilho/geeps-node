@@ -5,7 +5,6 @@ var fs = require('fs-extra');
 var router = express.Router();
 var Empresa = require('../models/empresa');
 var Endereco = require('../models/endereco');
-var path = require('path');
 
 router.get('/', function(req, res, next) {
     if (req.user) {
@@ -98,7 +97,6 @@ router.post('/', function(req, res) {
                         }).exec(function(err, empresa) {
                             if (!empresa) {
                                 var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
-                                // var newLocation = path.resolve('./uploads/' + fields.email + '/' + files.image.name);
                                 fs.copy(files.image.path, newLocation, function(err) {
                                     if (err) {
                                         return res.render("/auth/register", {
