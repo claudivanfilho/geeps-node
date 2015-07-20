@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Geeps</title>
@@ -54,7 +54,7 @@
                 <div class="panel-heading"> Registrar</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST"
-                          action="/auth/register" >
+                           enctype="multipart/form-data" action="/auth/register/" >
                         <!--input type="hidden" name="_token" value="X28xMcHBfbGnSeYjXkt4EjSBwuIw66J9NMweh9uD"-->
 
                         {{#if message}}
