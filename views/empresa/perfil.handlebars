@@ -128,6 +128,13 @@
                     <div class="col-xs-4 form-group" style="text-align: right">
                         <label>Nome da Empresa</label>
                     </div>
+                    <!-- <div class="col-xs-2 form-group">
+                        
+                        <p class="form-control-static">
+                        <label>Ícone da Empresa</label>
+                            <img src="{{empresa.imgPath}}" style="heigth: 50px; width: 50px">
+                        </p>
+                    </div> -->
                     <div class="col-xs-8 form-group">
                         <p class="form-control-static">{{empresa.nome}}</p>
                     </div>
@@ -137,6 +144,15 @@
                     </div>
                     <div class="col-xs-8 form-group">
                         <p class="form-control-static">{{empresa.email}}</p>
+                    </div>
+
+                    <div class="col-xs-4 form-group" style="text-align: right">
+                        <label>Ícone da Empresa</label>
+                    </div>
+                    <div class="col-xs-8 form-group">
+                        <p class="form-control-static">
+                            <img src="{{empresa.imgPath}}" style="heigth: 50px; width: 50px">
+                        </p>
                     </div>
 
                     <hr style="width:100%; height:1px; background: #fff" />
@@ -205,6 +221,21 @@
                                                 </div>
                                                 <div class="col-xs-8 form-group">
                                                     <input type="text" class="form-control" name="email" value="{{empresa.email}}" >
+                                                </div>
+
+                                                <div class="col-xs-4 form-group" style="text-align: right">
+                                                    <label>Ícone da Empresa</label>
+                                                </div>
+                                                
+                                                <div class="col-xs-8 form-group" id="userphoto">
+                                                    <div class="gravatar-wrapper-128">
+                                                        <p class="form-control-static">                                                    
+                                                            <img id="image" src="{{empresa.imgPath}}" class="logo" style="heigth: 50px; width: 50px"></div>
+                                                        </p>
+                                                    <div class="change-picture-slide" style="top: 30px;">
+                                                        <input accept="image/*" type="file" id="upload" name="image" onchange="readURL(this);"style="visibility: hidden;" />
+                                                        <button onclick="changePicture(); return false">Mudar ícone</button>
+                                                    </div>
                                                 </div>
 
                                                 <hr style="width:100%; height:1px; background: #fff" />
@@ -278,6 +309,29 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/sb-admin-2.js"></script>
+
+<script>
+    function changePicture(){
+        $('#upload').click();
+    }
+    function readURL(input)
+    {
+        if (input.files && input.files[0])
+        {
+            var reader = new FileReader();
+            reader.onload = function (e)
+            {
+                $('#image')
+                .attr('src',e.target.result);
+
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+
+</script>
 
 </body>
 
