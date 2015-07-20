@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var formidable = require('formidable');
+var fs = require('fs-extra');
 var Empresa = require('../models/empresa');
 var Usuario = require("../models/usuario");
 var Entregador = require("../models/entregador");
@@ -13,14 +15,23 @@ router.get('/dashboard', function(req, res, next) {
         return res.redirect('/auth/login');
     }
 
-    Empresa.findOne({email: req.user.email}).populate('pedidos').exec(function(err, empresa){
-        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos){
-            Pedido.populate(pedidos, {path: 'entregador.usuario', model:'Usuario'}, function(err, pedidos){
-                Entregador.find({empresa: empresa._id}).populate('usuario').exec(function(err, entregadores){
+    Empresa.findOne({
+        email: req.user.email
+    }).populate('pedidos').exec(function(err, empresa) {
+        Pedido.find({
+            empresa: req.user._id
+        }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
+            Pedido.populate(pedidos, {
+                path: 'entregador.usuario',
+                model: 'Usuario'
+            }, function(err, pedidos) {
+                Entregador.find({
+                    empresa: empresa._id
+                }).populate('usuario').exec(function(err, entregadores) {
                     return res.render('dashboard', {
-                        'empresa' : empresa,
+                        'empresa': empresa,
                         'entregadores': entregadores,
-                        'pedidos' : pedidos
+                        'pedidos': pedidos
                     });
                 });
             });
@@ -28,7 +39,7 @@ router.get('/dashboard', function(req, res, next) {
     });
 });
 
-router.get('/logout', function(req, res){
+router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/auth/login');
     req.session.notice = "You have successfully been logged out!";
@@ -39,24 +50,68 @@ router.get('/perfil', function(req, res, next) {
         return res.redirect('/auth/login');
     }
 
-    Empresa.findOne({email: req.user.email}).populate('endereco').exec(function(err, empresa){
-        return res.render('empresa/perfil', {'empresa' : empresa});
+    Empresa.findOne({
+        email: req.user.email
+    }).populate('endereco').exec(function(err, empresa) {
+        return res.render('empresa/perfil', {
+            'empresa': empresa
+        });
 
     });
 });
 
-router.post('/perfil/editar', function(req, res){
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var rua = req.body.rua;
-    var numero = req.body.numero;
-    var bairro = req.body.bairro;
-    var cidade = req.body.cidade;
-    var estado = req.body.estado;
-    //TODO criar editar empresa
-
-    console.log(req);
-    return res.redirect('/empresa/perfil');
+router.post('/perfil/editar', function(req, res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+        fs.readFile(files.image.path, function(err, data) {
+            var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
+            fs.copy(files.image.path, newLocation, function(err) {
+                if (err) {
+                    //TODO quando a imagem não foi alterada ta dando erro!!!! TRATAR
+                    return res.render("/perfil/editar", {
+                        message: "Ocorreu um erro interno. Tente novamente."
+                    });
+                } else {
+                    updateEmpresa(fields, files, res);
+                }
+            });
+        });
+    });
 });
+
+updateEmpresa = function(fields, files, res) {
+    var endereco = new Endereco({
+        rua: fields.rua,
+        bairro: fields.bairro,
+        numero: fields.numero,
+        cidade: fields.cidade,
+        estado: fields.estado
+    });
+
+    endereco.save(function(err) {
+        if (err) {
+            return res.render("auth/register", {
+                message: "Ocorreu um erro interno. Tente novamente."
+            });
+        } else {
+            Empresa.findOne({
+                email: fields.email
+            }).exec(function(err, empresa) {
+                Empresa.update({
+                    _id: empresa._id
+                }, {
+                    nome: fields.nome,
+                    imgPath: '/uploads/' + fields.email + '/' + files.image.name,
+                    email: fields.email,
+                    endereco: endereco._id,
+                }, {
+                    upsert: true
+                }).exec(function(err) {
+                    return res.redirect('/empresa/dashboard');
+                });
+            });
+        }
+    });
+}
 
 module.exports = router;
