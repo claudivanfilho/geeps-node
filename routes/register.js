@@ -48,7 +48,7 @@ saveEmpresa = function(fields, files, res) {
 
     empresa.save(function(err) {
         if (err) {
-            return res.render("/auth/register", {
+            return res.render("auth/register", {
                 message: "Ocorreu um erro interno. Tente novamente."
             });
         }
@@ -63,13 +63,15 @@ saveEmpresa = function(fields, files, res) {
 
         endereco.save(function(err) {
             if (err) {
-                return res.render("/auth/register", {
+                return res.render("auth/register", {
                     message: "Ocorreu um erro interno. Tente novamente."
                 });
             } else {
                 empresa.endereco = endereco._id;
                 empresa.save(function() {
-                    return res.redirect('/auth/login');
+                    return res.render('auth/login',{
+                        success: "Empresa cadastrada com sucesso."
+                    });
                 });
             }
         });
@@ -105,7 +107,8 @@ router.post('/', function(req, res) {
                                     }
                                 });
                             } else {
-                                return res.render("/auth/register", {
+                                console.log("EMPRESA Já cadastrada");
+                                return res.render("auth/register", {
                                     message: "Empresa já cadastrada."
                                 });
                             }
