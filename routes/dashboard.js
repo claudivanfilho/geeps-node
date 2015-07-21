@@ -63,19 +63,22 @@ router.get('/perfil', function(req, res, next) {
 router.post('/perfil/editar', function(req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function(err, fields, files) {
-        fs.readFile(files.image.path, function(err, data) {
-            var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
-            fs.copy(files.image.path, newLocation, function(err) {
-                if (err) {
-                    //TODO quando a imagem não foi alterada ta dando erro!!!! TRATAR
-                    return res.render("/perfil/editar", {
-                        message: "Ocorreu um erro interno. Tente novamente."
-                    });
-                } else {
-                    updateEmpresa(fields, files, res);
-                }
+        if (files.image.name) {
+            fs.readFile(files.image.path, function(err, data) {
+                var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
+                fs.copy(files.image.path, newLocation, function(err) {
+                    if (err) {
+                        res.redirect("/", {
+                            message: "Ocorreu um erro interno. Tente novamente."
+                        });
+                    } else {
+                        updateEmpresa(fields, files, res);
+                    }
+                });
             });
-        });
+        } else {
+            updateEmpresaSemImagem(fields, files, res);
+        }
     });
 });
 
@@ -102,6 +105,40 @@ updateEmpresa = function(fields, files, res) {
                 }, {
                     nome: fields.nome,
                     imgPath: '/uploads/' + fields.email + '/' + files.image.name,
+                    email: fields.email,
+                    endereco: endereco._id,
+                }, {
+                    upsert: true
+                }).exec(function(err) {
+                    return res.redirect('/empresa/dashboard');
+                });
+            });
+        }
+    });
+}
+
+updateEmpresaSemImagem = function(fields, files, res) {
+    var endereco = new Endereco({
+        rua: fields.rua,
+        bairro: fields.bairro,
+        numero: fields.numero,
+        cidade: fields.cidade,
+        estado: fields.estado
+    });
+
+    endereco.save(function(err) {
+        if (err) {
+            return res.render("auth/register", {
+                message: "Ocorreu um erro interno. Tente novamente."
+            });
+        } else {
+            Empresa.findOne({
+                email: fields.email
+            }).exec(function(err, empresa) {
+                Empresa.update({
+                    _id: empresa._id
+                }, {
+                    nome: fields.nome,
                     email: fields.email,
                     endereco: endereco._id,
                 }, {
