@@ -61,28 +61,38 @@ router.get('/perfil', function(req, res, next) {
 });
 
 router.post('/perfil/editar', function(req, res) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function(err, fields, files) {
-        if (files.image.name) {
-            fs.readFile(files.image.path, function(err, data) {
-                var newLocation = __dirname + '/../public/uploads/' + fields.email + '/' + files.image.name;
-                fs.copy(files.image.path, newLocation, function(err) {
-                    if (err) {
-                        res.redirect("/", {
-                            message: "Ocorreu um erro interno. Tente novamente."
-                        });
-                    } else {
-                        updateEmpresa(fields, files, res);
-                    }
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    } else {
+        var form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (files.image.name) {
+                fs.readFile(files.image.path, function (err, data) {
+                    //console.log("#########FIELDS: "+JSON.stringify(fields));
+                    //console.log("#########REQ.USER "+JSON.stringify(req.user));
+                    //console.log("#########FILES "+JSON.stringify(files));
+                    var email = req.user.email;
+                    console.log("EMAIL: "+email);
+                    var newLocation = __dirname + '/../public/uploads/' + email + '/' + files.image.name;
+                    console.log("######### newLocation: "+newLocation);
+                    fs.copy(files.image.path, newLocation, function (err) {
+                        if (err) {
+                            res.redirect("/", {
+                                message: "Ocorreu um erro interno. Tente novamente."
+                            });
+                        } else {
+                            updateEmpresa(fields, files, res, email);
+                        }
+                    });
                 });
-            });
-        } else {
-            updateEmpresaSemImagem(fields, files, res);
-        }
-    });
+            } else {
+                updateEmpresaSemImagem(fields, files, res);
+            }
+        });
+    }
 });
 
-updateEmpresa = function(fields, files, res) {
+updateEmpresa = function(fields, files, res, email) {
     var endereco = new Endereco({
         rua: fields.rua,
         bairro: fields.bairro,
@@ -98,14 +108,14 @@ updateEmpresa = function(fields, files, res) {
             });
         } else {
             Empresa.findOne({
-                email: fields.email
+                email: email
             }).exec(function(err, empresa) {
                 Empresa.update({
                     _id: empresa._id
                 }, {
                     nome: fields.nome,
-                    imgPath: '/uploads/' + fields.email + '/' + files.image.name,
-                    email: fields.email,
+                    imgPath: '/uploads/' + email + '/' + files.image.name,
+                    email: email,
                     endereco: endereco._id,
                 }, {
                     upsert: true
