@@ -187,4 +187,18 @@ router.post('/pedido/atualiza', function (req, res) {
     return res.redirect('/empresa/pedidos');
 });
 
+router.get('/relatorios', function (req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
+        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
+            Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
+                //TODO Fazer enviar as quantidades por bairros e trabalhar com esse objeto no HTML.
+                return res.render('pedidos', {'pedidos': pedidos, 'entregadores': entregadores});
+            });
+        });
+    });
+});
+
 module.exports = router;
