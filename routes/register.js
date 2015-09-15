@@ -43,7 +43,8 @@ saveEmpresa = function(fields, files, res) {
         nome: fields.name,
         imgPath: '/uploads/' + fields.email + '/' + files.image.name,
         email: fields.email,
-        senha: fields.password
+        senha: fields.password,
+        pago: false
     });
 
     empresa.save(function(err) {
