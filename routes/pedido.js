@@ -11,8 +11,22 @@ router.get('/pedidos', function (req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
+    //Retorna só os pedidos em aberto
     Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
-        Pedido.find({empresa: req.user._id}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
+        Pedido.find({$and:[{empresa: req.user._id}, {$or: [{status: 'EM ANDAMENTO'}, {status: 'REGISTRADO'}]}]}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
+            Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
+                return res.render('pedidos', {'pedidos': pedidos, 'entregadores': entregadores});
+            });
+        });
+    });
+});
+
+router.get('/pedidos_encerrados', function (req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
+        Pedido.find({empresa: req.user._id, status: 'CONCLUÍDO'}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
             Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
                 return res.render('pedidos', {'pedidos': pedidos, 'entregadores': entregadores});
             });
@@ -175,16 +189,34 @@ router.post('/pedido/excluir', function (req, res) {
 });
 
 router.post('/pedido/atualiza', function (req, res) {
-    // TODO o que é isso ? lembre o que pedido tem 3 estados!!
-    Pedido.update({_id: req.body.id_pedido},
-        {status: 'EM ANDAMENTO'},
-        {upsert: true}).exec(function (err) {
-            if (err) {
-                return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
-            }
+    Pedido.find({_id: req.body.id_pedido}, function (err, pedido) {
+        if (pedido[0].status == 'REGISTRADO'){
+            Pedido.update({_id: req.body.id_pedido},
+                {status: 'EM ANDAMENTO'},
+                {upsert: true}).exec(function (err) {
+                    if (err) {
+                        return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+                    }
+                });
+        } else if (pedido[0].status == 'EM ANDAMENTO') {
+            Pedido.update({_id: req.body.id_pedido},
+                {status: 'CONCLUÍDO'},
+                {upsert: true}).exec(function (err) {
+                    if (err) {
+                        return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+                    }
+                });
+        }
+        Entregador.find({empresa: req.user._id}).populate('usuario').exec(function (err, entregadores) {
+            Pedido.find({empresa: req.user._id, status: 'EM ANDAMENTO'}).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function (err, pedidos) {
+                Pedido.populate(pedidos, {path: 'entregador.usuario', model: 'Usuario'}, function (err, pedidos) {
+                    return res.render('pedidos', {'pedidos': pedidos, 'entregadores': entregadores});
+                });
+            });
         });
+        //return res.redirect('/empresa/pedidos');
+    });
 
-    return res.redirect('/empresa/pedidos');
 });
 
 router.get('/relatorios', function (req, res, next) {
