@@ -19,7 +19,15 @@ router.get('/dashboard', function(req, res, next) {
         email: req.user.email
     }).populate('pedidos').exec(function(err, empresa) {
         Pedido.find({
-            empresa: req.user._id
+            $and: [{
+                empresa: req.user._id
+            }, {
+                $or: [{
+                    status: 'EM ANDAMENTO'
+                }, {
+                    status: 'REGISTRADO'
+                }]
+            }]
         }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
             Pedido.populate(pedidos, {
                 path: 'entregador.usuario',
@@ -80,12 +88,12 @@ router.post('/perfil/editar', function(req, res) {
         return res.redirect('/auth/login');
     } else {
         var form = new formidable.IncomingForm();
-        form.parse(req, function (err, fields, files) {
+        form.parse(req, function(err, fields, files) {
             if (files.image.name) {
-                fs.readFile(files.image.path, function (err, data) {
+                fs.readFile(files.image.path, function(err, data) {
                     var email = req.user.email;
                     var newLocation = __dirname + '/../public/uploads/' + email + '/' + files.image.name;
-                    fs.copy(files.image.path, newLocation, function (err) {
+                    fs.copy(files.image.path, newLocation, function(err) {
                         if (err) {
                             res.redirect("/", {
                                 message: "Ocorreu um erro interno. Tente novamente."
