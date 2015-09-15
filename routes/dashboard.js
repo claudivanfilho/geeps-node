@@ -83,13 +83,8 @@ router.post('/perfil/editar', function(req, res) {
         form.parse(req, function (err, fields, files) {
             if (files.image.name) {
                 fs.readFile(files.image.path, function (err, data) {
-                    //console.log("#########FIELDS: "+JSON.stringify(fields));
-                    //console.log("#########REQ.USER "+JSON.stringify(req.user));
-                    //console.log("#########FILES "+JSON.stringify(files));
                     var email = req.user.email;
-                    console.log("EMAIL: "+email);
                     var newLocation = __dirname + '/../public/uploads/' + email + '/' + files.image.name;
-                    console.log("######### newLocation: "+newLocation);
                     fs.copy(files.image.path, newLocation, function (err) {
                         if (err) {
                             res.redirect("/", {
@@ -101,7 +96,8 @@ router.post('/perfil/editar', function(req, res) {
                     });
                 });
             } else {
-                updateEmpresaSemImagem(fields, files, res);
+                var email = req.user.email;
+                updateEmpresaSemImagem(fields, files, res, email);
             }
         });
     }
@@ -142,7 +138,7 @@ updateEmpresa = function(fields, files, res, email) {
     });
 }
 
-updateEmpresaSemImagem = function(fields, files, res) {
+updateEmpresaSemImagem = function(fields, files, res, email) {
     var endereco = new Endereco({
         rua: fields.rua,
         bairro: fields.bairro,
@@ -158,7 +154,7 @@ updateEmpresaSemImagem = function(fields, files, res) {
             });
         } else {
             Empresa.findOne({
-                email: fields.email
+                email: email
             }).exec(function(err, empresa) {
                 Empresa.update({
                     _id: empresa._id
