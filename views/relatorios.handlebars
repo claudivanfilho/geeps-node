@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Igor Candeia Franca Morais" >
+    <meta name="author" content="">
 
-    <title>Geeps - Entregadores</title>
+    <title>Geeps - Relatórios</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +51,7 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="/empresa/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
@@ -116,23 +116,28 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Entregadores - {{empresa.nome}}</h1>
+                <h1 class="page-header">Pedidos Cadastrados</h1>
             </div>
-
-            Quantidade de entregadores: {{entregadores.length}}
+            Numero de pedidos: {{pedidos.length}}
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>
-                            Nome
+                            Rua
                         </th>
                         <th>
-                            Telefone
+                            Bairro
                         </th>
                         <th>
-                            Possui Geeps
+                            Status
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Nome do Entregador
                         </th>
                         <th class="col-xs-1" style="text-align: center">
                             Opções
@@ -140,50 +145,60 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each entregadores}}
-                        <tr>
-                            <td>{{this.nome}}</td>
-                            <td> {{this.usuario.telefone}}</td>
-                            {{#if this.usuario.regId}}
-                                <td>SIM </td>
-                            {{else}}
-                                <td>NÃO</td>
-                            {{/if}}
-                            <td style="text-align: center">
-                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal" data-target="#edit{{this._id}}" title="Editar Entregador">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Entregador">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
 
-                                <!-- Dialogo Modal para EDITAR um entregador -->
-                                <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="Editar Entregador" aria-hidden="true" style="display: none;">
+                    {{#each pedidos}}
+                        <tr>
+                            <td class="text-muted">{{this.endereco_entrega.rua}} {{this.endereco_entrega.numero}}</td>
+                            <td class="text-muted">{{this.endereco_entrega.bairro}}</td>
+                            <td class="text-muted">
+                                {{this.status}}
+                            </td>
+                            <td class="text-muted">{{this.nome_cliente}}</td>
+                            <td>{{this.entregador.nome}}</td>
+                            <td style="text-align: center">
+
+                                <form id={{this._id}} role="form" method="GET" action="/empresa/pedido/editar">
+                                    <button value="{{this._id}}" name="entid" type="submit"
+                                            class="btn btn-circle btn-primary" title="Editar Pedido">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger btn-circle" data-toggle="modal"
+                                            data-target="#confirmDelete{{this._id}}" title="Excluir Pedido">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
+                                            data-target="#confirmStatus{{this._id}}" title="Mudar status">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </button>
+                                </form>
+
+                                <!-- Dialogo Modal para atualizar Status de um pedido -->
+                                <div class="modal fade" id="confirmStatus{{this._id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="Atualizar status" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form role="form" method="POST" action="/empresa/entregador/editar">
+                                            <form role="form" method="POST" action="/empresa/pedido/atualiza">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title">Editar Entregador</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">×
+                                                    </button>
+                                                    <h4 class="modal-title">Atualizar status do Pedido</h4>
                                                 </div>
-
                                                 <div class="modal-body">
-                                                    <div class="row" style="text-align: left">
-                                                        <div class="col-lg-12 form-group">
-                                                            <div class="col-sm-5">
-                                                                <label>Nome do Entregador</label>
-                                                            </div>
-                                                            <div class="col-sm-7">
-                                                                <input class="form-control" required name="nome_entregador" placeholder="Nome do entregador" value="{{this.nome}}">
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden" value="{{this._id}}" name="id_entregador">
-                                                    </div>
+                                                    Você tem certeza que deseja atualizar o status do pedido do cliente
+                                                    <b>{{this.nome_cliente}}</b>,<br/> associado ao entregador
+                                                    <b>{{this.entregador.nome}}</b>? <br/>
+                                                    <br/>
                                                 </div>
-
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-success" >Editar Entregador</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Fechar
+                                                    </button>
+                                                    <button type="submit" name="id_pedido" value="{{this._id}}"
+                                                            class="btn btn-danger">Atualizar Status
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -193,22 +208,32 @@
                                 </div>
                                 <!-- /.modal -->
 
-                                <!-- Dialogo Modal para EXCLUIR um entregador -->
-                                <div class="modal fade" id="confirmDelete{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="Excuir Entregador" aria-hidden="true" style="display: none;">
+                                <!-- Dialogo Modal para EXCLUIR um pedido -->
+                                <div class="modal fade" id="confirmDelete{{this._id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="Excuir Pedido" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form role="form" method="POST" action="/empresa/entregador/excluir">
+                                            <form role="form" method="POST" action="/empresa/pedido/excluir">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                    <h4 class="modal-title">Excuir Entregador</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">×
+                                                    </button>
+                                                    <h4 class="modal-title">Excuir Pedido</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Você tem certeza que deseja excluir <b>{{this.nome}}</b>? <br/>
-                                                    Tenha cuidado, pois esta operação não pode ser revertida. <br />
+                                                    Você tem certeza que deseja excluir o pedido do cliente
+                                                    <b>{{this.nome_cliente}}</b>,<br/> associado ao entregador
+                                                    <b>{{this.entregador.nome}}</b>? <br/>
+                                                    Tenha cuidado, pois esta operação não pode ser revertida e seus
+                                                    relatórios serão modificados. <br/>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                    <button type="submit" name="id_entregador" value="{{this._id}}" class="btn btn-danger">Excluir Entregador</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Fechar
+                                                    </button>
+                                                    <button type="submit" name="id_pedido" value="{{this._id}}"
+                                                            class="btn btn-danger">Excluir Pedido
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>

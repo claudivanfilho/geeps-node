@@ -297,13 +297,15 @@ router.get('/relatorios', function(req, res, next) {
         empresa: req.user._id
     }).populate('usuario').exec(function(err, entregadores) {
         Pedido.find({
-            empresa: req.user._id
+            empresa: req.user._id,
+            status: 'CONCLUÍDO'
         }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
             Pedido.populate(pedidos, {
                 path: 'entregador.usuario',
                 model: 'Usuario'
             }, function(err, pedidos) {
-                //TODO Fazer enviar as quantidades por bairros e trabalhar com esse objeto no HTML.
+                //TODO Criar objeto que vai ser lido no html...
+                
                 return res.render('pedidos', {
                     'pedidos': pedidos,
                     'entregadores': entregadores
