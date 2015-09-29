@@ -306,7 +306,7 @@ router.get('/relatorios', function(req, res, next) {
             }, function(err, pedidos) {
                 //TODO Criar objeto que vai ser lido no html...
                 
-                return res.render('pedidos', {
+                return res.render('relatorios', {
                     'pedidos': pedidos,
                     'entregadores': entregadores
                 });
