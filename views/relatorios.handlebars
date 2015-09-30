@@ -27,11 +27,14 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="../../js/canvasjs.min.js"></script>
     <script type="text/javascript">
       google.load('visualization', '1.0', {'packages':['corechart']});
 
       // Set a callback to run when the Google Visualization API is loaded.
       google.setOnLoadCallback(drawChart);
+
+      google.load("visualization", "1.1", {packages:["calendar"]});
 
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
@@ -44,24 +47,40 @@
         data.addColumn('number', 'Slices');
 
         // Trabalhando com os dados do mongo.
-        var map = new Map();
+        var mapBairros = new Map();
+        var mapDatas = new Map();
 
         {{#each pedidos}}
-            if(map.get('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}')){
-                var cont = map.get('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}');
-                map.delete('{{this.endereco_entrega.bairro}}');
-                map.set(('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}'), (cont + 1));
+            // ---------------------------
+            // Gráfico utilizando bairro - cidade
+            // ---------------------------
+            if(mapBairros.get('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}')){
+                var cont = mapBairros.get('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}');
+                mapBairros.delete('{{this.endereco_entrega.bairro}}');
+                mapBairros.set('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}', cont + 1);
             } else{
-                map.set(('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}'), 1);
+                mapBairros.set(('{{this.endereco_entrega.bairro}}' + ' - ' + '{{this.endereco_entrega.cidade}}'), 1);
+            }
+
+            // ---------------------------
+            // Gráfico utilizando data de criação do pedido
+            // ---------------------------
+            var tempDate = (new Date('{{this.data_criacao}}'.toString().substring(0,15))).toString();            
+            if (mapDatas.get(tempDate)){
+                var cont = mapDatas.get(tempDate);
+                mapDatas.delete(tempDate);
+                mapDatas.set(tempDate, cont + 1);
+            } else {
+                mapDatas.set(tempDate, 1);
             }
         {{/each}}
 
+        // -----------------------------------------------
         // Criando dados para colocar no gráfico de pizza
+        // -----------------------------------------------
         var dados = [];
-        var cont = 0
-        map.forEach(function (value, key, mapObj) {
-            dados[cont] = [key, value];
-            cont++;
+        mapBairros.forEach(function (value, key, mapObj) {
+            dados.push([key, value]);
         });
 
         data.addRows(dados);
@@ -74,6 +93,28 @@
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
+        
+        // -----------------------------------------------
+        // Criando dados para colocar no gráfico das datas
+        // -----------------------------------------------
+        var datasDosPedidos = new Array();
+        mapDatas.forEach(function (value, key, mapObj) {
+            datasDosPedidos.push([new Date(key.toString().substring(0, 15)), value]);
+        });     
+
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({ type: 'date', id: 'Date' });
+        dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
+        dataTable.addRows(datasDosPedidos);
+
+       var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
+
+       var options = {
+         title: "Vendas",
+         height: 350,
+       };
+
+       chart.draw(dataTable, options);
       }
     </script>
 
@@ -174,6 +215,9 @@
 
             <div class="table-responsive">
                 <div id="chart_div" style="width: 100%; height: auto;"></div>
+                <div id="chartContainer" style="height: 300px; width: 100%;">
+                <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+</div>
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
