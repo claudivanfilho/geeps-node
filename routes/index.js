@@ -10,4 +10,8 @@ router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname+'/../views/index.html'));
 });
 
+router.get('/pagamento', function(req, res, next) {
+    res.sendFile(path.join(__dirname+'/../views/payment.html'));
+});
+
 module.exports = router;
