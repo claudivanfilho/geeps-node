@@ -85,7 +85,7 @@
         data.addRows(dados);
 
         // Set chart options
-        var options = {'title':'Quais bairros mais vendem'};
+        var options = {title:'Quais bairros mais vendem'};
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
@@ -104,6 +104,7 @@
         dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
         dataTable.addRows(datasDosPedidos);
 
+       // Instantiate and draw our chart, passing in some options.
        var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
 
        var options = {
@@ -211,7 +212,7 @@
 
             <div class="table-responsive">
                 <div id="chart_div" style="width: 100%; height: auto;"></div>
-                <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+                <div id="calendar_basic" ></div>
             </div>
             <!-- /.col-lg-12 -->
         </div>

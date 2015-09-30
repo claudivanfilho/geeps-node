@@ -133,95 +133,85 @@
                     {desc}
                 </div>
             {{/if}}
-            <div class="form-group col-lg-8 col-md-10">
-                <form accept-charset="UTF-8" action="" autocomplete="off" class="simple_form form-horizontal new_user" id="new_user" method="post" novalidate="novalidate">
-                    
-                    <div class="control-group email required">
-                        <label class="email required control-label" for="user_email"><abbr title="required">*</abbr>Email</label>
-                        <div class="controls">
-                            <input autofocus="autofocus" disabled class="string email required" id="user_email" name="user[email]" size="50" type="email" value="{{empresa.email}}"/>
-                        </div>
+                <div style="height: 230px;margin-top: 20px;">
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption" style="text-align: center;">
+                        <h3>Básico - R$ 75,00</h3>
+                        <ul style="list-style-type:disc; text-align: left;">
+                            <li>Relatórios</li>
+                            <li>Acompanhamento Em Tempo Real</li>
+                            <li>Cadastro de Pedidos</li>
+                        </ul>
+                        <p>
+                            <a href="#" class="btn btn-primary" role="button">Button</a>
+                            <a href="#" class="btn btn-default" role="button">Button</a>
+                        </p>
                     </div>
-                    <div class="control-group password required">
-                        <label class="password required control-label" for="user_password"><abbr title="required">*</abbr> Senha</label>
-                        <div class="controls">
-                            <input class="password required" id="user_password" name="user[password]" size="50" type="password" />
-                        </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption" style="text-align: center;">
+                        <h3>Normal - R$ 125,00</h3>
+                        <ul style="list-style-type:disc; text-align: left;">
+                            <li>Relatórios</li>
+                            <li>Acompanhamento Em Tempo Real</li>
+                            <li>Cadastro de Pedidos</li>
+                        </ul>
+                        <p>
+                            <a href="#" class="btn btn-primary" role="button">Button</a>
+                            <a href="#" class="btn btn-default" role="button">Button</a>
+                        </p>
                     </div>
-                    <div class="control-group password required">
-                        <label class="password required control-label" for="user_password_confirmation"><abbr title="required">*</abbr> Confirmação de Senha</label>
-                        <div class="controls">
-                            <input class="password required" id="user_password_confirmation" name="user[password_confirmation]" size="50" type="password" />
-                        </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <div class="caption" style="text-align: center;">
+                        <h3>Avançado - R$ 150,00</h3>
+                        <ul style="list-style-type:disc; text-align: left;">
+                            <li>Relatórios</li>
+                            <li>Acompanhamento Em Tempo Real</li>
+                            <li>Cadastro de Pedidos</li>
+                        </ul>
+                        <p>
+                            <a href="#" class="btn btn-primary" role="button">Button</a>
+                            <a href="#" class="btn btn-default" role="button">Button</a>
+                        </p>
                     </div>
-                    
-                    <legend>Adicionar cartão de crédito</legend>
-                    <p>A informação do cartão de crédito é armazenada de forma segura com PayPal.</p>
-                    <div class="control-group select required">
-                        <label class="select required control-label" for="user_credit_card_type"><abbr title="required">*</abbr> Tipo</label>
-                        <div class="controls">
-                            <select class="select required" id="user_credit_card_type" name="user[credit_card][type]">
-                                <option value="visa">visa</option>
-                                <option value="mastercard">mastercard</option>
-                                <option value="discover">discover</option>
-                                <option value="amex">amex</option>
-                            </select>
-                        </div>
-                    </div>        
-                    <div class="control-group string required">
-                        <label class="string required control-label" for="user_credit_card_number"><abbr title="required">*</abbr> Número</label>
-                        <div class="controls"><input class="string required" id="user_credit_card_number" name="user[credit_card][number]" size="50" type="text" /></div>
-                    </div>
-                    <div class="control-group string optional">
-                        <label class="string required control-label" for="user_credit_card_cvv2">Cvv2</label>
-                        <div class="controls">
-                            <input class="string optional" id="user_credit_card_cvv2" name="user[credit_card][cvv2]" size="50" type="text" />
-                        </div>
-                    </div>        
-                    <div class="control-group select required">
-                        <label class="select required control-label" for="user_credit_card_expire_month"><abbr title="required">*</abbr> Expira mês</label>
-                        <div class="controls">
-                            <select class="select required" id="user_credit_card_expire_month" name="user[credit_card][expire_month]">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group select required">
-                        <label class="select required control-label" for="user_credit_card_expire_year"><abbr title="required">*</abbr> Expira ano</label>
-                        <div class="controls">
-                            <select class="select required" id="user_credit_card_expire_year" name="user[credit_card][expire_year]">
-                                <option value=""></option>
-                                <option value="2013">2013</option>
-                                <option value="2014">2014</option>
-                                <option value="2015">2015</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                                <option value="2019">2019</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
-                                <option value="2022">2022</option>
-                                <option value="2023">2023</option>
-                            </select>
-                        </div>
-                    </div>  
-                    <div class='form-actions'>
-                        <input class="btn btn btn-primary" name="commit" type="submit" value="Sign up" />
-                    </div>
-                </form>
-            </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="border: 1px solid rgba(0,0,0,0.3);width: 80%;margin: 0 auto;">
+    </div>
+    <div style="width: 50%;margin-left: 25%;text-align: center;">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="text-align: center;">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <table style="margin: 20px auto;">
+                <tr>
+                    <td>
+                        <input type="hidden" name="on0" value="Planos de Serviço">
+                            Assine um de nosso planos de serviço
+                    </td>
+                </tr>
+                <tr><td>
+                    <select name="os0">
+                        <option value="Básico">Básico : R$75,00 BRL - mensalmente</option>
+                        <option value="Normal">Normal : R$125,00 BRL - mensalmente</option>
+                        <option value="Avançado">Avançado : R$150,00 BRL - mensalmente</option>
+                    </select>
+                </td></tr>
+            </table>
+            <input type="hidden" name="currency_code" value="BRL">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+            <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </div>  
         </div>
     </div>
     <!-- /#page-wrapper -->
