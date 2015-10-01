@@ -57,15 +57,7 @@ router.get('/api/pedidos', function(req, res, next) {
         return res.error("nenhum usuário antenticado");
     }
     Pedido.find({
-        $and: [{
-            empresa: req.user._id
-        }, {
-            $or: [{
-                status: 'EM ANDAMENTO'
-            }, {
-                status: 'REGISTRADO'
-            }]
-        }]
+        empresa: req.user._id
     }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
         Pedido.populate(pedidos, {
             path: 'entregador.usuario',
