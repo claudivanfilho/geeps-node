@@ -14,7 +14,8 @@ router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-
+    res.sendFile(path.join(__dirname+'/../views/base.html'));
+/**
     Empresa.findOne({
         email: req.user.email
     }).populate('pedidos').exec(function(err, empresa) {
@@ -45,6 +46,8 @@ router.get('/dashboard', function(req, res, next) {
             });
         });
     });
+ */
+
 });
 
 router.get('/logout', function(req, res) {
