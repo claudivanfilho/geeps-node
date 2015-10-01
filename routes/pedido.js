@@ -7,75 +7,6 @@ var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
 var gcm = require('../config/gcm-service');
 
-router.get('/pedidos', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    //Retorna só os pedidos em aberto
-    Entregador.find({
-        empresa: req.user._id
-    }).populate('usuario').exec(function(err, entregadores) {
-        Pedido.find({
-            $and: [{
-                empresa: req.user._id
-            }, {
-                $or: [{
-                    status: 'EM ANDAMENTO'
-                }, {
-                    status: 'REGISTRADO'
-                }]
-            }]
-        }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
-            Pedido.populate(pedidos, {
-                path: 'entregador.usuario',
-                model: 'Usuario'
-            }, function(err, pedidos) {
-                return res.render('pedidos', {
-                    'pedidos': pedidos,
-                    'entregadores': entregadores
-                });
-            });
-        });
-    });
-});
-
-router.get('/pedidos_encerrados', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Entregador.find({
-        empresa: req.user._id
-    }).populate('usuario').exec(function(err, entregadores) {
-        Pedido.find({
-            empresa: req.user._id,
-            status: 'CONCLUÍDO'
-        }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
-            Pedido.populate(pedidos, {
-                path: 'entregador.usuario',
-                model: 'Usuario'
-            }, function(err, pedidos) {
-                return res.render('pedidos', {
-                    'pedidos': pedidos,
-                    'entregadores': entregadores
-                });
-            });
-        });
-    });
-});
-
-router.get('/pedido', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Entregador.find({
-        empresa: req.user._id
-    }, function(err, entregadores) {
-        return res.render('pedido', {
-            'entregadores': entregadores
-        });
-    });
-});
-
 router.post('/pedido', function(req, res) {
     var rua = req.body.rua;
     var numero = req.body.numero;
@@ -156,25 +87,6 @@ router.post('/pedido', function(req, res) {
                 });
             });
         }
-    });
-});
-
-router.get('/pedido/editar', function(req, res) {
-    var pedidoId = req.query.entid;
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Pedido.findOne({
-        _id: pedidoId
-    }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedido) {
-        // TODO tratar o caso de nao achar o pedido
-        Entregador.find({}, function(err, entregadores) {
-            return res.render('editarPedido', {
-                'pedido': pedido,
-                'entregadores': entregadores
-            });
-        });
-
     });
 });
 
@@ -287,32 +199,6 @@ router.post('/pedido/atualiza', function(req, res) {
         //return res.redirect('/empresa/pedidos');
     });
 
-});
-
-router.get('/relatorios', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Entregador.find({
-        empresa: req.user._id
-    }).populate('usuario').exec(function(err, entregadores) {
-        Pedido.find({
-            empresa: req.user._id,
-            status: 'CONCLUÍDO'
-        }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
-            Pedido.populate(pedidos, {
-                path: 'entregador.usuario',
-                model: 'Usuario'
-            }, function(err, pedidos) {
-                //TODO Criar objeto que vai ser lido no html...
-                
-                return res.render('relatorios', {
-                    'pedidos': pedidos,
-                    'entregadores': entregadores
-                });
-            });
-        });
-    });
 });
 
 module.exports = router;

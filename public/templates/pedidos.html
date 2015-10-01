@@ -1,0 +1,136 @@
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Pedidos Cadastrados</h1>
+        </div>
+        <div class="table-responsive" style="float: left; width: 100%;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Rua
+                    </th>
+                    <th>
+                        Bairro
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Cliente
+                    </th>
+                    <th>
+                        Nome do Entregador
+                    </th>
+                    <th class="col-xs-3" style="text-align: center">
+                        Opções
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pedido in pedService.pedidos">
+                        <td class="text-muted">##pedido.endereco_entrega.rua## ##pedido.endereco_entrega.numero##</td>
+                        <td class="text-muted">##pedido.endereco_entrega.bairro##</td>
+                        <td class="text-muted">
+                            ##pedido.status##
+                        </td>
+                        <td class="text-muted">##pedido.nome_cliente##</td>
+                        <td>##pedido.entregador.nome##</td>
+                        <td style="text-align: center">
+
+                            <form id=##pedido._id## role="form" method="GET" action="/empresa/pedido/editar">
+                                <button value="##pedido._id##" name="entid" type="submit"
+                                        class="btn btn-circle btn-primary" title="Editar Pedido">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal"
+                                        data-target="#confirmDelete##pedido._id##" title="Excluir Pedido">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
+                                        data-target="#confirmStatus##pedido._id##" title="Mudar status">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </button>
+                            </form>
+
+                            <!-- Dialogo Modal para atualizar Status de um pedido -->
+                            <div class="modal fade" id="confirmStatus##pedido._id##" tabindex="-1" role="dialog"
+                                 aria-labelledby="Atualizar status" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form role="form" method="POST" action="/empresa/pedido/atualiza">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title">Atualizar status do Pedido</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Você tem certeza que deseja atualizar o status do pedido do cliente
+                                                <b>##pedido.nome_cliente##</b>,<br/> associado ao entregador
+                                                <b>##pedido.entregador.nome##</b>? <br/>
+                                                <br/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Fechar
+                                                </button>
+                                                <button type="submit" name="id_pedido" value="##pedido._id##"
+                                                        class="btn btn-danger">Atualizar Status
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+
+                            <!-- Dialogo Modal para EXCLUIR um pedido -->
+                            <div class="modal fade" id="confirmDelete##pedido._id##" tabindex="-1" role="dialog"
+                                 aria-labelledby="Excuir Pedido" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form role="form" method="POST" action="/empresa/pedido/excluir">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title">Excuir Pedido</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Você tem certeza que deseja excluir o pedido do cliente
+                                                <b>##pedido.nome_cliente##</b>,<br/> associado ao entregador
+                                                <b>##pedido.entregador.nome##</b>? <br/>
+                                                Tenha cuidado, pois esta operação não pode ser revertida e seus
+                                                relatórios serão modificados. <br/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Fechar
+                                                </button>
+                                                <button type="submit" name="id_pedido" value="##pedido._id##"
+                                                        class="btn btn-danger">Excluir Pedido
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+</div>

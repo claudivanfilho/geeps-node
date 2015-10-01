@@ -1,0 +1,59 @@
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Alterar Pedido</h1>
+        </div>
+        <!-- /.col-md-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <form role="form" method="POST" action="/empresa/pedido/editar" id="pedidoForm">
+
+            <div class="form-group col-lg-8 col-md-8">
+                <input type="hidden" name="pedidoId" value="##pedido._id##">
+
+
+                <div class="col-md-9 form-group">
+                    <label>Rua</label>
+                    <input class="form-control" name="rua" placeholder="Nome da Rua" required value="##pedido.endereco_entrega.rua##">
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label>Número</label>
+                    <input class="form-control" name="numero" placeholder="Número da casa" required value="##pedido.endereco_entrega.numero##">
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label>Bairro</label>
+                    <input class="form-control" name="bairro" placeholder="Bairro" required value="##pedido.endereco_entrega.bairro##">
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label>Cidade</label>
+                    <input class="form-control" name="cidade" placeholder="Nome da cidade" value="##pedido.endereco_entrega.cidade##">
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label>Estado</label>
+                    <input class="form-control" name="estado" placeholder="Nome ou UF" value="##pedido.endereco_entrega.estado##">
+                </div>
+
+                <hr style="width:100%; height:1px; background: #fff">
+
+                <div class="col-md-12 form-group">
+                    <label>Entregador</label>
+                    <select class="form-control" name="id_entregador" form="pedidoForm">
+                        <option ng-repeat="entregador in entService.entregadores"
+                                value="##entregador._id##">##entregador.nome##</option>
+                    </select>
+                </div>
+
+                <div style="text-align: center; margin-top: 8em">
+                    <button type="submit" class="btn btn-success">Alterar Pedido</button>
+                    <button type="reset" class="btn btn-default">Limpar</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -5,24 +5,6 @@ var Empresa = require('../models/empresa');
 var Usuario = require("../models/usuario");
 var Entregador = require("../models/entregador");
 
-router.get('/entregadores', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Empresa.find({email: req.user.email}, function(err, empresas){
-        Entregador.find({empresa: empresas[0]._id}).populate('usuario').exec(function(err, entregadores){
-            return res.render('entregadores', {'empresa' : empresas[0], 'entregadores': entregadores});
-        });
-    });
-});
-
-router.get('/entregador', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    res.sendFile(path.join(__dirname+'/../views/entregador.html'));
-});
-
 router.post('/entregador', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var num_entregador = req.body.telefone_entregador;

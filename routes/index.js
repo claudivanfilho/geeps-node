@@ -7,11 +7,11 @@ router.get('/', function(req, res, next) {
     if (req.user) {
         return res.redirect('/empresa/dashboard');
     }
-    res.sendFile(path.join(__dirname+'/../views/index.html'));
+    res.sendFile(path.join(__dirname+'/../public/templates/index.html'));
 });
 
 router.get('/pagamento', function(req, res, next) {
-    res.sendFile(path.join(__dirname+'/../views/payment.html'));
+    res.sendFile(path.join(__dirname+'/../public/templates/payment.html'));
 });
 
 module.exports = router;

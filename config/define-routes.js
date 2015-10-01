@@ -7,15 +7,14 @@ var pedido = require('../routes/pedido');
 var api = require('../routes/api');
 var geepsApp = require('../routes/geeps-app');
 
-
 module.exports = function(app) {
     app.use('/', routes);
     app.use('/', api);
     app.use('/usuario', geepsApp);
-    app.use('/auth', authentication);
     app.use('/auth/register', register);
-    app.use('/empresa', dashboard);
-    app.use('/empresa', entregador);
+    app.use('/auth', authentication);
     app.use('/empresa', pedido);
+    app.use('/empresa', dashboard);
+
     return app;
 }

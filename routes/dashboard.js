@@ -9,42 +9,11 @@ var Entregador = require("../models/entregador");
 var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
 
-
 router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-
-    Empresa.findOne({
-        email: req.user.email
-    }).populate('pedidos').exec(function(err, empresa) {
-        Pedido.find({
-            $and: [{
-                empresa: req.user._id
-            }, {
-                $or: [{
-                    status: 'EM ANDAMENTO'
-                }, {
-                    status: 'REGISTRADO'
-                }]
-            }]
-        }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
-            Pedido.populate(pedidos, {
-                path: 'entregador.usuario',
-                model: 'Usuario'
-            }, function(err, pedidos) {
-                Entregador.find({
-                    empresa: empresa._id
-                }).populate('usuario').exec(function(err, entregadores) {
-                    return res.render('dashboard', {
-                        'empresa': empresa,
-                        'entregadores': entregadores,
-                        'pedidos': pedidos
-                    });
-                });
-            });
-        });
-    });
+    res.sendFile(path.join(__dirname+'/../public/templates/base.html'));
 });
 
 router.get('/logout', function(req, res) {
@@ -121,6 +90,13 @@ router.post('/perfil/editar', function(req, res) {
             }
         });
     }
+});
+
+router.get('/*', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+    res.sendFile(path.join(__dirname+'/../public/templates/base.html'));
 });
 
 updateEmpresa = function(fields, files, res, email) {
