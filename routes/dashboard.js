@@ -48,7 +48,6 @@ router.get('/pagamento', function(req, res, next) {
         return res.render('pagamento', {
             'empresa': empresa
         });
-
     });
 });
 
@@ -62,9 +61,7 @@ router.post('/pagamento', function(req, res, next) {
         return res.render('pagamento', {
             'empresa': empresa
         });
-
     });
-
 });
 
 router.post('/perfil/editar', function(req, res) {
