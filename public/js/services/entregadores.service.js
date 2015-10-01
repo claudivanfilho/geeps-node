@@ -1,24 +1,24 @@
 angular
     .module('Geeps')
-    .service('Pedidos', pedidosService);
+    .service('Entregadores', entregadoresService);
 
-pedidosService.$inject = ['$http'];
+entregadoresService.$inject = ['$http'];
 
-function pedidosService($http) {
+function entregadoresService($http) {
 
     var Service = {};
-    Service.pedidos = [];
     Service.refresh = refresh;
+    Service.entregadores = [];
 
     refresh();
 
     return Service;
 
     function refresh() {
-        $http.get('/api/pedidos')
+        $http.get('/api/entregadores')
             .success(function(data) {
                 console.log(data);
-                Service.pedidos = data;
+                Service.entregadores = data;
             })
             .error(function(data) {
                 console.log('Error: ' + data);

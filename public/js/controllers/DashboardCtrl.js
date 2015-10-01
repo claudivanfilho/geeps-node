@@ -1,7 +1,8 @@
 angular.module("Geeps")
+    .controller('DashboardCtrl', DashboardController);
 
-.controller('DashboardCtrl', ['$scope', 'Pedidos',  function($scope, Pedidos) {
+DashboardController.$inject = ['$scope'];
 
-    $scope.pedidos = Pedidos.getAll();
-        
-}]);
+function DashboardController($scope) {
+
+}

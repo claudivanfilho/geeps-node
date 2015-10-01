@@ -6,13 +6,6 @@ var router = express.Router();
 var Empresa = require('../models/empresa');
 var Endereco = require('../models/endereco');
 
-router.get('/', function(req, res, next) {
-    if (req.user) {
-        return res.redirect('/empresa/dashboard');
-    }
-    res.render('auth/register');
-});
-
 checkDataPost = function(req, res) {
     if (req.name.trim() == "") {
         return res.render('auth/register', {

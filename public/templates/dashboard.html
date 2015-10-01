@@ -1,8 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Início - {{empresa.nome}}</h1>
-            Pedidos ##pedidos##
+            <h1 class="page-header">Início - ##empService.empresa.nome##</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -17,11 +16,7 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-4 text-right">
-                                {{#if pedidos}}
-                                    <div class="huge">{{pedidos.length}}</div>
-                                {{else}}
-                                    <div class="huge">0</div>
-                                {{/if}}
+                                <div class="huge">##pedService.pedidos.length##</div>
                                 Pedido(s)
                             </div>
                         </div>
@@ -38,8 +33,7 @@
                     </div>
                 </div>
 
-                {{#if pedidos}}
-                <div class="panel-body" style="padding:0px;">
+                <div ng-show="pedidos.length > 0" class="panel-body" style="padding:0px;">
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -52,19 +46,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#each pedidos}}
-                            <tr>
-                                <td class="text-muted">{{this.nome_cliente}}</td>
-                                <td>{{this.entregador.nome}}</td>
+                            <tr ng-repeat="pedido in pedService.pedidos">
+                                <td class="text-muted">##pedido.nome_cliente##</td>
+                                <td>##pedido.entregador.nome##</td>
                             </tr>
-                        {{/each}}
                         </tbody>
                         <tfoot>
-
                         </tfoot>
                     </table>
                 </div>
-                {{/if}}
 
                 <a href="/empresa/pedidos">
                     <div class="panel-footer">
@@ -85,11 +75,7 @@
                             <i class="fa fa-truck fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            {{#if entregadores}}
-                                <div class="huge">{{entregadores.length}}</div>
-                            {{else}}
-                                <div class="huge">0</div>
-                            {{/if}}
+                            <div class="huge">##entService.entregadores.length##</div>
                             <div>Entregador(es)</div>
                         </div>
                     </div>
@@ -107,12 +93,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#each entregadores}}
-                            <tr>
-                                <td class="text-muted">{{this.nome}}</td>
-                                <td>{{this.usuario.telefone}}</td>
+                            <tr ng-repeat="entregador in entService.entregadores">
+                                <td class="text-muted">##entregador.nome##</td>
+                                <td>##entregador.usuario.telefone##</td>
                             </tr>
-                        {{/each}}
                         </tbody>
                         <tfoot>
 

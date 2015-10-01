@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Geeps">
 
 <head>
 
@@ -13,12 +13,21 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
     <link href="/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="/js/angular/angular.js"></script>
+    <script src="/js/angular/angular-route.js"></script>
+    <script src="/js/controllers/config.js"></script>
+    <script src="/js/controllers/DashboardCtrl.js"></script>
+    <script src="/js/controllers/BaseCtrl.js"></script>
+    <script src="/js/controllers/EntregadorCtrl.js"></script>
+    <script src="/js/controllers/PedidoCtrl.js"></script>
+    <script src="/js/controllers/RelatoriosCtrl.js"></script>
+
+    <script src="/js/services/pedidos.service.js"></script>
+    <script src="/js/services/entregadores.service.js"></script>
+    <script src="/js/services/empresa.service.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +40,7 @@
 
 <body>
 
-<div id="wrapper">
+<div id="wrapper" ng-controller="BaseCtrl">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -42,7 +51,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
             <a class="navbar-brand" href="/">Geeps</a>
+
         </div>
         <!-- /.navbar-header -->
 
@@ -56,12 +67,12 @@
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="/empresa/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
                     </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li><a href="/empresa/pagamento"><i class="fa fa-money fa-fw"></i> Pagamento</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="/auth/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="#" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -108,6 +119,9 @@
 
                         </ul>
                     </li>
+                    <li>
+                        <!-- <img src="{{empresa.imgPath}}" style="width: 100%;"> -->
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -115,39 +129,7 @@
         <!-- /.navbar-static-side -->
     </nav>
 
-    <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Cadastrar Entregador</h1>
-            </div>
-            <!-- /.col-lg-12 -->
-        </div>
-        <!-- /.row -->
-        <div class="row">
-            <form role="form" method="POST" action="/empresa/entregador">
-
-                <div class="form-group col-lg-5 col-md-6 col-sm-8">
-
-                    <div class="col-lg-12 form-group">
-                        <label>Nome do Entregador</label>
-                        <input class="form-control" required name="nome_entregador" placeholder="Nome do entregador">
-                    </div>
-
-                    <div class="col-lg-12 form-group">
-                        <label>Nº do Entregador</label>
-                        <input class="form-control" required name="telefone_entregador" placeholder="Telefone do entregador">
-                    </div>
-
-                    <div style="text-align: center; margin-top: 6em">
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
-                        <button type="reset" class="btn btn-default">Limpar</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-    </div>
-    <!-- /#page-wrapper -->
+    <ng-view></ng-view>
 
 </div>
 <!-- /#wrapper -->
