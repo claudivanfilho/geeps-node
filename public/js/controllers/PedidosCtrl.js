@@ -9,4 +9,5 @@ function PedidosController($scope, Pedidos) {
     if(Pedidos.pedidos.length == 0)
         Pedidos.refresh();
 
+    $scope.$parent.fixSideMenu();
 }

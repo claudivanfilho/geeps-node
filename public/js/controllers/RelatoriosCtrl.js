@@ -62,4 +62,6 @@ function RelatoriosController($scope, Pedidos) {
         });
     }
 
+    $scope.$parent.fixSideMenu();
+
 }

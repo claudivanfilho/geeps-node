@@ -14,4 +14,6 @@ function DashboardController($scope, Pedidos, Entregadores, Empresa) {
     $scope.empService = Empresa;
     Empresa.refresh();
 
+    $scope.$parent.fixSideMenu();
+
 }

@@ -16,6 +16,10 @@
     <link href="/css/sb-admin-2.css" rel="stylesheet">
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- jQuery -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+
+
     <script src="/js/angular/angular.js"></script>
     <script src="/js/angular/angular-route.js"></script>
     <script src="/js/config/geeps-conf.js"></script>
@@ -26,6 +30,7 @@
     <script src="/js/controllers/PedidoCtrl.js"></script>
     <script src="/js/controllers/PedidosCtrl.js"></script>
     <script src="/js/controllers/RelatoriosCtrl.js"></script>
+    <script src="/js/controllers/PagamentoCtrl.js"></script>
 
     <script src="/js/services/pedidos.service.js"></script>
     <script src="/js/services/entregadores.service.js"></script>
@@ -83,7 +88,7 @@
         </ul>
         <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
+        <div id="sideBar" class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
@@ -124,6 +129,10 @@
                     <li>
                         <!-- <img src="{{empresa.imgPath}}" style="width: 100%;"> -->
                     </li>
+                    <li>
+                        <a href="/empresa/pagamento"><i class="fa fa-money-o fa-fw"></i> Pagamento
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -136,14 +145,11 @@
 </div>
 <!-- /#wrapper -->
 
-<!-- jQuery -->
-<script src="/js/jquery-1.11.1.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="/js/metisMenu.min.js"></script>
+<script src="/js/metisMenu.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/sb-admin-2.js"></script>

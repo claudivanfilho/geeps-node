@@ -13,4 +13,5 @@ function EntregadoresController($scope, Entregadores, Empresa) {
     if (Empresa.empresa.length == 0)
         Empresa.refresh();  // request no servidor para atualizar os dados
 
+    $scope.$parent.fixSideMenu();
 }

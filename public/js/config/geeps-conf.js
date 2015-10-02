@@ -1,5 +1,5 @@
 angular.module("Geeps", ['ngRoute'])
-    .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps]);
+    .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps])
 
 function configGeeps($routeProvider, $locationProvider) {
 
@@ -32,6 +32,10 @@ function configGeeps($routeProvider, $locationProvider) {
             templateUrl: '/templates/editarPedido.html',
             controller: 'PedidoCtrl'
         })
+        .when('/empresa/pagamento', {
+            templateUrl: '/templates/pagamento.html',
+            controller: 'PagamentoCtrl'
+        })
         .otherwise({
             redirectTo: '/empresa/dashboard'
         });
@@ -40,5 +44,4 @@ function configGeeps($routeProvider, $locationProvider) {
         enabled: true,
         requireBase: false
     });
-
 }

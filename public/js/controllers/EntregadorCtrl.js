@@ -5,5 +5,5 @@ EntregadorController.$inject = ['$scope', 'Entregadores'];
 
 function EntregadorController($scope, Entregadores) {
 
-
+    $scope.$parent.fixSideMenu();
 }
