@@ -17,4 +17,15 @@ function BaseController($scope, $http) {
                 console.log('Error: ' + data);
             });
     }
+
+    $scope.fixSideMenu = function() {
+        var elements = document.getElementById("sideBar");
+        var lines = elements.getElementsByTagName('a');
+        for(var i = 0;i<lines.length; i++) {
+            if (lines[i].getAttribute('href') != window.location.pathname) {
+                elements.getElementsByTagName('a')[i].removeAttribute("class");
+            }
+        }
+        console.log(window.location.pathname);
+    }
 }

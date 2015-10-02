@@ -17,4 +17,5 @@ function PedidoController($scope, $routeParams, Pedidos, Entregadores) {
     $scope.entService = Entregadores;
     $scope.pedService = Pedidos;
 
+    $scope.$parent.fixSideMenu();
 }

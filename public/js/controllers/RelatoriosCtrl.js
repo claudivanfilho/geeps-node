@@ -56,10 +56,6 @@ function RelatoriosController($scope, Pedidos) {
         $scope.pedService.dados.push([key, value]);
     });
 
-    // -----------------------------------------------
-    // Criando dados para colocar no gráfico das datas
-    // -----------------------------------------------
-    mapDatas.forEach(function(value, key, mapObj) {
-        $scope.pedService.datasDosPedidos.push([new Date(key.toString().substring(0, 15)), value]);
-    });
+    $scope.$parent.fixSideMenu();
+
 }

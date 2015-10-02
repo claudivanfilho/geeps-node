@@ -37,33 +37,6 @@ router.get('/perfil', function(req, res, next) {
     });
 });
 
-router.get('/pagamento', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-
-    Empresa.findOne({
-        email: req.user.email
-    }).populate('endereco').exec(function(err, empresa) {
-        return res.render('pagamento', {
-            'empresa': empresa
-        });
-    });
-});
-
-router.post('/pagamento', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    Empresa.findOne({
-        email: req.user.email
-    }).populate('endereco').exec(function(err, empresa) {
-        return res.render('pagamento', {
-            'empresa': empresa
-        });
-    });
-});
-
 router.post('/perfil/editar', function(req, res) {
     if (!req.user) {
         return res.redirect('/auth/login');
