@@ -10,8 +10,6 @@ function entregadoresService($http) {
     Service.refresh = refresh;
     Service.entregadores = [];
 
-    refresh();
-
     return Service;
 
     function refresh() {

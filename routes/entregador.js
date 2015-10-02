@@ -54,12 +54,19 @@ router.post('/entregador', function(req, res){
 
 router.post('/entregador/editar', function(req, res){
     var nome_entregador = req.body.nome_entregador;
+    var telefone_entregador = req.body.telefone_entregador;
     var id_entregador = req.body.id_entregador;
+    var id_usuario = req.body.id_usuario;
     Entregador.update({_id: id_entregador},
         {nome: nome_entregador},
         {upsert: true}).exec(function(err){
-            return res.redirect('/empresa/entregadores');
+            Usuario.update({_id: id_usuario},
+                {telefone: telefone_entregador},
+                {upsert: true}).exec(function(err){
+                    return res.redirect('/empresa/entregadores');
+                });
         });
+
     //TODO testar
 });
 

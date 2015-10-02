@@ -10,42 +10,48 @@
         <form role="form" method="POST" action="/empresa/pedido/editar" id="pedidoForm">
 
             <div class="form-group col-lg-8 col-md-8">
-                <input type="hidden" name="pedidoId" value="##pedido._id##">
+                <input type="hidden" name="pedidoId" value="{{pedService.selected._id}}">
 
-
-                <div class="col-md-9 form-group">
+                <div class="col-md-9 form-group"    >
                     <label>Rua</label>
-                    <input class="form-control" name="rua" placeholder="Nome da Rua" required value="##pedido.endereco_entrega.rua##">
+                    <input class="form-control" name="rua" placeholder="Nome da Rua" required value="{{pedService.selected.endereco_entrega.rua}}">
                 </div>
 
                 <div class="col-md-3 form-group">
                     <label>Número</label>
-                    <input class="form-control" name="numero" placeholder="Número da casa" required value="##pedido.endereco_entrega.numero##">
+                    <input class="form-control" name="numero" placeholder="Número da casa" required value="{{pedService.selected.endereco_entrega.numero}}">
                 </div>
 
                 <div class="col-md-4 form-group">
                     <label>Bairro</label>
-                    <input class="form-control" name="bairro" placeholder="Bairro" required value="##pedido.endereco_entrega.bairro##">
+                    <input class="form-control" name="bairro" placeholder="Bairro" required value="{{pedService.selected.endereco_entrega.bairro}}">
                 </div>
 
                 <div class="col-md-4 form-group">
                     <label>Cidade</label>
-                    <input class="form-control" name="cidade" placeholder="Nome da cidade" value="##pedido.endereco_entrega.cidade##">
+                    <input class="form-control" name="cidade" placeholder="Nome da cidade" value="{{pedService.selected.endereco_entrega.cidade}}">
                 </div>
 
                 <div class="col-md-4 form-group">
                     <label>Estado</label>
-                    <input class="form-control" name="estado" placeholder="Nome ou UF" value="##pedido.endereco_entrega.estado##">
+                    <input class="form-control" name="estado" placeholder="Nome ou UF" value="{{pedService.selected.endereco_entrega.estado}}">
                 </div>
 
                 <hr style="width:100%; height:1px; background: #fff">
 
                 <div class="col-md-12 form-group">
+                    <div class="" style="margin-bottom: 20px;">
+                        <label>Nome do Cliente</label>
+                        <input class="form-control" value="{{pedService.selected.nome_cliente}}" name="nome_cliente"
+                               placeholder="Nome do cliente" required>
+                    </div>
+                    <div class="">
                     <label>Entregador</label>
-                    <select class="form-control" name="id_entregador" form="pedidoForm">
-                        <option ng-repeat="entregador in entService.entregadores"
-                                value="##entregador._id##">##entregador.nome##</option>
-                    </select>
+                        <select class="form-control" name="id_entregador" form="pedidoForm">
+                            <option ng-repeat="entregador in entService.entregadores"
+                                    value="{{entregador._id}}">{{entregador.nome}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div style="text-align: center; margin-top: 8em">

@@ -1,8 +1,9 @@
 angular.module("Geeps")
     .controller('EntregadorCtrl', EntregadorController);
 
-EntregadorController.$inject = ['$scope'];
+EntregadorController.$inject = ['$scope', 'Entregadores'];
 
-function EntregadorController($scope) {
+function EntregadorController($scope, Entregadores) {
+
 
 }

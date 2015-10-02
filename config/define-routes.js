@@ -13,6 +13,7 @@ module.exports = function(app) {
     app.use('/usuario', geepsApp);
     app.use('/auth/register', register);
     app.use('/auth', authentication);
+    app.use('/empresa', entregador);
     app.use('/empresa', pedido);
     app.use('/empresa', dashboard);
 

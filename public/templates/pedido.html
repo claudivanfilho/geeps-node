@@ -23,7 +23,6 @@
                            placeholder="Nome do cliente" required>
                 </div>
 
-
                 <hr style="width:100%; height:1px; background: #fff"/>
 
                 <div class="col-md-9 form-group">
@@ -59,7 +58,7 @@
 
                     <select class="form-control" name="telefone_entregador" required form="pedidoForm">
                         <option ng-repeat="entregador in entService.entregadores"
-                                value="##entregador._id##">##entregador.nome##</option>
+                                value="{{entregador._id}}">{{entregador.nome}}</option>
                     </select>
                 </div>
 

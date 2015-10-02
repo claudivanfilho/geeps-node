@@ -13,7 +13,7 @@ router.get('/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    res.sendFile(path.join(__dirname+'/../public/templates/base.html'));
+    res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
 });
 
 router.get('/logout', function(req, res) {
@@ -96,7 +96,7 @@ router.get('/*', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
-    res.sendFile(path.join(__dirname+'/../public/templates/base.html'));
+    res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
 });
 
 updateEmpresa = function(fields, files, res, email) {

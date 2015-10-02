@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Entregadores - ##empService.empresa.nome##</h1>
+            <h1 class="page-header">Entregadores - {{empService.empresa.nome}}</h1>
         </div>
         <div class="table-responsive" style="float: left; width: 100%;">
             <table class="table table-bordered table-striped">
@@ -23,22 +23,22 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="entregador in entService.entregadores">
-                        <td>##entregador.nome##</td>
-                        <td> ##entregador.usuario.telefone##</td>
+                        <td>{{entregador.nome}}</td>
+                        <td> {{entregador.usuario.telefone}}</td>
                             <td ng-show="entregador.usuario.regId">SIM </td>
                             <td ng-show="!entregador.usuario.regId">NÃO</td>
                         <td style="text-align: center">
                             <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
-                                    data-target="#edit{{this._id}}" title="Editar Entregador">
+                                    data-target="#edit{{entregador._id}}" title="Editar Entregador">
                                 <i class="fa fa-pencil"></i>
                             </button>
                             <button type="button" class="btn btn-danger btn-circle"
-                                    data-toggle="modal" data-target="#confirmDelete{{this._id}}" title="Excluir Entregador">
+                                    data-toggle="modal" data-target="#confirmDelete{{entregador._id}}" title="Excluir Entregador">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </button>
 
                             <!-- Dialogo Modal para EDITAR um entregador -->
-                            <div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="edit{{entregador._id}}" tabindex="-1" role="dialog"
                                  aria-labelledby="Editar Entregador" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -55,10 +55,20 @@
                                                         </div>
                                                         <div class="col-sm-7">
                                                             <input class="form-control" required name="nome_entregador"
-                                                                   placeholder="Nome do entregador" value="{{this.nome}}">
+                                                                   placeholder="Nome do entregador" value="{{entregador.nome}}">
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" value="##entregador._id##" name="id_entregador">
+                                                    <div class="col-lg-12 form-group">
+                                                        <div class="col-sm-5">
+                                                            <label>Telefone do Entregador</label>
+                                                        </div>
+                                                        <div class="col-sm-7">
+                                                            <input class="form-control" required name="telefone_entregador"
+                                                                   placeholder="Telefone do entregador" value="{{entregador.usuario.telefone}}">
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" value="{{entregador._id}}" name="id_entregador">
+                                                    <input type="hidden" value="{{entregador.usuario._id}}" name="id_usuario">
                                                 </div>
                                             </div>
 
@@ -85,12 +95,12 @@
                                                 <h4 class="modal-title">Excuir Entregador</h4>
                                             </div>
                                             <div class="modal-body">
-                                                Você tem certeza que deseja excluir <b>{{this.nome}}</b>? <br/>
+                                                Você tem certeza que deseja excluir <b>{{entregador.nome}}</b>? <br/>
                                                 Tenha cuidado, pois esta operação não pode ser revertida. <br />
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                <button type="submit" name="id_entregador" value="##entregador._id##"
+                                                <button type="submit" name="id_entregador" value="{{entregador._id}}"
                                                         class="btn btn-danger">Excluir Entregador</button>
                                             </div>
                                         </form>

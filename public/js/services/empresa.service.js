@@ -10,8 +10,6 @@ function empresaService($http) {
     Service.empresa = [];
     Service.refresh = refresh;
 
-    refresh();
-
     return Service;
 
     function refresh() {

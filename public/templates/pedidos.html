@@ -29,34 +29,34 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="pedido in pedService.pedidos">
-                        <td class="text-muted">##pedido.endereco_entrega.rua## ##pedido.endereco_entrega.numero##</td>
-                        <td class="text-muted">##pedido.endereco_entrega.bairro##</td>
+                        <td class="text-muted">{{pedido.endereco_entrega.rua}} {{pedido.endereco_entrega.numero}}</td>
+                        <td class="text-muted">{{pedido.endereco_entrega.bairro}}</td>
                         <td class="text-muted">
-                            ##pedido.status##
+                            {{pedido.status}}
                         </td>
-                        <td class="text-muted">##pedido.nome_cliente##</td>
-                        <td>##pedido.entregador.nome##</td>
+                        <td class="text-muted">{{pedido.nome_cliente}}</td>
+                        <td>{{pedido.entregador.nome}}</td>
                         <td style="text-align: center">
 
-                            <form id=##pedido._id## role="form" method="GET" action="/empresa/pedido/editar">
-                                <button value="##pedido._id##" name="entid" type="submit"
+                            <form role="form" method="GET" action="/empresa/pedido/editar">
+                                <button value="{{pedido._id}}" name="pedidoId" type="submit"
                                         class="btn btn-circle btn-primary" title="Editar Pedido">
                                     <i class="fa fa-pencil"></i>
                                 </button>
 
                                 <button type="button" class="btn btn-danger btn-circle" data-toggle="modal"
-                                        data-target="#confirmDelete##pedido._id##" title="Excluir Pedido">
+                                        data-target="#confirmDelete{{pedido._id}}" title="Excluir Pedido">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
 
                                 <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
-                                        data-target="#confirmStatus##pedido._id##" title="Mudar status">
+                                        data-target="#confirmStatus{{pedido._id}}" title="Mudar status">
                                     <i class="glyphicon glyphicon-ok"></i>
                                 </button>
                             </form>
 
                             <!-- Dialogo Modal para atualizar Status de um pedido -->
-                            <div class="modal fade" id="confirmStatus##pedido._id##" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="confirmStatus{{pedido._id}}" tabindex="-1" role="dialog"
                                  aria-labelledby="Atualizar status" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -69,15 +69,15 @@
                                             </div>
                                             <div class="modal-body">
                                                 Você tem certeza que deseja atualizar o status do pedido do cliente
-                                                <b>##pedido.nome_cliente##</b>,<br/> associado ao entregador
-                                                <b>##pedido.entregador.nome##</b>? <br/>
+                                                <b>{{pedido.nome_cliente}}</b>,<br/> associado ao entregador
+                                                <b>{{pedido.entregador.nome}}</b>? <br/>
                                                 <br/>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">
                                                     Fechar
                                                 </button>
-                                                <button type="submit" name="id_pedido" value="##pedido._id##"
+                                                <button type="submit" name="id_pedido" value="{{pedido._id}}"
                                                         class="btn btn-danger">Atualizar Status
                                                 </button>
                                             </div>
@@ -90,7 +90,7 @@
                             <!-- /.modal -->
 
                             <!-- Dialogo Modal para EXCLUIR um pedido -->
-                            <div class="modal fade" id="confirmDelete##pedido._id##" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="confirmDelete{{pedido._id}}" tabindex="-1" role="dialog"
                                  aria-labelledby="Excuir Pedido" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -103,8 +103,8 @@
                                             </div>
                                             <div class="modal-body">
                                                 Você tem certeza que deseja excluir o pedido do cliente
-                                                <b>##pedido.nome_cliente##</b>,<br/> associado ao entregador
-                                                <b>##pedido.entregador.nome##</b>? <br/>
+                                                <b>{{pedido.nome_cliente}}</b>,<br/> associado ao entregador
+                                                <b>{{pedido.entregador.nome}}</b>? <br/>
                                                 Tenha cuidado, pois esta operação não pode ser revertida e seus
                                                 relatórios serão modificados. <br/>
                                             </div>
@@ -112,7 +112,7 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">
                                                     Fechar
                                                 </button>
-                                                <button type="submit" name="id_pedido" value="##pedido._id##"
+                                                <button type="submit" name="id_pedido" value="{{pedido._id}}"
                                                         class="btn btn-danger">Excluir Pedido
                                                 </button>
                                             </div>

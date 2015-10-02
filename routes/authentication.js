@@ -33,7 +33,7 @@ router.get('/*', function(req, res, next) {
     if (req.user) {
         return res.redirect('/empresa/dashboard');
     }
-    res.sendFile(path.join(__dirname+'/../public/templates/access.html'));
+    res.sendFile(path.join(__dirname+'/../public/templates/layouts/access.html'));
 });
 
 module.exports = router;

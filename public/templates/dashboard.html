@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Início - ##empService.empresa.nome##</h1>
+            <h1 class="page-header">Início - {{empService.empresa.nome}}</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -16,7 +16,7 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-4 text-right">
-                                <div class="huge">##pedService.pedidos.length##</div>
+                                <div class="huge">{{pedService.pedidos.length}}</div>
                                 Pedido(s)
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <div ng-show="pedidos.length > 0" class="panel-body" style="padding:0px;">
+                <div ng-show="pedService.pedidos.length > 0" class="panel-body" style="padding:0px;">
                     <table class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -47,8 +47,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="pedido in pedService.pedidos">
-                                <td class="text-muted">##pedido.nome_cliente##</td>
-                                <td>##pedido.entregador.nome##</td>
+                                <td class="text-muted">{{pedido.nome_cliente}}</td>
+                                <td>{{pedido.entregador.nome}}</td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -75,7 +75,7 @@
                             <i class="fa fa-truck fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">##entService.entregadores.length##</div>
+                            <div class="huge">{{entService.entregadores.length}}</div>
                             <div>Entregador(es)</div>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="entregador in entService.entregadores">
-                                <td class="text-muted">##entregador.nome##</td>
-                                <td>##entregador.usuario.telefone##</td>
+                                <td class="text-muted">{{entregador.nome}}</td>
+                                <td>{{entregador.usuario.telefone}}</td>
                             </tr>
                         </tbody>
                         <tfoot>

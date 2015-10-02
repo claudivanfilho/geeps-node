@@ -1,9 +1,7 @@
 angular.module("Geeps", ['ngRoute'])
     .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps]);
 
-function configGeeps($routeProvider, $locationProvider, $interpolateProvider) {
-    $interpolateProvider.startSymbol('##');
-    $interpolateProvider.endSymbol('##');
+function configGeeps($routeProvider, $locationProvider) {
 
     $routeProvider
         .when('/empresa/dashboard', {
@@ -16,7 +14,7 @@ function configGeeps($routeProvider, $locationProvider, $interpolateProvider) {
         })
         .when('/empresa/entregadores', {
             templateUrl: '/templates/entregadores.html',
-            controller: 'EntregadorCtrl'
+            controller: 'EntregadoresCtrl'
         })
         .when('/empresa/pedido', {
             templateUrl: '/templates/pedido.html',
@@ -24,11 +22,15 @@ function configGeeps($routeProvider, $locationProvider, $interpolateProvider) {
         })
         .when('/empresa/pedidos', {
             templateUrl: '/templates/pedidos.html',
-            controller: 'PedidoCtrl'
+            controller: 'PedidosCtrl'
         })
         .when('/empresa/relatorios', {
             templateUrl: '/templates/relatorios.html',
             controller: 'RelatoriosCtrl'
+        })
+        .when('/empresa/pedido/editar', {
+            templateUrl: '/templates/editarPedido.html',
+            controller: 'PedidoCtrl'
         })
         .otherwise({
             redirectTo: '/empresa/dashboard'
