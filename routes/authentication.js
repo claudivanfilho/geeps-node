@@ -10,21 +10,16 @@ var passport = require('passport');
 router.post('/login', function(req, res, next) {
     passport.authenticate('local-signin', function(err, user, info) {
         if (err) {
-            return
-            return res.render('auth/login', {
-                message: err
-            });
+            return res.status(500).send("error no servidor");
         }
         if (!user) {
-            return res.render('auth/login', {
-                message: info.message
-            });
+            return res.status(500).send(info.message);
         }
         req.logIn(user, function(err) {
             if (err) {
                 return next(err);
             }
-            return res.redirect('/empresa/dashboard');
+            return res.status(200).json({messagem:'login ok'});
         });
     })(req, res, next);
 });

@@ -1,7 +1,7 @@
 angular.module("GeepsAccess", ['ngRoute'])
     .config(['$routeProvider', '$locationProvider', configGeeps]);
 
-function configGeeps($routeProvider, $locationProvider, $interpolateProvider) {
+function configGeeps($routeProvider, $locationProvider) {
 
     $routeProvider
         .when('/auth/login', {
