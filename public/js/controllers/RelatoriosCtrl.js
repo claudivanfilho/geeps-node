@@ -20,8 +20,8 @@ function RelatoriosController($scope, Pedidos) {
     var mapBairros = new Map();
     $scope.pedService.dados = [];
 
-    var mapDatas = new Map();
-    $scope.pedService.datasDosPedidos = new Array();
+    // var mapDatas = new Map();
+    // $scope.pedService.datasDosPedidos = new Array();
 
     pedidos_concluidos.forEach(function(obj) {
 
@@ -39,22 +39,30 @@ function RelatoriosController($scope, Pedidos) {
         // ---------------------------
         // Gráfico utilizando data de criação do pedido
         // ---------------------------
-        var tempDate = (new Date(obj.data_criacao.toString().substring(0, 10))).toString();
-        if (mapDatas.get(tempDate)) {
-            var cont = mapDatas.get(tempDate);
-            mapDatas.delete(tempDate);
-            mapDatas.set(tempDate, cont + 1);
-        } else {
-            mapDatas.set(tempDate, 1);
-        }
+        // var tempDate = (new Date(obj.data_criacao.toString().substring(0, 10))).toString();
+        // if (mapDatas.get(tempDate)) {
+        //     var cont = mapDatas.get(tempDate);
+        //     mapDatas.delete(tempDate);
+        //     mapDatas.set(tempDate, cont + 1);
+        // } else {
+        //     mapDatas.set(tempDate, 1);
+        // }
     });
 
+    var bairros = [];
     // -----------------------------------------------
     // Criando dados para colocar no gráfico de pizza
     // -----------------------------------------------
     mapBairros.forEach(function(value, key, mapObj) {
-        $scope.pedService.dados.push([key, value]);
+        bairros.push({c: [{v: key},{v: value},]});
     });
+
+    $scope.chartObject = {};
+    $scope.chartObject.type = "PieChart";
+    $scope.chartObject.data = {"cols": [
+        {id: "t", label: "Topping", type: "string"},
+        {id: "s", label: "Slices", type: "number"}
+    ], "rows": bairros};
 
     $scope.$parent.fixSideMenu();
 
