@@ -1,84 +1,19 @@
 <html>
-    <head>
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <!--<script type="text/javascript">-->
-            <!--google.load('visualization', '1.0', {-->
-                <!--'packages': ['corechart']-->
-            <!--});-->
 
-            <!--// Set a callback to run when the Google Visualization API is loaded.-->
-            <!--google.setOnLoadCallback(drawChart);-->
+<head>
 
-            <!--google.load("visualization", "1.1", {-->
-                <!--packages: ["calendar"]-->
-            <!--});-->
-
-            <!--// Callback that creates and populates a data table,-->
-            <!--// instantiates the pie chart, passes in the data and-->
-            <!--// draws it.-->
-            <!--function drawChart() {-->
-                <!--console.log('drawChart');-->
-                <!--alert('drawchart');-->
-                <!--// Create the data table.-->
-                <!--var data = new google.visualization.DataTable();-->
-                <!--data.addColumn('string', 'Topping');-->
-                <!--data.addColumn('number', 'Slices');-->
-
-                <!--// TODO Acessar os dados lá da controller aqui!!!!!-->
-                <!--alert("data"+data)-->
-                <!--data.addRows(pedService.dados);-->
-
-<!--//                window.alert("HTML: ");-->
-
-                <!--// Set chart options-->
-                <!--var options = {-->
-                    <!--'title': 'Quais bairros mais vendem'-->
-                <!--};-->
-
-                <!--// Instantiate and draw our chart, passing in some options.-->
-                <!--var chart = new google.visualization.PieChart(document.getElementById('chart_div'));-->
-                <!--chart.draw(data, options);-->
-
-
-
-                <!--var dataTable = new google.visualization.DataTable();-->
-                <!--dataTable.addColumn({-->
-                    <!--type: 'date',-->
-                    <!--id: 'Date'-->
-                <!--});-->
-                <!--dataTable.addColumn({-->
-                    <!--type: 'number',-->
-                    <!--id: 'Won/Loss'-->
-                <!--});-->
-
-                <!--// TODO Acessar os dados lá da controller aqui!!!!!-->
-                <!--dataTable.addRows(pedService.datasDosPedidos);-->
-
-                <!--var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));-->
-
-                <!--var options = {-->
-                    <!--title: "Vendas"-->
-                <!--};-->
-
-                <!--chart.draw(dataTable, options);-->
-            <!--}-->
-        <!--</script>-->
-        <body>
-            <div id="page-wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Relatórios {{pedService.dados}}</h1>
-                    </div>
-
-                    <div class="table-responsive">
-                        <div> {{pedService.dados}}, {{pedService.datasDosPedidos}}</div>
-                        <input id="dados" hidden value="{{pedService.dados}}" />
-                        <input id="datasDosPedidos" hidden value="{{pedService.datasDosPedidos}}" />
-                        <div id="chart_div" style="width: 100%; height: auto;"></div>
-                        <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
-                    </div>
+    <body>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Relatórios</h1>
+                </div>
+                <div class="table-responsive">
+                    <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
                 </div>
             </div>
-        </body>
-    </head>
+        </div>
+    </body>
+</head>
+
 </html>
