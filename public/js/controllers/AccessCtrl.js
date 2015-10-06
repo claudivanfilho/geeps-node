@@ -5,15 +5,8 @@ AccessController.$inject = ['$scope', '$http'];
 
 function AccessController($scope, $http) {
 
-    //$scope.error = [];
-
     $scope.submitLogin = function() {
-
-        var data = {};
-        data.email = $scope.email;
-        data.password = $scope.password;
-
-        $http.post('/auth/login', data)
+        $http.post('/auth/login', $scope.logindata)
             .success(function() {
                 window.location.href = '/';
             })
@@ -23,5 +16,16 @@ function AccessController($scope, $http) {
             });
     }
 
+    $scope.submitRegister = function() {
+        console.log($scope.registerdata);
+        $http.post('/auth/register', $scope.registerdata)
+            .success(function() {
+                window.location.href = '/auth/login';
+            })
+            .error(function(data) {
+                $scope.error = data;
+            });
+
+    }
 
 }

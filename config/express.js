@@ -6,7 +6,6 @@ var methodOverride = require('method-override');
 var session = require('express-session');
 var exphbs = require('express-handlebars');
 var path = require('path');
-var passport = require('passport');
 
 module.exports = function(app) {
     app.engine('handlebars', exphbs());
