@@ -18,9 +18,7 @@ function RelatoriosController($scope, Pedidos) {
     });
 
     var mapBairros = new Map();
-    $scope.pedService.dados = [];
-
-    // var mapDatas = new Map();
+    var mapDatas = new Map();
     // $scope.pedService.datasDosPedidos = new Array();
 
     pedidos_concluidos.forEach(function(obj) {
@@ -39,20 +37,20 @@ function RelatoriosController($scope, Pedidos) {
         // ---------------------------
         // Gráfico utilizando data de criação do pedido
         // ---------------------------
-        // var tempDate = (new Date(obj.data_criacao.toString().substring(0, 10))).toString();
-        // if (mapDatas.get(tempDate)) {
-        //     var cont = mapDatas.get(tempDate);
-        //     mapDatas.delete(tempDate);
-        //     mapDatas.set(tempDate, cont + 1);
-        // } else {
-        //     mapDatas.set(tempDate, 1);
-        // }
+        var tempDate = (new Date(obj.data_criacao.toString().substring(0, 10))).toString();
+        if (mapDatas.get(tempDate)) {
+            var cont = mapDatas.get(tempDate);
+            mapDatas.delete(tempDate);
+            mapDatas.set(tempDate, cont + 1);
+        } else {
+            mapDatas.set(tempDate, 1);
+        }
     });
 
-    var bairros = [];
     // -----------------------------------------------
     // Criando dados para colocar no gráfico de pizza
     // -----------------------------------------------
+    var bairros = [];
     mapBairros.forEach(function(value, key, mapObj) {
         bairros.push({c: [{v: key},{v: value},]});
     });
@@ -63,6 +61,32 @@ function RelatoriosController($scope, Pedidos) {
         {id: "t", label: "Topping", type: "string"},
         {id: "s", label: "Slices", type: "number"}
     ], "rows": bairros};
+    
+
+    // -----------------------------------------------
+    // Criando dados para colocar no gráfico das datas (Por mês)
+    // -----------------------------------------------
+    var datasDosPedidos = new Array();
+    mapDatas.forEach(function (value, key) {
+        datasDosPedidos.push([new Date(key.toString().substring(0, 15)), value]);
+    });  
+ 
+    $scope.labels = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    var months = [];
+
+    for(var i = 0; i < $scope.labels.length; i++) {
+        months.push(0);
+    } 
+
+    mapDatas.forEach(function (value, key){        
+        var tempDate = new Date(key);
+        months[tempDate.getMonth()] = value;
+    });
+
+    $scope.series = ['Vendas'];
+    $scope.data = [
+        months
+    ];
 
     $scope.$parent.fixSideMenu();
 
