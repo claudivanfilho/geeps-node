@@ -8,6 +8,7 @@ function entregadoresService($http) {
 
     var Service = {};
     Service.refresh = refresh;
+    Service.cadastrar = cadastrar;
     Service.entregadores = [];
 
     return Service;
@@ -20,6 +21,17 @@ function entregadoresService($http) {
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+            });
+    }
+
+    function cadastrar(entregadorData) {
+        console.log("aa");
+        $http.post('/empresa/entregador', entregadorData)
+            .success(function(data) {
+                window.location.href = '/empresa/dashboard';
+            })
+            .error(function(data) {
+                alert(data);
             });
     }
 }

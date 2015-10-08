@@ -10,7 +10,7 @@ router.post('/entregador', function(req, res){
     var num_entregador = req.body.telefone_entregador;
 
     if (num_entregador.trim() == "") {
-        res.sendFile(path.join(__dirname+'/../views/entregador.html'), {message: "Número do Entregador Requerido"});
+        return res.status(500).send("Número do Entregador Requerido");
     }
     Usuario.find({
         telefone: num_entregador
@@ -28,7 +28,7 @@ router.post('/entregador', function(req, res){
                     empresa: req.user._id
                 })
                 entregador.save(function(){
-                    return res.redirect('/empresa/dashboard');
+                    return res.status(200).send("Entregador cadastrada com sucesso.");
                 });
             });
         } else {
@@ -42,10 +42,10 @@ router.post('/entregador', function(req, res){
                         empresa: req.user._id
                     })
                     entregador.save(function(){
-                        return res.redirect('/empresa/dashboard');
+                        return res.status(200).send("Entregador cadastrada com sucesso.");
                     });
                 } else {
-                    return res.redirect('/empresa/dashboard');
+                    return res.status(200).send("Entregador cadastrada com sucesso.");
                 }
             });
         }
