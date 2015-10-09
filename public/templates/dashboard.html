@@ -48,7 +48,7 @@
                         <tbody>
                             <tr ng-repeat="pedido in pedService.pedidos">
                                 <td class="text-muted">{{pedido.nome_cliente}}</td>
-                                <td>{{pedido.entregador.nome}}</td>
+                                <td>{{pedido.entregador.nome ? pedido.entregador.nome : 'sem entregador'}}</td>
                             </tr>
                         </tbody>
                         <tfoot>

@@ -1,0 +1,22 @@
+<form role="form" ng-submit="excluir()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">×
+        </button>
+        <h4 class="modal-title">Excuir Pedido</h4>
+    </div>
+    <div class="modal-body">
+        Você tem certeza que deseja excluir o pedido do cliente
+        <b>{{pedido.nome_cliente}}</b>,<br/> associado ao entregador
+        <b>{{pedido.entregador.nome}}</b>? <br/>
+        Tenha cuidado, pois esta operação não pode ser revertida e seus
+        relatórios serão modificados. <br/>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">
+            Fechar
+        </button>
+        <button type="submit" class="btn btn-danger">
+            Excluir Pedido
+        </button>
+    </div>
+</form>

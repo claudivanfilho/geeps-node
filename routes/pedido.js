@@ -15,7 +15,7 @@ router.post('/pedido', function(req, res) {
     var estado = req.body.estado;
     var nome_cliente = req.body.nome_cliente;
     var telefone_cliente = req.body.telefone_cliente;
-    var id_entregador = req.body.telefone_entregador;
+    var id_entregador = req.body.id_entregador;
 
     Usuario.find({
         telefone: telefone_cliente
@@ -52,38 +52,37 @@ router.post('/pedido', function(req, res) {
             pedido.save(function() {
                 // manda uma notificação para o cliente via GCM
                 gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-                return res.redirect('/empresa/dashboard');
+                return res.status(200).json({
+                    title:"Pedido cadastrado com sucesso.",
+                    message : "Será enviada uma notificação para o celular do cliente."
+                });
             });
         } else {
             Entregador.findOne({
                 _id: id_entregador
             }).populate(['usuario']).exec(function(err, entregador) {
-                if (entregador.usuario._id == cliente._id) {
-                    Entregador.find({
-                        empresa: req.user._id
-                    }, function(err, entregadores) {
-                        return res.render('pedido', {
-                            'nome_cliente': nome_cliente,
-                            'telefone_cliente': telefone_cliente,
-                            'rua': rua,
-                            'numero': numero,
-                            'bairro': bairro,
-                            'cidade': cidade,
-                            'estado': estado,
-                            'message': 'Não pode cadastrar um Pedido para o próprio Entregador',
-                            'entregadores': entregadores
-                        });
+                if (!entregador) {
+                    return res.status(500).json({
+                        title : "Erro ao cadastrar pedido",
+                        message : 'Entregador não existe'
                     });
                 }
-                // TODO mandar mensagem de erro caso o entregador n exista
-
+                if (entregador.usuario._id == cliente._id) {
+                    return res.status(500).json({
+                        title : "Erro ao cadastrar pedido",
+                        message : 'Não é possível cadastrar um pedido para o próprio Entregador'
+                    });
+                }
                 endereco_entrega.save();
                 pedido.entregador = entregador._id;
                 pedido.save(function() {
                     // manda uma notificação para o cliente via GSM e também para o entregador
                     gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
                     gcm.sendGCMToEntregador(entregador.usuario.regId, req.user.nome, entregador._id);
-                    return res.redirect('/empresa/dashboard');
+                    return res.status(200).json({
+                        title:"Pedido cadastrado com sucesso.",
+                        message : "Será enviada uma notificação para o celular do cliente e entregador."
+                    });
                 });
             });
         }
@@ -114,7 +113,7 @@ router.post('/pedido/editar', function(req, res) {
     // =================================================
 
     Pedido.update({
-        _id: req.body.pedidoId
+        _id: req.body.id_pedido
     }, {
         nome_cliente: nome_cliente,
         endereco_entrega: endereco,
@@ -122,7 +121,7 @@ router.post('/pedido/editar', function(req, res) {
     }, {
         upsert: true
     }).exec(function(err) {
-        return res.redirect('/empresa/pedidos');
+        return res.status(200).send("Pedido atualizado com sucesso.");
     });
 });
 
@@ -138,67 +137,30 @@ router.post('/pedido/excluir', function(req, res) {
         if (pedido) {
             Pedido.findByIdAndRemove(pedido._id).exec();
             Endereco.findByIdAndRemove(pedido.endereco_entrega).exec();
-            return res.redirect('/empresa/pedidos');
+            return res.status(200).send("Pedido deletado com sucesso");
         } else {
-            // TODO mandar mensagem de erro caso n exista o pedido
+            return res.status(500).send("Pedido não existe");
         }
     });
 });
 
-router.post('/pedido/atualiza', function(req, res) {
+router.post('/pedido/setstatus', function(req, res) {
     Pedido.find({
         _id: req.body.id_pedido
     }, function(err, pedido) {
-        if (pedido[0].status == 'REGISTRADO') {
-            Pedido.update({
-                _id: req.body.id_pedido
-            }, {
-                status: 'EM ANDAMENTO'
-            }, {
-                upsert: true
-            }).exec(function(err) {
-                if (err) {
-                    return res.redirect('/empresa/dashboard', {
-                        message: "Ocorreu um erro interno"
-                    });
-                }
-            });
-        } else if (pedido[0].status == 'EM ANDAMENTO') {
-            Pedido.update({
-                _id: req.body.id_pedido
-            }, {
-                status: 'CONCLUÍDO'
-            }, {
-                upsert: true
-            }).exec(function(err) {
-                if (err) {
-                    return res.redirect('/empresa/dashboard', {
-                        message: "Ocorreu um erro interno"
-                    });
-                }
-            });
-        }
-        Entregador.find({
-            empresa: req.user._id
-        }).populate('usuario').exec(function(err, entregadores) {
-            Pedido.find({
-                empresa: req.user._id,
-                status: 'EM ANDAMENTO'
-            }).populate(['endereco_entrega', 'cliente', 'entregador']).exec(function(err, pedidos) {
-                Pedido.populate(pedidos, {
-                    path: 'entregador.usuario',
-                    model: 'Usuario'
-                }, function(err, pedidos) {
-                    return res.render('pedidos', {
-                        'pedidos': pedidos,
-                        'entregadores': entregadores
-                    });
-                });
-            });
+        Pedido.update({
+            _id: req.body.id_pedido
+        }, {
+            status: req.body.newstatus
+        }, {
+            upsert: true
+        }).exec(function(err) {
+            if (err) {
+                return res.status(500).send("Ocorreu um erro interno.");
+            }
+            res.status(200).send("Status atualizado com sucesso.");
         });
-        //return res.redirect('/empresa/pedidos');
     });
-
 });
 
 module.exports = router;

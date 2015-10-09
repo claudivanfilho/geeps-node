@@ -11,6 +11,10 @@ function pedidosService($http) {
     Service.refresh = refresh;
     Service.setSelected = setSelected;
     Service.refreshAndSet = refreshAndSet;
+    Service.cadastrar = cadastrar;
+    Service.excluir = excluir;
+    Service.setStatus = setStatus;
+    Service.editar = editar;
     Service.selected = {};
 
     return Service;
@@ -41,6 +45,47 @@ function pedidosService($http) {
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+            });
+    }
+
+    function cadastrar(data) {
+        $http.post('/empresa/pedido', data)
+            .success(function(data) {
+                window.location.href = '/empresa/dashboard';
+            })
+            .error(function(data) {
+                alert(data.message);
+            });
+    }
+
+    function excluir(data) {
+        $http.post('/empresa/pedido/excluir', data)
+            .success(function(data) {
+                window.location.href = '/empresa/pedidos';
+            })
+            .error(function(data) {
+                alert(data);
+            });
+    }
+
+    function setStatus(data) {
+        $http.post('/empresa/pedido/setstatus', data)
+            .success(function(data) {
+                window.location.href = '/empresa/pedidos';
+            })
+            .error(function(data) {
+                alert(data);
+            });
+    }
+
+    function editar(data) {
+        $http.post('/empresa/pedido/editar', data)
+            .success(function(data) {
+                window.location.href = '/empresa/pedidos';
+            })
+            .error(function(data) {
+                console.log(data);
+                alert(data);
             });
     }
 }

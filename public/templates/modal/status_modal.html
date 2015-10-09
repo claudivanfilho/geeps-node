@@ -1,0 +1,25 @@
+<form role="form" ng-submit="setStatus()">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()"
+                aria-hidden="true">×
+        </button>
+        <h4 class="modal-title">Alterar Status</h4>
+    </div>
+    <div class="modal-body">
+        <label>Selecione o status</label>
+
+        <select class="form-control" ng-model="statusdata.newstatus" required>
+            <option value="REGISTRADO">Registrado</option>
+            <option value="EM ANDAMENTO">Em andamento</option>
+            <option value="CONCLUIDO">Concluído</option>
+        </select>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">
+            Fechar
+        </button>
+        <button type="submit" class="btn btn-danger">
+            Atualizar Status
+        </button>
+    </div>
+</form>

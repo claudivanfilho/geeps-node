@@ -35,95 +35,22 @@
                             {{pedido.status}}
                         </td>
                         <td class="text-muted">{{pedido.nome_cliente}}</td>
-                        <td>{{pedido.entregador.nome}}</td>
+                        <td>{{pedido.entregador.nome ? pedido.entregador.nome : 'sem entregador'}}</td>
                         <td style="text-align: center">
+                            <a href="/empresa/pedido/editar?pedidoId={{pedido._id}}"  type="submit"
+                                    class="btn btn-circle btn-primary" title="Editar Pedido">
+                                <i class="fa fa-pencil"></i>
+                            </a>
 
-                            <form role="form" method="GET" action="/empresa/pedido/editar">
-                                <button value="{{pedido._id}}" name="pedidoId" type="submit"
-                                        class="btn btn-circle btn-primary" title="Editar Pedido">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
+                            <button type="button" class="btn btn-danger btn-circle"
+                                    ng-click="delete(pedido)" title="Excluir Pedido">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
 
-                                <button type="button" class="btn btn-danger btn-circle" data-toggle="modal"
-                                        data-target="#confirmDelete{{pedido._id}}" title="Excluir Pedido">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
-                                        data-target="#confirmStatus{{pedido._id}}" title="Mudar status">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </button>
-                            </form>
-
-                            <!-- Dialogo Modal para atualizar Status de um pedido -->
-                            <div class="modal fade" id="confirmStatus{{pedido._id}}" tabindex="-1" role="dialog"
-                                 aria-labelledby="Atualizar status" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form role="form" method="POST" action="/empresa/pedido/atualiza">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">×
-                                                </button>
-                                                <h4 class="modal-title">Atualizar status do Pedido</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Você tem certeza que deseja atualizar o status do pedido do cliente
-                                                <b>{{pedido.nome_cliente}}</b>,<br/> associado ao entregador
-                                                <b>{{pedido.entregador.nome}}</b>? <br/>
-                                                <br/>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    Fechar
-                                                </button>
-                                                <button type="submit" name="id_pedido" value="{{pedido._id}}"
-                                                        class="btn btn-danger">Atualizar Status
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
-
-                            <!-- Dialogo Modal para EXCLUIR um pedido -->
-                            <div class="modal fade" id="confirmDelete{{pedido._id}}" tabindex="-1" role="dialog"
-                                 aria-labelledby="Excuir Pedido" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form role="form" method="POST" action="/empresa/pedido/excluir">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-hidden="true">×
-                                                </button>
-                                                <h4 class="modal-title">Excuir Pedido</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Você tem certeza que deseja excluir o pedido do cliente
-                                                <b>{{pedido.nome_cliente}}</b>,<br/> associado ao entregador
-                                                <b>{{pedido.entregador.nome}}</b>? <br/>
-                                                Tenha cuidado, pois esta operação não pode ser revertida e seus
-                                                relatórios serão modificados. <br/>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    Fechar
-                                                </button>
-                                                <button type="submit" name="id_pedido" value="{{pedido._id}}"
-                                                        class="btn btn-danger">Excluir Pedido
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
-
+                            <button type="button" class="btn btn-success btn-circle"
+                                    ng-click="setStatus(pedido)"" title="Mudar status">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </button>
                         </td>
                     </tr>
 

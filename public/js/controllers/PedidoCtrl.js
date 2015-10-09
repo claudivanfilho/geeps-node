@@ -17,5 +17,14 @@ function PedidoController($scope, $routeParams, Pedidos, Entregadores) {
     $scope.entService = Entregadores;
     $scope.pedService = Pedidos;
 
+    $scope.cadastrar = function () {
+        Pedidos.cadastrar($scope.cadastrardata);
+    }
+
+    $scope.editar = function () {
+        $scope.editdata.id_pedido = Pedidos.selected._id;
+        Pedidos.editar($scope.editdata);
+    }
+
     $scope.$parent.fixSideMenu();
 }
