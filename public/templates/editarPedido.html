@@ -53,7 +53,10 @@
                     <label>Entregador</label>
                         <select class="form-control" ng-model="editdata.id_entregador">
                             <option ng-repeat="entregador in entService.entregadores"
-                                    ng-value="entregador._id" >{{entregador.nome}}</option>
+                                    ng-value="entregador._id"
+                                    ng-selected="String(pedService.selected._id) == String(entregador._id)" >
+                                {{entregador.nome}}
+                            </option>
                         </select>
                     </div>
                 </div>
