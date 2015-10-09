@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">Editar Entregador</h4>
+</div>
+<div class="modal-body">
+    <div class="row" style="text-align: left">
+        <div class="col-lg-12 form-group">
+            <div class="col-sm-5">
+                <label>Nome do Entregador</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="form-control" required ng-model="editdata.nome_entregador"
+                       placeholder="Nome do entregador">
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-sm-5">
+                <label>Telefone do Entregador</label>
+            </div>
+            <div class="col-sm-7">
+                <input class="form-control" required ng-model="editdata.telefone_entregador"
+                       placeholder="Telefone do entregador">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+    <button type="submit" class="btn btn-success" ng-click="editar()">Ok</button>
+</div>

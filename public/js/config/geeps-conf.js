@@ -1,4 +1,4 @@
-angular.module("Geeps", ['ngRoute', 'googlechart', 'chart.js'])
+angular.module("Geeps", ['ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap'])
     .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps])
 
 function configGeeps($routeProvider, $locationProvider) {

@@ -28,88 +28,14 @@
                             <td ng-show="entregador.usuario.regId">SIM </td>
                             <td ng-show="!entregador.usuario.regId">NÃO</td>
                         <td style="text-align: center">
-                            <button type="button" class="btn btn-success btn-circle" data-toggle="modal"
-                                    data-target="#edit{{entregador._id}}" title="Editar Entregador">
+                            <button type="button" class="btn btn-success btn-circle"
+                                    ng-click="edit(entregador)" title="Editar Entregador">
                                 <i class="fa fa-pencil"></i>
                             </button>
                             <button type="button" class="btn btn-danger btn-circle"
-                                    data-toggle="modal" data-target="#confirmDelete{{entregador._id}}" title="Excluir Entregador">
+                                    ng-click="delete(entregador)" title="Excluir Entregador">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </button>
-
-                            <!-- Dialogo Modal para EDITAR um entregador -->
-                            <div class="modal fade" id="edit{{entregador._id}}" tabindex="-1" role="dialog"
-                                 aria-labelledby="Editar Entregador" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form role="form" method="POST" action="/empresa/entregador/editar">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <h4 class="modal-title">Editar Entregador</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row" style="text-align: left">
-                                                    <div class="col-lg-12 form-group">
-                                                        <div class="col-sm-5">
-                                                            <label>Nome do Entregador</label>
-                                                        </div>
-                                                        <div class="col-sm-7">
-                                                            <input class="form-control" required name="nome_entregador"
-                                                                   placeholder="Nome do entregador" value="{{entregador.nome}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 form-group">
-                                                        <div class="col-sm-5">
-                                                            <label>Telefone do Entregador</label>
-                                                        </div>
-                                                        <div class="col-sm-7">
-                                                            <input class="form-control" required name="telefone_entregador"
-                                                                   placeholder="Telefone do entregador" value="{{entregador.usuario.telefone}}">
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" value="{{entregador._id}}" name="id_entregador">
-                                                    <input type="hidden" value="{{entregador.usuario._id}}" name="id_usuario">
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-success" >Editar Entregador</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
-
-                            <!-- Dialogo Modal para EXCLUIR um entregador -->
-                            <div class="modal fade" id="confirmDelete{{entregador._id}}" tabindex="-1" role="dialog"
-                                 aria-labelledby="Excuir Entregador" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form role="form" method="POST" action="/empresa/entregador/excluir">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <h4 class="modal-title">Excuir Entregador</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Você tem certeza que deseja excluir <b>{{entregador.nome}}</b>? <br/>
-                                                Tenha cuidado, pois esta operação não pode ser revertida. <br />
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                                <button type="submit" name="id_entregador" value="{{entregador._id}}"
-                                                        class="btn btn-danger">Excluir Entregador</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
 
                         </td>
                     </tr>

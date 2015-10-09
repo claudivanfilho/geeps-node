@@ -40,6 +40,7 @@ router.get('/api/empresa', function(req, res, next) {
     Empresa.findOne({
         email: req.user.email
     }).populate('endereco').exec(function(err, empresa) {
+        // TODO TIRAR OS CAMPOS DE SENHA E OUTROS Q NAO DEVEM IR COM O JSON
         return res.json(empresa);
     });
 });

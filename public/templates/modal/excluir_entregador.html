@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">Excuir Entregador</h4>
+</div>
+<div class="modal-body text-center">
+    Você tem certeza que deseja excluir <b>{{entregador.nome}}</b>? <br/>
+    Tenha cuidado, pois esta operação não pode ser revertida. <br />
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Fechar</button>
+    <button type="submit" class="btn btn-danger" ng-click="excluir()">Excluir Entregador</button>
+</div>

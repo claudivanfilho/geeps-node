@@ -9,6 +9,8 @@ function entregadoresService($http) {
     var Service = {};
     Service.refresh = refresh;
     Service.cadastrar = cadastrar;
+    Service.excluir = excluir;
+    Service.editar = editar;
     Service.entregadores = [];
 
     return Service;
@@ -24,9 +26,8 @@ function entregadoresService($http) {
             });
     }
 
-    function cadastrar(entregadorData) {
-        console.log("aa");
-        $http.post('/empresa/entregador', entregadorData)
+    function cadastrar(data) {
+        $http.post('/empresa/entregador', data)
             .success(function(data) {
                 window.location.href = '/empresa/dashboard';
             })
@@ -34,4 +35,25 @@ function entregadoresService($http) {
                 alert(data);
             });
     }
+
+    function excluir(data) {
+        $http.post('/empresa/entregador/excluir', data)
+            .success(function(data) {
+                window.location.href = '/empresa/dashboard';
+            })
+            .error(function(data) {
+                alert(data);
+            });
+    }
+
+    function editar(data) {
+        $http.post('/empresa/entregador/editar', data)
+            .success(function(data) {
+                window.location.href = '/empresa/dashboard';
+            })
+            .error(function(data) {
+                alert(data);
+            });
+    }
+
 }

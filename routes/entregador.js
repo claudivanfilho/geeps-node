@@ -57,26 +57,37 @@ router.post('/entregador/editar', function(req, res){
     var telefone_entregador = req.body.telefone_entregador;
     var id_entregador = req.body.id_entregador;
     var id_usuario = req.body.id_usuario;
+
     Entregador.update({_id: id_entregador},
         {nome: nome_entregador},
         {upsert: true}).exec(function(err){
-            Usuario.update({_id: id_usuario},
-                {telefone: telefone_entregador},
-                {upsert: true}).exec(function(err){
-                    return res.redirect('/empresa/entregadores');
-                });
+            if (err) {
+                return res.status(500).send("Ocorreu um erro interno");
+            } else {
+                // TODO VERIFICAR SE O TELEFONE FORNECIDO JA ESTA CADASTRADO PARA UM USUARIO
+                Usuario.update({_id: id_usuario},
+                    {telefone: telefone_entregador},
+                    {upsert: true}).exec(function(err){
+                        if (err) {
+                            return res.status(500).send("Ocorreu um erro interno");
+                        } else {
+                            return res.status(200).send("Entregador editado com sucesso!");
+                        }
+                    });
+            }
         });
-
     //TODO testar
 });
 
 router.post('/entregador/excluir', function(req, res){
     Entregador.remove({_id:req.body.id_entregador}, function(err){
         if(err){
-            return res.redirect('/empresa/dashboard', {message: "Ocorreu um erro interno"});
+            return res.status(500).send("Ocorreu um erro interno");
+        } else {
+            return res.status(200).send("Entregador excluído com sucesso!");
         }
     });
-    return res.redirect('/empresa/entregadores');
+
 });
 
 module.exports = router;

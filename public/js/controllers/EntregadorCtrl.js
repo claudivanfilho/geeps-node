@@ -10,4 +10,6 @@ function EntregadorController($scope, Entregadores) {
     $scope.cadastrar = function() {
         Entregadores.cadastrar($scope.entregadordata);
     }
+
+
 }
