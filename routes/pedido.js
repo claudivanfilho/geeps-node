@@ -6,6 +6,7 @@ var Entregador = require("../models/entregador");
 var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
 var gcm = require('../config/gcm-service');
+var mongoose = require('mongoose');
 
 router.post('/pedido', function(req, res) {
     var rua = req.body.rua;
@@ -90,39 +91,53 @@ router.post('/pedido', function(req, res) {
 });
 
 router.post('/pedido/editar', function(req, res) {
-    var rua = req.body.rua;
-    var numero = req.body.numero;
-    var bairro = req.body.bairro;
-    var cidade = req.body.cidade;
-    var estado = req.body.estado;
-    var nome_cliente = req.body.nome_cliente;
     var numero_cliente = req.body.telefone_cliente;
-    var id_entregador = req.body.id_entregador;
 
-    // TODO UPDATE NÚMERO DO CLIENTE
+    var pedidodata = {};
+    var enderecodata = {};
 
-    // TODO NÂO É PRA CRIAR UM NOVO ENDERECO!!! APENAS DAR UPDATE EM UM ENDERECO QUE JA EXISTE `-´
-    var endereco = new Endereco({
-        rua: rua,
-        numero: numero,
-        bairro: bairro,
-        cidade: cidade,
-        estado: estado
-    });
-    endereco.save();
-    // =================================================
+    if (req.body.rua)
+        enderecodata.rua = req.body.rua;
+    if (req.body.nome_cliente)
+        pedidodata.nome_cliente = req.body.nome_cliente
+    if (req.body.numero)
+        enderecodata.numero = req.body.numero;
+    if (req.body.bairro)
+        enderecodata.bairro = req.body.bairro;
+    if (req.body.cidade)
+        enderecodata.cidade = req.body.cidade;
+    if (req.body.estado)
+        enderecodata.estado = req.body.estado;
+    if (req.body.id_entregador)
+        pedidodata.entregador = mongoose.Types.ObjectId(req.body.id_entregador);
+    if (req.body.id_entregador == "")
+        pedidodata.entregador = null;
 
-    Pedido.update({
-        _id: req.body.id_pedido
-    }, {
-        nome_cliente: nome_cliente,
-        endereco_entrega: endereco,
-        entregador: id_entregador
-    }, {
-        upsert: true
-    }).exec(function(err) {
-        return res.status(200).send("Pedido atualizado com sucesso.");
-    });
+    if (JSON.stringify(pedidodata) != '{}') {
+        Pedido.update({
+            _id: req.body.id_pedido
+        }, pedidodata, {
+            upsert: true
+        }).exec(function(err) {
+            if (err) {
+                return res.status(500).send("Erro interno.");
+            }
+        });
+    }
+
+    if (JSON.stringify(enderecodata) != '{}') {
+        Endereco.update({
+            _id: req.body.id_endereco
+        }, enderecodata, {
+            upsert: true
+        }).exec(function(err) {
+            if (err) {
+                return res.status(500).send("Erro interno.");
+            }
+        });
+    }
+    return res.status(200).send("Pedido atualizado com sucesso.");
+
 });
 
 router.post('/pedido/excluir', function(req, res) {
@@ -130,9 +145,7 @@ router.post('/pedido/excluir', function(req, res) {
         _id: req.body.id_pedido
     }, function(err, pedido) {
         if (err) {
-            return res.redirect('/empresa/dashboard', {
-                message: "Ocorreu um erro interno"
-            });
+            return res.status(500).send("Erro interno.");
         }
         if (pedido) {
             Pedido.findByIdAndRemove(pedido._id).exec();
@@ -145,21 +158,17 @@ router.post('/pedido/excluir', function(req, res) {
 });
 
 router.post('/pedido/setstatus', function(req, res) {
-    Pedido.find({
+    Pedido.update({
         _id: req.body.id_pedido
-    }, function(err, pedido) {
-        Pedido.update({
-            _id: req.body.id_pedido
-        }, {
-            status: req.body.newstatus
-        }, {
-            upsert: true
-        }).exec(function(err) {
-            if (err) {
-                return res.status(500).send("Ocorreu um erro interno.");
-            }
-            res.status(200).send("Status atualizado com sucesso.");
-        });
+    }, {
+        status: req.body.newstatus
+    }, {
+        upsert: true
+    }).exec(function(err) {
+        if (err) {
+            return res.status(500).send("Ocorreu um erro interno.");
+        }
+        res.status(200).send("Status atualizado com sucesso.");
     });
 });
 

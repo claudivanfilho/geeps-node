@@ -52,21 +52,21 @@
                     <div class="">
                     <label>Entregador</label>
                         <select class="form-control" ng-model="editdata.id_entregador">
+                            <option value="{{null}}" selected></option>
                             <option ng-repeat="entregador in entService.entregadores"
-                                    ng-value="entregador._id"
-                                    ng-selected="String(pedService.selected._id) == String(entregador._id)" >
+                                    value="{{entregador._id}}"
+                                    ng-selected="pedService.selected.entregador != null &&
+                                     pedService.selected.entregador._id == entregador._id" >
                                 {{entregador.nome}}
                             </option>
                         </select>
                     </div>
                 </div>
-
                 <div style="text-align: center; margin-top: 8em">
                     <button type="submit" class="btn btn-success">Alterar Pedido</button>
                     <button type="reset" class="btn btn-default">Limpar</button>
                 </div>
             </div>
-
         </form>
     </div>
 </div>

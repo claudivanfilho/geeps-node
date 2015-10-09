@@ -22,7 +22,10 @@ function PedidoController($scope, $routeParams, Pedidos, Entregadores) {
     }
 
     $scope.editar = function () {
+        if ($scope.editdata == undefined)
+            return;
         $scope.editdata.id_pedido = Pedidos.selected._id;
+        $scope.editdata.id_endereco = Pedidos.selected.endereco_entrega._id;
         Pedidos.editar($scope.editdata);
     }
 
