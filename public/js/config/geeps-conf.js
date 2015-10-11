@@ -36,6 +36,14 @@ function configGeeps($routeProvider, $locationProvider) {
             templateUrl: '/templates/pagamento.html',
             controller: 'PagamentoCtrl'
         })
+        .when('/empresa/perfil', {
+            templateUrl: '/templates/perfil.html',
+            controller: 'EmpresaCtrl'
+        })
+        .when('/empresa/editar', {
+            templateUrl: '/templates/editarEmpresa.html',
+            controller: 'EmpresaCtrl'
+        })
         .otherwise({
             redirectTo: '/empresa/dashboard'
         });

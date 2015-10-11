@@ -1,0 +1,61 @@
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Editar Empresa</h1>
+        </div>
+        <!-- /.col-md-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <form enctype="multipart/form-data" ng-submit="editar()">
+            <div class="row col-sm-6">
+                <div class="col-sm-12 form-group">
+                    <label>Nome da Empresa</label>
+                    <input type="text" class="form-control" name="nome" value="{{empService.empresa.nome}}" >
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <label>Endereço de Email</label>
+                    <input type="text" disabled class="form-control" name="email" value="{{empService.empresa.email}}" >
+                </div>
+
+                <hr style="width:100%; height:1px; background: #fff" />
+
+                <div class="col-sm-7 form-group">
+                    <label>Rua</label>
+                    <input type="text" class="form-control" name="rua" value="{{empService.empresa.endereco.rua}}" >
+                </div>
+                <div class="col-sm-3 form-group">
+                    <label>Bairro</label>
+                    <input type="text" class="form-control" name="bairro" value="{{empService.empresa.endereco.bairro}}" >
+                </div>
+
+                <div class="col-sm-2 form-group">
+                    <label>Número</label>
+                    <input type="text" class="form-control" name="numero" value="{{empService.empresa.endereco.numero}}" >
+                </div>
+
+                <div class="col-sm-6 form-group">
+                    <label>Cidade</label>
+                    <input type="text" class="form-control" name="cidade" value="{{empService.empresa.endereco.cidade}}" >
+                </div>
+
+                <div class="col-sm-6 form-group">
+                    <label>Estado</label>
+                    <input type="text" class="form-control" name="estado" value="{{empService.empresa.endereco.estado}}" >
+                </div>
+                <div class="col-sm-12 form-group">
+                    <button type="submit" class="btn btn-success" >Editar</button>
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-sm-offset-1 form-group">
+                <label>Ícone da empresa</label>
+                <a href="#" class="thumbnail" style="margin-bottom: 0px;">
+                    <img src="{{empService.empresa.imgPath}}">
+                </a>
+                <button class="btn-default"><i class="fa fa-folder-open fa-fw"></i> Alterar</button>
+            </div>
+        </form>
+    </div>
+</div>

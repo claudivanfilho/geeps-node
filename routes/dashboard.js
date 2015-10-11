@@ -22,21 +22,6 @@ router.get('/logout', function(req, res) {
     req.session.notice = "You have successfully been logged out!";
 });
 
-router.get('/perfil', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-
-    Empresa.findOne({
-        email: req.user.email
-    }).populate('endereco').exec(function(err, empresa) {
-        return res.render('empresa/perfil', {
-            'empresa': empresa
-        });
-
-    });
-});
-
 router.post('/perfil/editar', function(req, res) {
     if (!req.user) {
         return res.redirect('/auth/login');
