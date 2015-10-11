@@ -36,7 +36,7 @@ function empresaService($http) {
     }
 
     function editar(data) {
-        $http.post('/empresa/editar', data)
+        $http.post('/empresa/editar', data, {headers: {'Content-Type': 'application/json'}})
             .success(function(data) {
                 window.location.href = '/empresa/perfil';
             })

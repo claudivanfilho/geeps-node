@@ -9,7 +9,8 @@ function EmpresaController($scope, Empresa) {
     Empresa.refresh();
 
     $scope.editar = function() {
-        Emrpesa.editar();
+        $scope.editdata.id_endereco = $scope.empService.empresa.endereco._id;
+        Empresa.editar($scope.editdata);
     }
 
     $scope.excluir = function() {
