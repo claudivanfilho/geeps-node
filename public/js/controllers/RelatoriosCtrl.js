@@ -12,7 +12,7 @@ function RelatoriosController($scope, Pedidos) {
 
     var pedidos_concluidos = [];
     $scope.pedService.pedidos.forEach(function(obj) {
-        if (obj.status === "CONCLUÍDO") {
+        if (obj.status === "CONCLUÍDO" || obj.status === "CONCLUIDO") {
             pedidos_concluidos.push(obj);
         }
     });
