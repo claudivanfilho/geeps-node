@@ -5,7 +5,6 @@ var Usuario = require('../models/usuario');
 var Pedido = require('../models/pedido');
 var Entregador = require('../models/entregador');
 var gcm = require('../config/gcm-service');
-var simpleJSONFilter = require("./index.js");
 
 router.post('/cadastro', function(req, res) {
     var a = new Usuario({
@@ -72,9 +71,7 @@ router.post('/pedidos', function(req, res) {
 });
 
 router.post('/pedidos_entregador', function(req, res) {
-    console.log("2 ###################################################################");
     var idEntregador = req.body.idEntregador;
-
     Entregador.find({
         _id: idEntregador
     }).populate(['pedidos']).exec(function(err, entregador) {
