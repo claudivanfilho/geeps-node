@@ -2,7 +2,7 @@ var gcm = require('node-gcm');
 var sender = new gcm.Sender('AIzaSyBpRXYncUHxPTJJo0pqblKWZUOCdAzSyVA');
 
 var GCMService = {
-    sendNotificacaoPedido : function(regId, nomeEmpresa, statusDoPedido) {
+    sendNotificacaoPedido : function(regId, nomeEmpresa, statusDoPedido, entregadorId) {
         var texto = ''
 
         switch(statusDoPedido) {
@@ -19,6 +19,7 @@ var GCMService = {
 
         var message = new gcm.Message();
         message.addData('PEDIDO_NOTIFICATION', texto);
+        message.addData('ENTREGADOR_ID', entregadorId);
 
         // verifica se o REGIG é válido
         if (regId != null && regId != "") {
