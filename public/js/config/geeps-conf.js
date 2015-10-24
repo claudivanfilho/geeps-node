@@ -1,5 +1,8 @@
-angular.module("Geeps", ['ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap'])
+angular.module("Geeps", ['ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap', 'angular-stripe'])
     .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps])
+    .config(function (stripeProvider) {
+        stripeProvider.setPublishableKey('pk_test_p8LvGghVcp3OacSGCX8g6sYI');
+    });
 
 function configGeeps($routeProvider, $locationProvider) {
 

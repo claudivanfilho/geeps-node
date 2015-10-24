@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var formidable = require('formidable');
 var fs = require('fs-extra');
 var Empresa = require('../models/empresa');
 var Usuario = require("../models/usuario");
