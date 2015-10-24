@@ -1,14 +1,16 @@
 angular.module("Geeps")
     .controller('PagamentoCtrl', PagamentoController);
 
-PagamentoController.$inject = ['$scope', 'stripe', 'Empresa'];
+PagamentoController.$inject = ['$scope', 'stripe', 'Empresa', '$http'];
 
-function PagamentoController($scope, stripe, Empresa) {
+function PagamentoController($scope, stripe, Empresa, $http) {
 
     $scope.$parent.fixSideMenu();
 
     $scope.empService = Empresa;
     Empresa.refresh();
+
+    $scope.plandata = {};
 
     $scope.plans = [
         {
@@ -27,11 +29,21 @@ function PagamentoController($scope, stripe, Empresa) {
 
     $scope.setPlan = function() {
         try {
-            stripe.card.createToken($scope.cardplan)
+            stripe.card.createToken($scope.plancard)
                 .then(function (response) {
                     console.log('token created for card ending in ', response.card.last4);
-                    alert(response.id); // stripe token
-                    //return $http.post('https://yourserver.com/payments', payment);
+                    $scope.plandata.stripeToken = response.id;
+                    if (Object.keys($scope.plandata).length != 0 &&
+                        $scope.plandata.plan != $scope.empService.empresa.stripe.plan) {
+
+                        $http.post('/plan', $scope.plandata)
+                            .success(function(data) {
+                                alert(data);
+                            })
+                            .error(function(data) {
+                                alert(data);
+                            });
+                    }
                 });
 
         } catch (reason) {
@@ -44,8 +56,16 @@ function PagamentoController($scope, stripe, Empresa) {
             stripe.card.createToken($scope.cardbill)
                 .then(function (response) {
                     console.log('token created for card ending in ', response.card.last4);
-                    alert(response.id); // stripe token
-                    //return $http.post('https://yourserver.com/payments', payment);
+                    var billdata = {};
+                    billdata.stripeToken = response.id;
+                    $http.post('/billing', billdata)
+                        .success(function(data) {
+                            // window.location.href = '/empresa/dashboard';
+                            alert(data);
+                        })
+                        .error(function(data) {
+                            alert(data);
+                        });
                 });
         } catch(reason) {
             alert(reason);

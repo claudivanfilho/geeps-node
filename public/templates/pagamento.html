@@ -3,37 +3,42 @@
         <div class="container-fluid container-max">
             <div ng-show="empService.empresa.stripe.last4">
                 <div class="page-header">
-                    <h3>Subscription</h3>
+                    <h3>Escolha Seu Plano</h3>
+                </div>
+                <div class="alert alert-info">
+                    <strong>Seu Plano Atual = </strong> {{empService.empresa.stripe.plan | capitalize}}
                 </div>
                 <form id="cardFormPlan" ng-submit="setPlan()" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Plan</label>
+                        <label class="col-sm-3 control-label">Plano</label>
                         <div class="col-sm-4">
                             <div class="radio" ng-repeat="plan in plans">
                                 <label>
                                     <input type="radio"
-                                           ng-model="plandata.plan" data-toggle="radio">
-                                    <span>{{plan.name}} - ${{plan.price}}</span>
+                                           name="plan" ng-model="plandata.plan"
+                                           value="{{plan.name}}"
+                                           ng-checked="plan.name === empService.empresa.stripe.plan">
+                                    <span>{{plan.name}} - R${{plan.price}}</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div id="cardWrapper">
-                        <div class="form-group">
+                        <div class="form-group" style="opacity: 0.6;">
                             <label class="col-sm-3 control-label">Test Card Info</label>
                             <div class="col-sm-7">
-                                <div class="form-control-static">4242424242424242, 11/19, 123 -
-                                    <a href="https://stripe.com/docs/testing">additional test info</a></div>
+                                <div class="form-control-static">Number=4242424242424242 Month=11 Year=19 CVC=123</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Card Number</label>
+                            <label class="col-sm-3 control-label">Número do Cartão</label>
                             <div class="col-sm-4">
-                                <input ng-model="plancard.number" type="text" class="form-control">
+                                <input ng-model="plancard.number" type="text" class="form-control"
+                                        placeholder="XXXX XXXX XXXX XXXX">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Card Details</label>
+                            <label class="col-sm-3 control-label">Detalhes do Cartão</label>
                             <div class="col-sm-4">
                                 <div class="row">
                                     <div class="col-xs-4">
@@ -52,7 +57,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-4">
-                            <button type="submit" class="btn btn-primary">Update Plan</button>
+                            <button type="submit" class="btn btn-primary">Atualizar Plano</button>
                         </div>
                     </div>
                 </form>
@@ -60,23 +65,24 @@
 
             <div>
                 <div class="page-header">
-                    <h3>Payment Details</h3>
+                    <h3>Detalhes de Pagamento</h3>
                 </div>
                 <form role="form" id="cardForm" ng-submit="setBill()" class="form-horizontal">
-                    <div class="form-group">
+                    <div class="form-group" style="opacity: 0.6;">
                         <label class="col-sm-3 control-label">Test Card Info</label>
                         <div class="col-sm-7">
-                            <div class="form-control-static">4242424242424242, 11/19, 123 - <a href="https://stripe.com/docs/testing">additional test cards</a></div>
+                            <div class="form-control-static">Number=4242424242424242 Month=11 Year=19 CVC=123</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Card Number</label>
+                        <label class="col-sm-3 control-label">Número do Cartão</label>
                         <div class="col-sm-4">
-                            <input ng-model="cardbill.number" type="text" class="form-control" placeholder="XXXX XXXX XXXX {{user.stripe.last4}}">
+                            <input ng-model="cardbill.number" type="text" class="form-control"
+                                   placeholder="XXXX XXXX XXXX {{empService.empresa.stripe.last4}}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Card Details</label>
+                        <label class="col-sm-3 control-label">Detalhes Cartão</label>
                         <div class="col-sm-4">
                             <div class="row">
                                 <div class="col-xs-4">
@@ -93,7 +99,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-4">
-                            <button type="submit" class="btn btn-primary">Update Card</button>
+                            <button type="submit" class="btn btn-primary">Atualizar Cartão</button>
                         </div>
                     </div>
                 </form>

@@ -8,7 +8,6 @@ function BaseController($scope, $http) {
     $scope.logout = logout;
 
     function logout() {
-        console.log("looogout");
         $http.get('/empresa/logout')
             .success(function(data) {
                 window.location.href = '/auth/login';

@@ -14,20 +14,17 @@ router.get('/', function(req, res, next) {
 // ATUALIZA O CARTÃO !!!
 router.post('/billing', function(req, res, next){
     var stripeToken = req.body.stripeToken;
-
     if(!stripeToken){
         return res.status(500).send('Please provide a valid card.');
     }
-
     Empresa.findById(req.user._id, function(err, user) {
         if (err) return next(err);
-
         user.setCard(stripeToken, function (err) {
             if (err) {
                 if(err.code && err.code == 'card_declined'){
                     return res.status(500).send('Your card was declined. Please provide a valid card.');
                 }
-                return res.status(500).send('An unexpected error occurred.');
+                return res.status(500).send('An unexpected error occurred.' + err);
             }
             return res.status(200).send('Billing has been updated.');
         });
@@ -36,8 +33,8 @@ router.post('/billing', function(req, res, next){
 
 // ATUALIZA O PLANO !!!
 router.post('/plan', function(req, res, next){
-    if (req.user) {
-        return res.redirect('/empresa/dashboard');
+    if (!req.user) {
+        return res.redirect('/auth/login');
     }
 
     var plan = req.body.plan;
@@ -61,7 +58,6 @@ router.post('/plan', function(req, res, next){
 
     Empresa.findById(req.user._id, function(err, user) {
         if (err) return next(err);
-
         user.setPlan(plan, stripeToken, function (err) {
             var msg;
 

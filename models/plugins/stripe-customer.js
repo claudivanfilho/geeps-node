@@ -49,12 +49,12 @@ module.exports = exports = function stripeCustomer (schema, options) {
 
     var cardHandler = function(err, customer) {
       if (err) return cb(err);
-
+      console.log(customer);uit
       if(!user.stripe.customerId){
         user.stripe.customerId = customer.id;
       }
 
-      var card = customer.cards.data[0];
+      var card = customer.sources.data[0];
       user.stripe.last4 = card.last4;
       user.save(function(err){
         if (err) return cb(err);
@@ -73,10 +73,7 @@ module.exports = exports = function stripeCustomer (schema, options) {
   };
 
   schema.methods.setPlan = function(plan, stripe_token, cb) {
-    var user = this,
-    customerData = {
-      plan: plan
-    };
+    var user = this;
 
     var subscriptionHandler = function(err, subscription) {
       if(err) return cb(err);
