@@ -49,7 +49,7 @@ module.exports = exports = function stripeCustomer (schema, options) {
 
     var cardHandler = function(err, customer) {
       if (err) return cb(err);
-      console.log(customer);uit
+      console.log(customer);
       if(!user.stripe.customerId){
         user.stripe.customerId = customer.id;
       }
