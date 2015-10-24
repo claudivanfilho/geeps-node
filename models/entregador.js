@@ -5,7 +5,7 @@ var entregadorSchema = new Schema({
 	nome : String,
 	empresa : { type:Schema.Types.ObjectId, ref:"Empresa" },
 	usuario : { type:Schema.Types.ObjectId, ref:"Usuario" },
-	pedidos:[{ type:Schema.ObjectId, ref:"Pedido"}]
+	pedidos : [{ type:Schema.ObjectId, ref:"Pedido"}]
 });
 
 var Entregador = mongoose.model('Entregador', entregadorSchema);
