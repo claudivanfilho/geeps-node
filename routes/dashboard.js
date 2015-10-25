@@ -14,6 +14,20 @@ router.get('/dashboard', function(req, res, next) {
     res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
 });
 
+router.get('/relatorios', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/auth/login');
+    }
+
+    Empresa.findById(req.user._id, function(err, empresa) {
+        if (empresa.stripe.plan == 'basic') {
+            return res.redirect('/');
+        } else {
+            return res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
+        }
+    });
+});
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/auth/login');

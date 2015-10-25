@@ -106,6 +106,12 @@
             <!-- /.dropdown -->
         </ul>
         <!-- /.navbar-top-links -->
+        <style>
+            .disabled{
+                pointer-events:none;
+                opacity:0.4;
+            }
+        </style>
 
         <div id="sideBar" class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -131,7 +137,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li ng-class="{disabled: empService.empresa.stripe.plan == 'basic'}">
                         <a href="/empresa/relatorios"><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios
                         </a>
                     </li>

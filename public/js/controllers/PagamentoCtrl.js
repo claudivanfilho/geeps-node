@@ -38,7 +38,10 @@ function PagamentoController($scope, stripe, Empresa, $http) {
 
                         $http.post('/plan', $scope.plandata)
                             .success(function(data) {
-                                alert(data);
+                                var answer = confirm(data)
+                                if (answer) {
+                                    window.location.href = '/empresa/pagamento';
+                                }
                             })
                             .error(function(data) {
                                 alert(data);

@@ -1,11 +1,14 @@
 angular.module("Geeps")
     .controller('BaseCtrl', BaseController);
 
-BaseController.$inject = ['$scope', '$http'];
+BaseController.$inject = ['$scope', '$http', 'Empresa'];
 
-function BaseController($scope, $http) {
+function BaseController($scope, $http, Empresa) {
 
     $scope.logout = logout;
+
+    $scope.empService = Empresa;
+    Empresa.refresh();
 
     function logout() {
         $http.get('/empresa/logout')

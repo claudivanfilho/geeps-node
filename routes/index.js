@@ -44,10 +44,6 @@ router.post('/plan', function(req, res, next){
         plan = plan.toLowerCase();
     }
 
-    if(req.user.stripe.plan == plan){
-        return res.status(500).send('The selected plan is the same as the current plan.');
-    }
-
     if(req.body.stripeToken){
         stripeToken = req.body.stripeToken;
     }
@@ -58,6 +54,11 @@ router.post('/plan', function(req, res, next){
 
     Empresa.findById(req.user._id, function(err, user) {
         if (err) return next(err);
+
+        if(user.stripe.plan == plan){
+            return res.status(500).send('The selected plan is the same as the current plan.');
+        }
+
         user.setPlan(plan, stripeToken, function (err) {
             var msg;
 
