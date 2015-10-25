@@ -9,9 +9,11 @@ router.post('/entregador', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var num_entregador = req.body.telefone_entregador;
 
-    if (num_entregador.trim() == "") {
+    if(nome_entregador === undefined || nome_entregador.trim() == ""){
+        return res.status(500).send("Nome do Entregador Requerido");
+    } else if (num_entregador === undefined || num_entregador.trim() == "") {
         return res.status(500).send("Número do Entregador Requerido");
-    }
+    } 
     Usuario.find({
         telefone: num_entregador
     },function(err, usuarios){
@@ -19,7 +21,8 @@ router.post('/entregador', function(req, res){
         if (usuarios.length == 0) {
             // cria um novo Usuario do sistema (Entregador também é usuário)
             user = new Usuario({
-                telefone : num_entregador
+                telefone : num_entregador,
+                nome_geeps: nome_entregador
             });
             user.save(function(){
                 var entregador = new Entregador({
@@ -38,6 +41,7 @@ router.post('/entregador', function(req, res){
                 // Verifica se o telefone passado já consta no banco de entregadores para determinada empresa
                 if(entregadores.length == 0){
                     var entregador = new Entregador({
+                        nome : nome_entregador,
                         usuario : user._id,
                         empresa: req.user._id
                     })
