@@ -6,12 +6,12 @@ var Usuario = require('../models/usuario');
 var Entregador = require('../models/entregador');
 var Pedido = require('../models/pedido');
 
-router.get('/cleardb', function(req, res, next) {
+router.get('/api/cleardb', function(req, res, next) {
     Usuario.remove(function() {
         Empresa.remove(function() {
             Entregador.remove(function() {
                 Pedido.remove(function() {
-                    return res.render('auth/login');
+                    return res.send('BD Está Limpo');
                 });
             });
         });

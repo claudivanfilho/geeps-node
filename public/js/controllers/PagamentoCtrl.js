@@ -14,16 +14,34 @@ function PagamentoController($scope, stripe, Empresa, $http) {
 
     $scope.plans = [
         {
-            name : 'basic',
-            price : 75
+            id : 'economico',
+            nome : 'Econômico',
+            preco : 'R$ 75,00',
+            recursos : [
+                'Cadastro de Pedidos',
+                'Cadastro de Entregadores'
+            ]
         },
         {
-            name : 'normal',
-            price : 125
+            id : 'completo',
+            nome : 'Completo',
+            preco : 'R$ 125,00',
+            recursos : [
+                'Cadastro de Pedidos',
+                'Cadastro de Entregadores',
+                'Relatórios de Vendas'
+            ]
         },
         {
-            name : 'advanced',
-            price : 150
+            id : 'master',
+            nome : 'Master',
+            preco : 'R$ 200,00',
+            recursos : [
+                'Cadastro de Pedidos',
+                'Cadastro de Entregadores',
+                'Relatórios de Vendas',
+                'Acompanhamento em Tempo Real dos Entregadores'
+            ]
         }
     ];
 

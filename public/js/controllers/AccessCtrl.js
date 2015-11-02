@@ -9,12 +9,12 @@ function AccessController($scope, $http) {
         {
             id : 'economico',
             nome : 'Econômico',
-            preco : 'Grátis para 1 mês de avaliação'
+            preco : 'R$ 75,00'
         },
         {
             id : 'completo',
             nome : 'Completo',
-            preco : 'R$ 125,00'
+            preco : 'R$ 150,00 (Grátis 30 dias de avaliação)'
         },
         {
             id : 'master',
@@ -27,7 +27,7 @@ function AccessController($scope, $http) {
 
     $scope.registerdata.stripe = {};
 
-    $scope.registerdata.stripe.plan = 'economico';
+    $scope.registerdata.stripe.plan = 'completo';
 
     $scope.submitLogin = function() {
         $http.post('/auth/login', $scope.logindata)

@@ -8,20 +8,20 @@ secretsModule.mailgun = {
 secretsModule.stripeOptions = {
         apiKey: process.env.STRIPE_KEY || 'sk_test_3pF4Jd4l0MpsYC5iWqM21WMo',
         stripePubKey: process.env.STRIPE_PUB_KEY || 'pk_test_p8LvGghVcp3OacSGCX8g6sYI',
-        defaultPlan: 'basic',
-        plans: ['basic', 'normal', 'advanced'],
+        defaultPlan: 'completo',
+        plans: ['economico', 'completo', 'master'],
         planData: {
-        'basic': {
-            name: 'Básico',
-                price: 75
+        'economico': {
+            name: 'Econômico',
+            price: 75
         },
-        'normal': {
-            name: 'Normal',
-                price: 125
+        'completo': {
+            name: 'Completo',
+            price: 150
         },
-        'advanced': {
-            name: 'Avançado',
-                price: 175
+        'master': {
+            name: 'Master',
+            price: 200
         }
     }
 }

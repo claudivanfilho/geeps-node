@@ -1,6 +1,22 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="container-fluid container-max">
+            <div class="col-sm-12 text-center">
+                <div class="plan col-sm-3" ng-repeat="plan in plans"
+                     ng-class="{plan_highlight: plan.id == empService.empresa.stripe.plan}">
+                    <p ng-show="plan.id == empService.empresa.stripe.plan"
+                       class="plan-recommended">Seu Plano</p>
+                    <h3 class="plan-title">{{plan.nome}}</h3>
+                    <p class="plan-price">{{plan.preco}} <span class="plan-unit">por mês</span></p>
+                    <ul class="plan-features" style="list-style-type: disc;">
+                        <li ng-repeat="recurso in plan.recursos" class="plan-feature">
+                            <span class="plan-feature-name">{{recurso}}</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="plan-button"
+                       ng-class="{disabled: plan.id == empService.empresa.stripe.plan}">Escolher Plano</a>
+                </div>
+            </div>
             <div ng-show="empService.empresa.stripe.last4">
                 <div class="page-header">
                     <h3>Escolha Seu Plano</h3>
@@ -16,9 +32,9 @@
                                 <label>
                                     <input type="radio"
                                            name="plan" ng-model="plandata.plan"
-                                           value="{{plan.name}}"
-                                           ng-checked="plan.name === empService.empresa.stripe.plan">
-                                    <span>{{plan.name}} - R${{plan.price}}</span>
+                                           value="{{plan.nome}}"
+                                           ng-checked="plan.nome === empService.empresa.stripe.plan">
+                                    <span>{{plan.nome}} - R${{plan.preco}}</span>
                                 </label>
                             </div>
                         </div>
