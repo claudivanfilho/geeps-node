@@ -1,4 +1,6 @@
-angular.module("Geeps", ['ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap', 'angular-stripe', 'angular-loading-bar'])
+angular.module("Geeps", [
+    'ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap',
+    'angular-stripe', 'angular-loading-bar', 'angucomplete-alt'])
     .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps])
     .config(function (stripeProvider) {
         stripeProvider.setPublishableKey('pk_test_p8LvGghVcp3OacSGCX8g6sYI');
@@ -31,6 +33,10 @@ function configGeeps($routeProvider, $locationProvider) {
         })
         .when('/empresa/pedidos', {
             templateUrl: '/templates/pedidos.html',
+            controller: 'PedidosCtrl'
+        })
+        .when('/empresa/pedidos_encerrados', {
+            templateUrl: '/templates/pedidosEncerrados.html',
             controller: 'PedidosCtrl'
         })
         .when('/empresa/relatorios', {

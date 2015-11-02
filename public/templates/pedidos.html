@@ -1,63 +1,70 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Pedidos Cadastrados</h1>
+            <h1 class="page-header">Pedidos Registrados</h1>
         </div>
-        <div class="table-responsive" style="float: left; width: 100%;">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>
-                        Rua
-                    </th>
-                    <th>
-                        Bairro
-                    </th>
-                    <th>
-                        Status
-                    </th>
-                    <th>
-                        Cliente
-                    </th>
-                    <th>
-                        Nome do Entregador
-                    </th>
-                    <th class="col-xs-3" style="text-align: center">
-                        Opções
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="pedido in pedService.pedidos">
-                        <td class="text-muted">{{pedido.endereco_entrega.rua}} {{pedido.endereco_entrega.numero}}</td>
-                        <td class="text-muted">{{pedido.endereco_entrega.bairro}}</td>
-                        <td class="text-muted">
-                            {{pedido.status}}
-                        </td>
-                        <td class="text-muted">{{pedido.nome_cliente}}</td>
-                        <td>{{pedido.entregador.nome ? pedido.entregador.nome : 'sem entregador'}}</td>
-                        <td style="text-align: center">
-                            <a href="/empresa/pedido/editar?pedidoId={{pedido._id}}"  type="submit"
-                                    class="btn btn-circle btn-primary" title="Editar Pedido">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-
-                            <button type="button" class="btn btn-danger btn-circle"
-                                    ng-click="delete(pedido)" title="Excluir Pedido">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-success btn-circle"
-                                    ng-click="setStatus(pedido)"" title="Mudar status">
-                                <i class="glyphicon glyphicon-ok"></i>
-                            </button>
-                        </td>
+        <div class="col-lg-12">
+            <div class="col-md-3 form-group" style="padding-left: 0px;margin-bottom: 10px;">
+                <label>Pesquisar</label>
+                <input class="form-control" value="" ng-model="search" placeholder="Qualquer referência do pedido">
+            </div>
+            <div class="table-responsive" style="float: left; width: 100%;">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            Rua
+                        </th>
+                        <th>
+                            Bairro
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Nome do Entregador
+                        </th>
+                        <th class="col-xs-3" style="text-align: center">
+                            Opções
+                        </th>
                     </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pedido in pedService.pedidos |
+                        filter: search |
+                        filter : filterEmAndamento">
+                            <td class="text-muted">{{pedido.endereco_entrega.rua}} {{pedido.endereco_entrega.numero}}</td>
+                            <td class="text-muted">{{pedido.endereco_entrega.bairro}}</td>
+                            <td class="text-muted">
+                                {{pedido.status}}
+                            </td>
+                            <td class="text-muted">{{pedido.nome_cliente}}</td>
+                            <td>{{pedido.entregador.nome ? pedido.entregador.nome : 'sem entregador'}}</td>
+                            <td style="text-align: center">
+                                <a href="/empresa/pedido/editar?pedidoId={{pedido._id}}"  type="submit"
+                                        class="btn btn-circle btn-primary" title="Editar Pedido">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
 
-                </tbody>
-            </table>
-        </div>
+                                <button type="button" class="btn btn-danger btn-circle"
+                                        ng-click="delete(pedido)" title="Excluir Pedido">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-success btn-circle"
+                                        ng-click="setStatus(pedido)" title="Mudar status">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         <!-- /.col-lg-12 -->
+        </div>
     </div>
-
 </div>

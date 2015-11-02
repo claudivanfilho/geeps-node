@@ -13,10 +13,17 @@
 
                 <div class="col-md-6 form-group">
                     <label>Nº do Cliente</label>
-                    <input class="form-control" value="" ng-model="cadastrardata.telefone_cliente"
-                           placeholder="Telefone do cliente" required>
+                    <angucomplete-alt
+                                      placeholder="Telefone do cliente"
+                                      pause="100"
+                                      selected-object="selectedPhone"
+                                      local-data="pedService.pedidos"
+                                      search-fields="cliente.telefone"
+                                      title-field="cliente.telefone"
+                                      minlength="1"
+                                      input-class="form-control form-control"
+                                      override-suggestions="true"/>
                 </div>
-
                 <div class="col-md-6 form-group">
                     <label>Nome do Cliente</label>
                     <input class="form-control" value="" ng-model="cadastrardata.nome_cliente"

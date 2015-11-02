@@ -17,6 +17,10 @@ function PedidosController($scope, $modal, Pedidos) {
         openModal("excluir_pedido.html", pedido);
     };
 
+    $scope.filterEmAndamento = function(item) {
+        return item.status == 'REGISTRADO' || item.status == 'EM ANDAMENTO';
+    }
+
     function openModal(templateName, pedido) {
         $modal.open({
             animation: true,
