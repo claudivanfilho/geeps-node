@@ -5,7 +5,7 @@
                 <div class="plan col-sm-3" ng-repeat="plan in plans"
                      ng-class="{plan_highlight: plan.id == empService.empresa.stripe.plan}">
                     <p ng-show="plan.id == empService.empresa.stripe.plan"
-                       class="plan-recommended">Seu Plano</p>
+                       class="plan-recommended">Seu Plano Atual</p>
                     <h3 class="plan-title">{{plan.nome}}</h3>
                     <p class="plan-price">{{plan.preco}} <span class="plan-unit">por mês</span></p>
                     <ul class="plan-features" style="list-style-type: disc;">
@@ -14,113 +14,11 @@
                         </li>
                     </ul>
                     <a href="#" class="plan-button"
-                       ng-class="{disabled: plan.id == empService.empresa.stripe.plan}">Escolher Plano</a>
+                       ng-class="{disabled: plan.id == empService.empresa.stripe.plan}"
+                       ng-click="openCardModal(plan)">Escolher Plano</a>
                 </div>
-            </div>
-            <div ng-show="empService.empresa.stripe.last4">
-                <div class="page-header">
-                    <h3>Escolha Seu Plano</h3>
-                </div>
-                <div class="alert alert-info">
-                    <strong>Seu Plano Atual = </strong> {{empService.empresa.stripe.plan | capitalize}}
-                </div>
-                <form id="cardFormPlan" ng-submit="setPlan()" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Plano</label>
-                        <div class="col-sm-4">
-                            <div class="radio" ng-repeat="plan in plans">
-                                <label>
-                                    <input type="radio"
-                                           name="plan" ng-model="plandata.plan"
-                                           value="{{plan.nome}}"
-                                           ng-checked="plan.nome === empService.empresa.stripe.plan">
-                                    <span>{{plan.nome}} - R${{plan.preco}}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="cardWrapper">
-                        <div class="form-group" style="opacity: 0.6;">
-                            <label class="col-sm-3 control-label">Test Card Info</label>
-                            <div class="col-sm-7">
-                                <div class="form-control-static">Number=4242424242424242 Month=11 Year=19 CVC=123</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Número do Cartão</label>
-                            <div class="col-sm-4">
-                                <input ng-model="plancard.number" type="text" class="form-control"
-                                        placeholder="XXXX XXXX XXXX XXXX">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Detalhes do Cartão</label>
-                            <div class="col-sm-4">
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <input ng-model="plancard.exp_month" type="text" size="2" maxlength="2" class="form-control" placeholder="MM">
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <input ng-model="plancard.exp_year"  type="text" size="2" maxlength="2" class="form-control" placeholder="YY">
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <input ng-model="plancard.cvc" type="text" size="3" maxlength="3" class="form-control" placeholder="CVC">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-4">
-                            <button type="submit" class="btn btn-primary">Atualizar Plano</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div>
-                <div class="page-header">
-                    <h3>Detalhes de Pagamento</h3>
-                </div>
-                <form role="form" id="cardForm" ng-submit="setBill()" class="form-horizontal">
-                    <div class="form-group" style="opacity: 0.6;">
-                        <label class="col-sm-3 control-label">Test Card Info</label>
-                        <div class="col-sm-7">
-                            <div class="form-control-static">Number=4242424242424242 Month=11 Year=19 CVC=123</div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Número do Cartão</label>
-                        <div class="col-sm-4">
-                            <input ng-model="cardbill.number" type="text" class="form-control"
-                                   placeholder="XXXX XXXX XXXX {{empService.empresa.stripe.last4}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Detalhes Cartão</label>
-                        <div class="col-sm-4">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <input ng-model="cardbill.exp_month" type="text" size="2" maxlength="2" class="form-control" placeholder="MM">
-                                </div>
-                                <div class="col-xs-4">
-                                    <input ng-model="cardbill.exp_year"  type="text" size="2" maxlength="2" class="form-control" placeholder="YY">
-                                </div>
-                                <div class="col-xs-4">
-                                    <input ng-model="cardbill.cvc" type="text" size="3" maxlength="3" class="form-control" placeholder="CVC">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-4">
-                            <button type="submit" class="btn btn-primary">Atualizar Cartão</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </div>

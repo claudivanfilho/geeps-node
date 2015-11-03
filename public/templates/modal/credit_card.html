@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">×</button>
+    <h4 class="modal-title">Informe os Dados do Cartão</h4>
+</div>
+<div class="modal-body">
+    <div class="row" style="text-align: left">
+        <div class="col-sm-12">
+            <label class="control-label">Plano</label>
+            <select ng-model="plandata.plan" class="form-control" disabled>
+                <option ng-repeat="plan in plans" value="{{plan.id}}"
+                        ng-selected="plan.nome == plano.nome">
+                    {{plan.nome}} - {{plan.preco}}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-12" style="opacity: 0.6;margin-bottom: 15px;margin-top: 15px;">
+            <label class="">Test Card Info</label>
+            <div class="form-control-static">Number=4242424242424242 Month=11 Year=19 CVC=123</div>
+        </div>
+        <div class="col-sm-12" style="margin-bottom: 15px;">
+            <label class="control-label">Número do Cartão</label>
+            <input ng-model="plancard.number" type="text" class="form-control"
+                   placeholder="XXXX XXXX XXXX XXXX">
+        </div>
+        <div class="col-sm-12" style="margin-bottom: 15px;">
+            <label class="control-label">Detalhes do Cartão</label>
+            <div class="row">
+                <div class="col-xs-4">
+                    <input ng-model="plancard.exp_month" type="text" size="2" maxlength="2" class="form-control" placeholder="MM">
+                </div>
+                <div class="col-xs-4">
+                    <input ng-model="plancard.exp_year"  type="text" size="2" maxlength="2" class="form-control" placeholder="YY">
+                </div>
+                <div class="col-xs-4">
+                    <input ng-model="plancard.cvc" type="text" size="3" maxlength="3" class="form-control" placeholder="CVC">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+    <button type="submit" class="btn btn-success" ng-click="setPlan()">Ok</button>
+</div>

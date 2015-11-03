@@ -47,7 +47,7 @@ router.post('/pedido', function(req, res) {
         });
 
         // pega o entregador e salva o pedido
-        if (id_entregador == "") {
+        if (id_entregador == "" || id_entregador == undefined) {
              endereco_entrega.save();
              pedido.entregador = null;
              pedido.save(function() {

@@ -72,7 +72,7 @@ router.post('/plan', function(req, res, next){
                 }
                 return res.status(500).send(msg);
             }
-            return res.status(200).send('Plan has been updated.');
+            return res.status(200).send('Seu plano foi atualizado com sucesso!');
         });
     });
 });

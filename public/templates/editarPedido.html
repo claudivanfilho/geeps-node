@@ -52,7 +52,7 @@
                     <div class="">
                     <label>Entregador</label>
                         <select class="form-control" ng-model="editdata.id_entregador">
-                            <option value="{{null}}" selected></option>
+                            <option value="{{null}}"></option>
                             <option ng-repeat="entregador in entService.entregadores"
                                     value="{{entregador._id}}"
                                     ng-selected="pedService.selected.entregador != null &&

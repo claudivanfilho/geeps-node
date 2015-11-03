@@ -42,11 +42,6 @@
                         <td class="text-muted">{{pedido.nome_cliente}}</td>
                         <td>{{pedido.entregador.nome ? pedido.entregador.nome : 'sem entregador'}}</td>
                         <td style="text-align: center">
-                            <a href="/empresa/pedido/editar?pedidoId={{pedido._id}}"  type="submit"
-                               class="btn btn-circle btn-primary" title="Editar Pedido">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-
                             <button type="button" class="btn btn-danger btn-circle"
                                     ng-click="delete(pedido)" title="Excluir Pedido">
                                 <i class="glyphicon glyphicon-trash"></i>

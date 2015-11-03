@@ -2,7 +2,6 @@
 <html lang="en" ng-app="Geeps">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +37,7 @@
     <script src="/js/controllers/PedidosCtrl.js"></script>
     <script src="/js/controllers/RelatoriosCtrl.js"></script>
     <script src="/js/controllers/PagamentoCtrl.js"></script>
+    <script src="/js/controllers/ModalCardCtrl.js"></script>
 
     <!-- services -->
     <script src="/js/services/pedidos.service.js"></script>
@@ -64,7 +64,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
@@ -139,7 +138,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li ng-class="{disabled: empService.empresa.stripe.plan == 'basic'}">
+                    <li ng-class="{disabled: empService.empresa.stripe.plan == 'economico'}">
                         <a href="/empresa/relatorios"><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios
                         </a>
                     </li>
@@ -147,9 +146,9 @@
                         <a href="#"><i class="fa fa-truck fa-fw"></i> Entregadores
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li class="disabled">
+                            <li ng-class="{disabled: empService.empresa.stripe.plan != 'master'}">
                                 <a href="/empresa/entregadores/rastrear">
-                                    Localize Seus Entregadores
+                                    Localizar Entregadores
                                     <br/>
                                     <small style="color:orange">tempo real</small></a>
                             </li>
