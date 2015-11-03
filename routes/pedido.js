@@ -47,18 +47,18 @@ router.post('/pedido', function(req, res) {
         });
 
         // pega o entregador e salva o pedido
-        // if (id_entregador == "") {
-        //     endereco_entrega.save();
-        //     pedido.entregador = null;
-        //     pedido.save(function() {
-        //         // manda uma notificação para o cliente via GCM
-        //         gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
-        //         return res.status(200).json({
-        //             title:"Pedido cadastrado com sucesso.",
-        //             message : "Será enviada uma notificação para o celular do cliente."
-        //         });
-        //     });
-        // } else {
+        if (id_entregador == "") {
+             endereco_entrega.save();
+             pedido.entregador = null;
+             pedido.save(function() {
+                 // manda uma notificação para o cliente via GCM
+                 gcm.sendNotificacaoPedido(cliente.regId, req.user.nome, pedido.status);
+                 return res.status(200).json({
+                     title:"Pedido cadastrado com sucesso.",
+                     message : "Será enviada uma notificação para o celular do cliente."
+                 });
+             });
+        } else {
             Entregador.findOne({
                 _id: id_entregador
             }).populate(['usuario']).exec(function(err, entregador) {
@@ -86,7 +86,7 @@ router.post('/pedido', function(req, res) {
                     });
                 });
             });
-        // }
+        }
     });
 });
 

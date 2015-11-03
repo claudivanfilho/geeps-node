@@ -29,7 +29,10 @@ function entregadoresService($http) {
     function cadastrar(data) {
         $http.post('/empresa/entregador', data)
             .success(function(data) {
-                window.location.href = '/empresa/dashboard';
+                var result = confirm(data)
+                if(result) {
+                    window.location.href = '/empresa/dashboard';
+                }
             })
             .error(function(data) {
                 alert(data);
@@ -39,7 +42,10 @@ function entregadoresService($http) {
     function excluir(data) {
         $http.post('/empresa/entregador/excluir', data)
             .success(function(data) {
-                window.location.href = '/empresa/dashboard';
+                var result = confirm(data)
+                if(result) {
+                    window.location.href = '/empresa/dashboard';
+                }
             })
             .error(function(data) {
                 alert(data);
@@ -49,7 +55,10 @@ function entregadoresService($http) {
     function editar(data) {
         $http.post('/empresa/entregador/editar', data)
             .success(function(data) {
-                window.location.href = '/empresa/dashboard';
+                var result = confirm(data)
+                if(result) {
+                    window.location.href = '/empresa/dashboard';
+                }
             })
             .error(function(data) {
                 alert(data);

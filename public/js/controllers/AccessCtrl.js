@@ -43,13 +43,15 @@ function AccessController($scope, $http) {
     $scope.submitRegister = function() {
         console.log($scope.registerdata);
         $http.post('/auth/register', $scope.registerdata)
-            .success(function() {
-                window.location.href = '/auth/login';
+            .success(function(data) {
+                var result = confirm(data);
+                if (result) {
+                    window.location.href = '/auth/login';
+                }
             })
             .error(function(data) {
                 $scope.error = data;
             });
-
     }
 
 }

@@ -51,7 +51,10 @@ function pedidosService($http) {
     function cadastrar(data) {
         $http.post('/empresa/pedido', data)
             .success(function(data) {
-                window.location.href = '/empresa/dashboard';
+                var result = confirm(data.title);
+                if(result) {
+                    window.location.href = '/empresa/dashboard';
+                }
             })
             .error(function(data) {
                 alert(data.message);
@@ -61,7 +64,10 @@ function pedidosService($http) {
     function excluir(data) {
         $http.post('/empresa/pedido/excluir', data)
             .success(function(data) {
-                window.location.href = '/empresa/pedidos';
+                var result = confirm(data);
+                if(result) {
+                    window.location.href = '/empresa/pedidos';
+                }
             })
             .error(function(data) {
                 alert(data);
@@ -71,7 +77,10 @@ function pedidosService($http) {
     function setStatus(data) {
         $http.post('/empresa/pedido/setstatus', data)
             .success(function(data) {
-                window.location.href = '/empresa/pedidos';
+                var result = confirm(data);
+                if(result) {
+                    window.location.href = '/empresa/pedidos';
+                }
             })
             .error(function(data) {
                 alert(data);
@@ -81,7 +90,10 @@ function pedidosService($http) {
     function editar(data) {
         $http.post('/empresa/pedido/editar', data)
             .success(function(data) {
-                window.location.href = '/empresa/pedidos';
+                var result = confirm(data);
+                if(result) {
+                    window.location.href = '/empresa/pedidos';
+                }
             })
             .error(function(data) {
                 console.log(data);

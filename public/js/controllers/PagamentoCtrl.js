@@ -19,7 +19,8 @@ function PagamentoController($scope, stripe, Empresa, $http) {
             preco : 'R$ 75,00',
             recursos : [
                 'Cadastro de Pedidos',
-                'Cadastro de Entregadores'
+                'Cadastro de Entregadores',
+                'Acompanhamento do pedido via App Geeps'
             ]
         },
         {
@@ -29,6 +30,7 @@ function PagamentoController($scope, stripe, Empresa, $http) {
             recursos : [
                 'Cadastro de Pedidos',
                 'Cadastro de Entregadores',
+                'Acompanhamento do pedido via App Geeps',
                 'Relatórios de Vendas'
             ]
         },
@@ -39,6 +41,7 @@ function PagamentoController($scope, stripe, Empresa, $http) {
             recursos : [
                 'Cadastro de Pedidos',
                 'Cadastro de Entregadores',
+                'Acompanhamento do pedido via App Geeps',
                 'Relatórios de Vendas',
                 'Acompanhamento em Tempo Real dos Entregadores'
             ]
