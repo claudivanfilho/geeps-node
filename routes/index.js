@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
     if (req.user) {
         return res.redirect('/empresa/dashboard');
     }
-    res.sendFile(path.join(__dirname+'/../public/templates/index.html'));
+    return res.sendFile(path.join(__dirname+'/../public/templates/index.html'));
 });
 
 // ATUALIZA O CARTÃO !!!
@@ -72,6 +72,8 @@ router.post('/plan', function(req, res, next){
                 }
                 return res.status(500).send(msg);
             }
+            req.logout();
+            req.session.notice = "You have successfully been logged out!";
             return res.status(200).send('Seu plano foi atualizado com sucesso!');
         });
     });

@@ -69,4 +69,15 @@ router.get('/api/pedidos', function(req, res, next) {
     });
 });
 
+router.get('/*', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect("/");
+    }
+    if (req.user.inativa) {
+        return res.sendFile(path.join(__dirname + '/../public/templates/layouts/baseInative.html'));
+    } else {
+        return re
+    }
+});
+
 module.exports = router;

@@ -28,7 +28,10 @@ function empresaService($http) {
     function excluir(data) {
         $http.post('/empresa/excluir', data)
             .success(function(data) {
-                window.location.href = '/auth/login';
+                var result = confirm(data)
+                if(result) {
+                    window.location.href = '/auth/login';
+                }
             })
             .error(function(data) {
                 alert(data);

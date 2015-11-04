@@ -28,7 +28,7 @@ function ModalCardController($scope, $modalInstance, stripe, $http, plano, plans
                                             .success(function(data) {
                                                 var answer = confirm(data)
                                                 if (answer) {
-                                                    window.location.href = '/empresa/pagamento';
+                                                    window.location.href = '/auth/login';
                                                 }
                                             })
                                             .error(function(data) {

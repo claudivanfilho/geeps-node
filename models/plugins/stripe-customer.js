@@ -1,9 +1,7 @@
-'use strict';
-
 var Stripe = require('stripe'),
 stripe;
 
-module.exports = exports = function stripeCustomer (schema, options) {
+module.exports = function stripeCustomer (schema, options) {
   stripe = Stripe(options.apiKey);
 
   schema.add({
@@ -79,6 +77,7 @@ module.exports = exports = function stripeCustomer (schema, options) {
       if(err) return cb(err);
 
       user.stripe.plan = plan;
+      user.inativa = false;
       user.stripe.subscriptionId = subscription.id;
       user.save(function(err){
         if (err) return cb(err);

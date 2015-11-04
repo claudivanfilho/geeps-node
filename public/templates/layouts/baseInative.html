@@ -23,7 +23,7 @@
     <script src="/js/jquery-1.11.1.min.js"></script>
     <script src="/lib/angular/angular.js"></script>
     <script src="/lib/angular-route/angular-route.js"></script>
-    <script src="/js/config/geeps-conf.js"></script>
+    <script src="/js/config/geeps-conf-inative.js"></script>
 
     <!-- controllers -->
     <script src="/js/controllers/DashboardCtrl.js"></script>
@@ -115,7 +115,7 @@
         </style>
 
         <div id="sideBar" class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse" ng-class="{disabled: empService.empresa.inativa == true}">
+            <div class="sidebar-nav navbar-collapse disabled">
                 <ul class="nav" id="side-menu">
                     <li>
                         <a href="/"><i class="fa fa-home fa-fw"></i> Início</a>

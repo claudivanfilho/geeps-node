@@ -13,7 +13,7 @@ function EmpresaController($scope, Empresa) {
         Empresa.editar($scope.editdata);
     }
 
-    $scope.excluir = function() {
+    $scope.desativar = function() {
         Empresa.excluir();
     }
 

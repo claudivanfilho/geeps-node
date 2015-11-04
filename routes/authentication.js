@@ -19,7 +19,12 @@ router.post('/login', function(req, res, next) {
             if (err) {
                 return next(err);
             }
-            return res.status(200).json({messagem:'login ok'});
+            if (user.inativa) {
+                console.log("opa");
+                return res.status(200).send("empresa inativa")
+            } else {
+                return res.status(200).send('login ok');
+            }
         });
     })(req, res, next);
 });
@@ -28,7 +33,7 @@ router.get('/*', function(req, res, next) {
     if (req.user) {
         return res.redirect('/empresa/dashboard');
     }
-    res.sendFile(path.join(__dirname+'/../public/templates/layouts/access.html'));
+    return res.sendFile(path.join(__dirname+'/../public/templates/layouts/access.html'));
 });
 
 module.exports = router;

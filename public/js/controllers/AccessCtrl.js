@@ -31,8 +31,17 @@ function AccessController($scope, $http) {
 
     $scope.submitLogin = function() {
         $http.post('/auth/login', $scope.logindata)
-            .success(function() {
-                window.location.href = '/';
+            .success(function(data) {
+                console.log("aaaaaaaaa");
+                console.log(data);
+                if (data == 'empresa inativa') {
+                    var result = confirm("Sua conta está desativada. Escolha um Plano e continue utilizando nossos serviços.")
+                    if (result) {
+                        window.location.href = '/empresa/pagamento';
+                    }
+                } else {
+                    window.location.href = '/';
+                }
             })
             .error(function(data) {
                 $scope.error = data;

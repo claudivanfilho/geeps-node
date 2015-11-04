@@ -17,7 +17,11 @@ var empresaSchema = new Schema({
     pedidos: [{
         type: Schema.ObjectId,
         ref: "Pedido"
-    }]
+    }],
+    inativa : {
+        type: Boolean,
+        default: false
+    }
 });
 
 var stripeOptions = secrets.stripeOptions;
