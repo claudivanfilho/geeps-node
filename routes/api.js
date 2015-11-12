@@ -18,19 +18,19 @@ router.get('/api/cleardb', function(req, res, next) {
     });
 });
 
-router.get('/empresas', function(req, res, next) {
+router.get('/api/empresas', function(req, res, next) {
     Empresa.find(function(err, empresas) {
         res.send(empresas);
     })
 });
 
-router.get('/usuarios', function(req, res, next) {
+router.get('/api/usuarios', function(req, res, next) {
     Usuario.find(function(err, usuarios) {
         res.send(usuarios);
     })
 });
 
-router.get('/entregadores', function(req, res, next) {
+router.get('/api/entregadores/all', function(req, res, next) {
     Entregador.find(function(err, entregadores) {
         res.send(entregadores);
     })
@@ -68,17 +68,6 @@ router.get('/api/pedidos', function(req, res, next) {
             return res.json(pedidos);
         });
     });
-});
-
-router.get('/*', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect("/");
-    }
-    if (req.user.inativa) {
-        return res.sendFile(path.join(__dirname + '/../public/templates/layouts/baseInative.html'));
-    } else {
-        return re
-    }
 });
 
 module.exports = router;

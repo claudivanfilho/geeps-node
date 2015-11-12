@@ -53,7 +53,7 @@ saveEmpresa = function(req, res) {
     });
 }
 
-router.post('/', function(req, res) {
+router.post('/auth/register', function(req, res) {
     if (checkDataPost(req, res)) {
         Empresa.findOne({
             email: req.body.email

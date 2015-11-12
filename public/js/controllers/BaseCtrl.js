@@ -11,7 +11,7 @@ function BaseController($scope, $http, Empresa) {
     Empresa.refresh();
 
     function logout() {
-        $http.get('/empresa/logout')
+        $http.post('/auth/logout')
             .success(function(data) {
                 window.location.href = '/auth/login';
             })

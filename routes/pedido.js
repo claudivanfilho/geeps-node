@@ -8,7 +8,7 @@ var Pedido = require("../models/pedido");
 var gcm = require('../config/gcm-service');
 var mongoose = require('mongoose');
 
-router.post('/pedido', function(req, res) {
+router.post('/empresa/pedido', function(req, res) {
     var rua = req.body.rua;
     var numero = req.body.numero;
     var bairro = req.body.bairro;
@@ -90,7 +90,7 @@ router.post('/pedido', function(req, res) {
     });
 });
 
-router.post('/pedido/editar', function(req, res) {
+router.post('/empresa/pedido/editar', function(req, res) {
     var numero_cliente = req.body.telefone_cliente;
 
     var pedidodata = {};
@@ -140,7 +140,7 @@ router.post('/pedido/editar', function(req, res) {
 
 });
 
-router.post('/pedido/excluir', function(req, res) {
+router.post('/empresa/pedido/excluir', function(req, res) {
     Pedido.update({
         _id: req.body.id_pedido
     }, {
@@ -155,7 +155,7 @@ router.post('/pedido/excluir', function(req, res) {
     });
 });
 
-router.post('/pedido/setstatus', function(req, res) {
+router.post('/empresa/pedido/setstatus', function(req, res) {
     Pedido.update({
         _id: req.body.id_pedido
     }, {

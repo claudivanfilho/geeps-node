@@ -6,7 +6,7 @@ var Pedido = require('../models/pedido');
 var Entregador = require('../models/entregador');
 var gcm = require('../config/gcm-service');
 
-router.post('/cadastro', function(req, res) {
+router.post('/usuario/cadastro', function(req, res) {
     var a = new Usuario({
         nome_geeps: req.body.name,
         telefone: req.body.phone,
@@ -21,7 +21,7 @@ router.post('/cadastro', function(req, res) {
     });
 });
 
-router.post('/check', function(req, res) {
+router.post('/usuario/check', function(req, res) {
     var telefone = req.body.phone;
     Usuario.find({
         telefone: telefone
@@ -42,7 +42,7 @@ router.post('/check', function(req, res) {
     });
 });
 
-router.post('/pedidos', function(req, res) {
+router.post('/usuario/pedidos', function(req, res) {
     var telefone = req.body.phone;
     Usuario.findOne({
         telefone: telefone
@@ -70,7 +70,7 @@ router.post('/pedidos', function(req, res) {
     });
 });
 
-router.post('/pedidos_entregador', function(req, res) {
+router.post('/usuario/pedidos_entregador', function(req, res) {
     var idEntregador = req.body.idEntregador;
     Entregador.find({
         _id: idEntregador
@@ -83,7 +83,7 @@ router.post('/pedidos_entregador', function(req, res) {
 
 });
 
-router.get('/testgcm', function(req, res) {
+router.get('/usuario/testgcm', function(req, res) {
     gcm.sendNotificacaoPedido(
         'APA91bFpJ9lHajNdf41Gi0KyfXtEHjvwo7ZUuvcGuRLI7C0t_or5KjoMQbXUjZ01gfV7Rqo5OfgjKlMQDaKoSB4DcTQ116ZsZULJ4KY6W99gn2-YwtlxQJc',
         'Bar Do Cuscuz',

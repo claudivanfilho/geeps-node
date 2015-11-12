@@ -5,7 +5,7 @@ var Empresa = require('../models/empresa');
 var Usuario = require("../models/usuario");
 var Entregador = require("../models/entregador");
 
-router.post('/entregador', function(req, res){
+router.post('/empresa/entregador', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var num_entregador = req.body.telefone_entregador;
 
@@ -56,7 +56,7 @@ router.post('/entregador', function(req, res){
     });
 });
 
-router.post('/entregador/editar', function(req, res){
+router.post('/empresa/entregador/editar', function(req, res){
     var nome_entregador = req.body.nome_entregador;
     var telefone_entregador = req.body.telefone_entregador;
     var id_entregador = req.body.id_entregador;
@@ -83,7 +83,7 @@ router.post('/entregador/editar', function(req, res){
     //TODO testar
 });
 
-router.post('/entregador/excluir', function(req, res){
+router.post('/empresa/entregador/excluir', function(req, res){
     Entregador.remove({_id:req.body.id_entregador}, function(err){
         if(err){
             return res.status(500).send("Ocorreu um erro interno");

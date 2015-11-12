@@ -7,7 +7,7 @@ var Entregador = require("../models/entregador");
 var Endereco = require("../models/endereco");
 var Pedido = require("../models/pedido");
 
-router.get('/dashboard', function(req, res, next) {
+router.get('/empresa/dashboard', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
@@ -17,7 +17,7 @@ router.get('/dashboard', function(req, res, next) {
     return res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
 });
 
-router.get('/relatorios', function(req, res, next) {
+router.get('/empresa/relatorios', function(req, res, next) {
     if (!req.user) {
         return res.redirect('/auth/login');
     }
@@ -33,13 +33,7 @@ router.get('/relatorios', function(req, res, next) {
     });
 });
 
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/auth/login');
-    req.session.notice = "You have successfully been logged out!";
-});
-
-router.post('/editar', function(req, res) {
+router.post('/empresa/editar', function(req, res) {
     if (!req.user) {
         return res.redirect('/auth/login');
     } else {
@@ -74,7 +68,7 @@ router.post('/editar', function(req, res) {
  *  Primeiro a empresa tem seu plano cancelado no stripe, depois os campos de inativa e stripe.plan são atualizados.
  *  E por final a empresa é deslogada e então é retornada uma mensagem para o cliente.
  */
-router.post('/excluir', function(req, res) {
+router.post('/empresa/excluir', function(req, res) {
     if (!req.user) {
         return res.redirect('/auth/login');
     } else {
@@ -101,17 +95,6 @@ router.post('/excluir', function(req, res) {
             })
         });
 
-    }
-});
-
-router.get('/*', function(req, res, next) {
-    if (!req.user) {
-        return res.redirect('/auth/login');
-    }
-    if (req.user.inativa) {
-        return res.sendFile(path.join(__dirname+'/../public/templates/layouts/baseInative.html'));
-    } else {
-        return res.sendFile(path.join(__dirname+'/../public/templates/layouts/base.html'));
     }
 });
 
