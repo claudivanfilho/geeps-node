@@ -141,19 +141,17 @@ router.post('/pedido/editar', function(req, res) {
 });
 
 router.post('/pedido/excluir', function(req, res) {
-    Pedido.findOne({
+    Pedido.update({
         _id: req.body.id_pedido
-    }, function(err, pedido) {
+    }, {
+        deleted : true
+    }, {
+        upsert: true
+    }).exec(function(err) {
         if (err) {
             return res.status(500).send("Erro interno.");
         }
-        if (pedido) {
-            Pedido.findByIdAndRemove(pedido._id).exec();
-            Endereco.findByIdAndRemove(pedido.endereco_entrega).exec();
-            return res.status(200).send("Pedido deletado com sucesso");
-        } else {
-            return res.status(500).send("Pedido não existe");
-        }
+        return res.status(200).send("Pedido deletado com sucesso");
     });
 });
 

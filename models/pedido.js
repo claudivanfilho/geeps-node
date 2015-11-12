@@ -10,7 +10,11 @@ var pedidoSchema = new Schema({
 	endereco_entrega : { type:Schema.Types.ObjectId, ref:"Endereco"},
 	cliente: { type:Schema.Types.ObjectId, ref:"Usuario", childPath:"pedidos"},
 	entregador: { type:Schema.Types.ObjectId, ref:"Entregador", childPath:"pedidos"},
-	data_criacao: { type: Date, default: Date.now }
+	data_criacao: { type: Date, default: Date.now },
+	deleted : {
+		type: Boolean,
+		default: false
+	}
 });
 
 pedidoSchema.plugin(relationship, { relationshipPathName:'empresa' });
