@@ -38,6 +38,7 @@
     <script src="/js/controllers/RelatoriosCtrl.js"></script>
     <script src="/js/controllers/PagamentoCtrl.js"></script>
     <script src="/js/controllers/ModalCardCtrl.js"></script>
+    <script src="/js/controllers/GMapsCtrl.js"></script>
 
     <!-- services -->
     <script src="/js/services/pedidos.service.js"></script>
@@ -49,6 +50,8 @@
     <script src="/lib/angular-google-chart/ng-google-chart.js"></script>
     <script src="/lib/angular-chart.js/dist/angular-chart.js"></script>
     <script src="/lib/angucomplete-alt/dist/angucomplete-alt.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
 
     <!-- Spinner -->
     <link rel='stylesheet' href='/lib/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
@@ -146,11 +149,14 @@
                         <a href="#"><i class="fa fa-truck fa-fw"></i> Entregadores
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li ng-class="{disabled: empService.empresa.stripe.plan != 'master'}">
+                            <li>
+                                    <!--ng-class="{disabled: empService.empresa.stripe.plan != 'master'}">-->
+
                                 <a href="/empresa/entregadores/rastrear">
                                     Localizar Entregadores
                                     <br/>
-                                    <small style="color:orange">tempo real</small></a>
+                                    <small style="color:orange">tempo real</small>
+                                </a>
                             </li>
                             <li>
                                 <a href="/empresa/entregador">Cadastrar Entregador</a>

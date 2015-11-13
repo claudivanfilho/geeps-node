@@ -1,6 +1,6 @@
 angular.module("Geeps", [
     'ngRoute', 'googlechart', 'chart.js', 'ui.bootstrap',
-    'angular-stripe', 'angular-loading-bar', 'angucomplete-alt'])
+    'angular-stripe', 'angular-loading-bar', 'angucomplete-alt', 'uiGmapgoogle-maps'])
     .config(['$routeProvider', '$locationProvider', '$interpolateProvider', configGeeps])
     .config(function (stripeProvider) {
         stripeProvider.setPublishableKey('pk_test_p8LvGghVcp3OacSGCX8g6sYI');
@@ -58,6 +58,10 @@ function configGeeps($routeProvider, $locationProvider) {
         .when('/empresa/editar', {
             templateUrl: '/templates/editarEmpresa.html',
             controller: 'EmpresaCtrl'
+        })
+        .when('/empresa/entregadores/rastrear', {
+            templateUrl: '/templates/rastrear.html',
+            controller: 'GMapsCtrl'
         })
         .otherwise({
             redirectTo: '/empresa/dashboard'
