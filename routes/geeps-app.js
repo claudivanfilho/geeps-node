@@ -53,7 +53,8 @@ router.post('/usuario/pedidos', function(req, res) {
             });
         } else {
             Pedido.find({
-                cliente: usuario
+                cliente: usuario,
+                deleted : false
             }).populate(['empresa']).exec(function(err, pedidos) {
                 var arrayPedidos = [];
                 for (var i = 0; i < pedidos.length; i++) {
