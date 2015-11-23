@@ -4,11 +4,17 @@
         <h1 class="page-header">Relatórios</h1>
     </div>
     <div class="col-lg-12">
-        <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
-        <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series">
-        </canvas>
-        <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels">
-        </canvas>
+        <div class="col-lg-10">
+            <div google-chart chart="chartObject" style="height: 300px; width:100%;"></div>
+        </div>
+        <div class="col-lg-6">
+            <canvas id="line" class="chart chart-line" chart-data="groups" chart-labels="labels" chart-legend="true" chart-series="series">
+            </canvas>
+        </div>
+        <div class="col-lg-6">
+            <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels">
+            </canvas>
+        </div>
     </div>
 </div>
 </div>

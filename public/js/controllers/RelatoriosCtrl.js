@@ -19,6 +19,7 @@ function RelatoriosController($scope, Pedidos) {
 
     var mapBairros = new Map();
     var mapDatas = new Map();
+    var mapDatasPorBairro = new Map();
     // $scope.pedService.datasDosPedidos = new Array();
 
     pedidos_concluidos.forEach(function(obj) {
@@ -26,12 +27,13 @@ function RelatoriosController($scope, Pedidos) {
         // ---------------------------
         // Gráfico utilizando bairro - cidade
         // ---------------------------
-        if (mapBairros.get(obj.endereco_entrega.bairro + ' - ' + obj.endereco_entrega.cidade)) {
-            var cont = mapBairros.get(obj.endereco_entrega.bairro + ' - ' + obj.endereco_entrega.cidade);
-            mapBairros.delete(obj.endereco_entrega.bairro);
-            mapBairros.set(obj.endereco_entrega.bairro + ' - ' + obj.endereco_entrega.cidade, cont + 1);
+        var tempBairro = obj.endereco_entrega.bairro + ' - ' + obj.endereco_entrega.cidade;
+        if (mapBairros.get(tempBairro)) {
+            var cont = mapBairros.get(tempBairro);
+            mapBairros.delete(tempBairro);
+            mapBairros.set(tempBairro, cont + 1);
         } else {
-            mapBairros.set((obj.endereco_entrega.bairro + ' - ' + obj.endereco_entrega.cidade), 1);
+            mapBairros.set(tempBairro, 1);
         }
 
         // ---------------------------
@@ -45,6 +47,24 @@ function RelatoriosController($scope, Pedidos) {
         } else {
             mapDatas.set(tempDate, 1);
         }
+
+        // ---------------------------
+        // Gráfico utilizando data de criação do pedido agrupadas por bairro
+        // ---------------------------
+        if (mapDatasPorBairro.get(tempBairro)) {
+            var tempMap = mapDatasPorBairro.get(tempBairro);
+            if (tempMap.get(tempDate)) {
+                var cont = tempMap.get(tempDate);
+                tempMap.delete(tempDate);
+                tempMap.set(tempDate, cont + 1);
+            } else {
+                tempMap.set(tempDate, 1);
+            }
+        } else {
+            mapDatasPorBairro.set(tempBairro, new Map());
+            mapDatasPorBairro.get(tempBairro).set(tempDate, 1);
+        }
+
     });
 
     // -----------------------------------------------
@@ -61,7 +81,7 @@ function RelatoriosController($scope, Pedidos) {
         {id: "t", label: "Topping", type: "string"},
         {id: "s", label: "Slices", type: "number"}
     ], "rows": bairros};
-    
+
 
     // -----------------------------------------------
     // Criando dados para colocar no gráfico das datas (Por mês)
@@ -69,24 +89,52 @@ function RelatoriosController($scope, Pedidos) {
     var datasDosPedidos = new Array();
     mapDatas.forEach(function (value, key) {
         datasDosPedidos.push([new Date(key.toString().substring(0, 15)), value]);
-    });  
- 
+    });
+
     $scope.labels = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
     var months = [];
 
     for(var i = 0; i < $scope.labels.length; i++) {
         months.push(0);
-    } 
+    }
 
-    mapDatas.forEach(function (value, key){        
+    mapDatas.forEach(function (value, key){
         var tempDate = new Date(key);
         months[tempDate.getMonth()] = value;
     });
 
-    $scope.series = ['Vendas'];
     $scope.data = [
         months
     ];
+
+
+    // -----------------------------------------------
+    // Criando dados para colocar no gráfico das datas agrupadas por bairro
+    // -----------------------------------------------
+
+    months = [];
+    for(var i = 0; i < $scope.labels.length; i++) {
+        months.push(0);
+    }
+
+    $scope.series = [];
+    console.log(mapDatasPorBairro);
+    mapDatasPorBairro.forEach(function(value, key) {
+        $scope.series.push(key);
+    });
+
+    $scope.groups = [];
+    for(var i = 0; i < $scope.series.length; i++) {
+
+        var tempMonths = months.slice(0);
+        mapDatasPorBairro.get($scope.series[i]).forEach(function (value, key){
+            var tempDate = new Date(key);
+            tempMonths[tempDate.getMonth()] = value;
+        });
+        $scope.groups.push(tempMonths);
+    }
+
+
 
     $scope.$parent.fixSideMenu();
 
