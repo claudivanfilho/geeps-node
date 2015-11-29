@@ -72,16 +72,19 @@ router.post('/usuario/pedidos', function(req, res) {
 });
 
 router.post('/usuario/pedidos_entregador', function(req, res) {
-    var idEntregador = req.body.idEntregador;
-    Entregador.find({
-        _id: idEntregador
-    }).populate(['pedidos']).exec(function(err, entregador) {
-        var result = (entregador[0].pedidos).filter(function(i, n) {
-            return (i.status === 'EM ANDAMENTO')
-        });
-        return res.json(result.length > 0);
+    var telEntregador = req.body.telefoneEntregador;
+    Usuario.findOne({
+        telefone : telEntregador
+    }, function(err, usuario) {
+        Entregador.find({
+            usuario: usuario._id
+        }).populate(['pedidos']).exec(function(err, entregador) {
+            var result = (entregador[0].pedidos).filter(function(i, n) {
+                return (i.status === 'EM ANDAMENTO')
+            });
+            return res.json(result);
+        });    
     });
-
 });
 
 router.get('/usuario/testgcm', function(req, res) {
