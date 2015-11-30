@@ -81,7 +81,7 @@ router.post('/usuario/pedidos_entregador', function(req, res) {
                 'error': 'telefone nao cadastrado'
             });
         } else {
-            Entregador.find({
+            Entregador.findOne({
                 usuario: usuario
             } , function(err, entregador) {
                 if (!entregador) {
