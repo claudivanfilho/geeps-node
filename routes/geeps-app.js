@@ -72,7 +72,7 @@ router.post('/usuario/pedidos', function(req, res) {
 });
 
 router.post('/usuario/pedidos_entregador', function(req, res) {
-    var telEntregador = req.body.telefoneEntregador;
+    var telefone = req.body.telefoneEntregador;
     Usuario.findOne({
         telefone: telefone
     }, function(err, usuario) {
