@@ -72,16 +72,42 @@ router.post('/usuario/pedidos', function(req, res) {
 });
 
 router.post('/usuario/pedidos_entregador', function(req, res) {
-    var idEntregador = req.body.idEntregador;
-    Entregador.find({
-        _id: idEntregador
-    }).populate(['pedidos']).exec(function(err, entregador) {
-        var result = (entregador[0].pedidos).filter(function(i, n) {
-            return (i.status === 'EM ANDAMENTO')
-        });
-        return res.json(result.length > 0);
+    var telefone = req.body.telefoneEntregador;
+    Usuario.findOne({
+        telefone: telefone
+    }, function(err, usuario) {
+        if (!usuario) {
+            res.json({
+                'error': 'telefone nao cadastrado'
+            });
+        } else {
+            Entregador.findOne({
+                usuario: usuario
+            } , function(err, entregador) {
+                if (!entregador) {
+                    res.json({
+                    'error': 'telefone nao cadastrado como entregador'
+                    });
+                } else {
+                    Pedido.find({
+                        entregador: entregador,
+                        deleted : false
+                    }).populate(['empresa']).exec(function(err, pedidos) {
+                        var arrayPedidos = [];
+                        for (var i = 0; i < pedidos.length; i++) {
+                            var jsonObj = {};
+                            jsonObj['id'] = pedidos[i]._id;
+                            jsonObj['empresa_nome'] = pedidos[i].empresa.nome;
+                            jsonObj['status'] = pedidos[i].status;
+                            jsonObj['entregador_id'] = pedidos[i].entregador;
+                            arrayPedidos.push(jsonObj);
+                        }
+                    return res.json(arrayPedidos);
+                    });
+                }
+            });
+        }
     });
-
 });
 
 router.get('/usuario/testgcm', function(req, res) {
