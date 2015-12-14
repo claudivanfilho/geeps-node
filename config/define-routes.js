@@ -5,6 +5,7 @@ var empresa = require('../routes/empresa');
 var entregador = require('../routes/entregador');
 var pedido = require('../routes/pedido');
 var api = require('../routes/api');
+var pagamento = require('../routes/pagamento');
 var geepsApp = require('../routes/geeps-app');
 
 module.exports = function(app) {
@@ -33,6 +34,10 @@ module.exports = function(app) {
      * rota de CRUD de empresa
      */
     app.use('/', empresa);
+    /**
+     * rota de pagamento
+     */
+    app.use('/', pagamento);
     /**
      * Api de onde o angular irá acessar os JSON resposta necessários
      */
